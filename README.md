@@ -1,6 +1,6 @@
 # api_skyline
 
-A new Flutter package project.
+A package that integrates network requests, data processing, and UI refresh.
 
 ## Getting Started
 
