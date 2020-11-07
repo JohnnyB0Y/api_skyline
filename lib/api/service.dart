@@ -32,13 +32,7 @@ abstract class APIService extends Object implements APIAssembly {
   // 公共请求参数
   Map commonParams = Map<String, Object>();
   // 真实的网络请求类
-  APISessionManager _sessionManager;
-  APISessionManager get sessionManager {
-    if (_sessionManager == null) {
-      _sessionManager = APIDefaultSessionManager();
-    }
-    return _sessionManager;
-  }
+  APISessionManager sessionManager = APIDefaultSessionManager();
 
   // URL 前缀
   String get baseURL;
