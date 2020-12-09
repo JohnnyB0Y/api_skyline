@@ -110,6 +110,30 @@ class ReactModel extends Object
     }
   }
 
+  /// 增加数值
+  num increaseNum(num value, String forKey) {
+    var old = numVal(forKey);
+    if (value == null) {
+      return old;
+    }
+
+    var cur = old == null ? value : value + old;
+    setNum(cur, forKey);
+    return cur;
+  }
+
+  /// 减少数值
+  num decreaseNum(num value, String forKey) {
+    var old = numVal(forKey);
+    if (value == null) {
+      return old;
+    }
+
+    var cur = old == null ? 0 - value : old - value;
+    setNum(cur, forKey);
+    return cur;
+  }
+
   @override
   num numVal(String forKey) {
     var value = innerMap[forKey];
