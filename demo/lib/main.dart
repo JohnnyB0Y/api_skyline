@@ -1,6 +1,7 @@
 import 'package:api_skyline/api_skyline.dart';
 import 'package:demo/case_increment/pages/increment.dart';
 import 'package:demo/case_network_data/pages/data_list.dart';
+import 'package:demo/network_request/demo_service.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -54,6 +55,15 @@ class _MyHomePageState extends State<MyHomePage> {
     }),
 
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    // 注册网络库
+    DemoAPIService().registerForDefault();
+  }
 
   @override
   Widget build(BuildContext context) {
