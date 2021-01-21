@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   dio: ^3.0.9
   dio_http_cache: ^0.2.8
+  connectivity: ^2.0.2
 
 dev_dependencies:
   flutter_test:

@@ -19,6 +19,7 @@ class _ItemListPageState extends State<ItemListPage> {
 
   final _model = ReactModel();
   final _itemAPIHub = ItemAPIHub();
+  final _dependAPIHub = DependAPIHub();
 
   Map<String, Object> _onApiCallParams(APIManager manager) {
     // 请求参数
@@ -30,6 +31,63 @@ class _ItemListPageState extends State<ItemListPage> {
       params["param2"] = "2";
     }
     return params;
+  }
+
+  initState() {
+    super.initState();
+
+    // 检测网络状态
+    _itemAPIHub.item.service.sessionManager.checkConnectivityStatus().then((value) => {
+      print('Network status: $value')
+    });
+
+    // API 串行执行
+    _dependAPIHub.serialCalling([
+      (hub, next) async {
+        if (await (hub as DependAPIHub).depend1.loadData() == APICallbackStatus.success) {
+          // (hub as DependAPIHub).depend1.fetchReactModel(reformer);
+          print('Depend 1 finished!');
+          next(); // 开启下一个
+        }
+      }, (hub, next) async {
+        if (await (hub as DependAPIHub).depend2.loadData() == APICallbackStatus.success) {
+          print('Depend 2 finished!');
+          next(); // 开启下一个
+        }
+      }, (hub, next) async {
+        if (await (hub as DependAPIHub).depend3.loadData() == APICallbackStatus.success) {
+          print('Depend 3 finished!');
+          next(); // 开启下一个
+        }
+      }, (hub, next) async {
+        if (await (hub as DependAPIHub).finalAPI.loadData() == APICallbackStatus.success) {
+          print('Final done!'); // Done!
+        }
+      },
+    ]);
+
+
+    // 洋葱模型
+    _dependAPIHub.serialCalling([
+      (hub, next) async {
+        print('Task 1 beginning!');
+        await next();
+        print('Task 1 ending!');
+      }, (hub, next) async {
+        print('Task 2 beginning!');
+        await next();
+        print('Task 2 ending!');
+      }, (hub, next) async {
+        print('Task 3 beginning!');
+        await next();
+        print('Task 3 ending!');
+      }, (hub, next) async {
+        print('Task 4 beginning!');
+        await next();
+        print('Task 4 ending!');
+      },
+    ]);
+
   }
 
   _onApiCallSuccess(APIManager manager) {

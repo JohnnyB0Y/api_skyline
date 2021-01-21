@@ -6,11 +6,14 @@
 
 //  
 
+import 'dart:async';
+
 import 'define.dart';
 import 'manager.dart';
 import 'request.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
+import 'package:connectivity/connectivity.dart';
 
 class APIDefaultSessionManager implements APISessionManager {
 
@@ -101,6 +104,35 @@ class APIDefaultSessionManager implements APISessionManager {
 
   String cacheSubKeyForAPI(APIManager manager, APIRequestOptions options) {
     return options.queryParams?.toString() ?? options.data?.toString();
+  }
+
+  /// 检测网络状态
+  @override
+  Future<APIConnectivityStatus> checkConnectivityStatus() async {
+    return _conversionConnectivityResult(await (Connectivity().checkConnectivity()));
+  }
+
+  /// 监听网络状态变化
+  @override
+  StreamSubscription onConnectivityStatusChanged(Function(APIConnectivityStatus status) listen) {
+    if (listen == null) return null;
+
+    return Connectivity().onConnectivityChanged.listen((event) {
+      listen(_conversionConnectivityResult(event));
+    });
+  }
+
+  static APIConnectivityStatus _conversionConnectivityResult(ConnectivityResult result) {
+    switch (result) {
+      case ConnectivityResult.wifi:
+        return APIConnectivityStatus.wifi;
+        break;
+      case ConnectivityResult.mobile:
+        return APIConnectivityStatus.mobile;
+        break;
+      default:
+    }
+    return APIConnectivityStatus.none;
   }
 
 }

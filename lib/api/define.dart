@@ -6,6 +6,8 @@
 
 //
 
+import 'dart:async';
+import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 
 import '../verification/verify.dart';
@@ -25,6 +27,17 @@ enum APIEnvironment {
   release
 }
 
+enum APIConnectivityStatus {
+  /// WiFi: Device connected via Wi-Fi
+  wifi,
+
+  /// Mobile: Device connected to cellular network
+  mobile,
+
+  /// None: Device not connected to any network
+  none
+}
+
 enum APICallType {
   /// GET、PUT、DELETE 是幂等的，也就说多次提交，不会改变资源数量。
   /// POST 是非幂等的，也就说多次提交，会产生多份资源；
@@ -40,6 +53,7 @@ enum APICallType {
 enum APICallbackStatus {
   none, // 什么也没有发生，默认状态
   success, // 成功
+  failure, // 失败，比较笼统
   timeout, // 请求超时
   cancel, // 用户取消
   badRequest, // 无效请求：400
@@ -48,7 +62,14 @@ enum APICallbackStatus {
   notFound, // 未找到请求的资源：404，例如用户不存在，资源不存在
   denied, // 拒绝访问：409，例如，重复发送验证码被拒绝
   apiServiceUnregistered, // APIService 未注册到API类
+  repetitionRequest, // API正在loading，重复请求
 
+  beforeCalling, // 状态，开始请求前
+  interceptedBeforeCalling, // 调用前网络请求被拦截
+  afterCalling, // 状态，请求完成后
+  interceptedAfterCalling, // 调用后网络请求被拦截
+
+  httpCodeError, // http code 校验错误
   dataError, // 数据错误 or 数据格式错误
   paramError, // 参数错误
   reformerDataError, // 过滤数据出错
@@ -156,4 +177,11 @@ abstract class APISessionManager<T> {
   Future<bool> deleteCacheForAPIManager(APIManager manager, [dynamic obj]);
   /// 删除所有缓存
   deleteAllCache(APIManager manager, [dynamic obj]);
+
+  /// 检测网络状态
+  Future<APIConnectivityStatus> checkConnectivityStatus();
+
+  /// 监听网络状态变化，记得不使用时，取消订阅StreamSubscription！
+  StreamSubscription onConnectivityStatusChanged(Function(APIConnectivityStatus status) listen);
+  
 }
