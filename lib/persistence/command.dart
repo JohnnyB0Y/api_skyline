@@ -44,10 +44,10 @@ class DBSelect extends DBCommand {
     return this;
   }
 
-/// 需要取出的字段
-/// @param field 字段
-/// @param tableName 表名
-/// @param asField 字段别名（返回的数据表使用）
+  /// 需要取出的字段
+  /// @param field 字段
+  /// @param tableName 表名
+  /// @param asField 字段别名（返回的数据表使用）
   DBSelect field(DBField field, {String tableName, String asField}) {
     this.isFirstField ? this.isFirstField = false : this._sql += ',';
     this._sql += tableName == null ? ' ${field.name}' : ' $tableName.${field.name}';
@@ -147,8 +147,8 @@ class DBSelect extends DBCommand {
     return this;
   }
 
-/// 查询返回数据的偏移值
-/// @param num 偏移量
+  /// 查询返回数据的偏移值
+  /// @param num 偏移量
   DBSelect offset(int num) {
     this._sql += ' OFFSET $num';
     return this;
@@ -278,9 +278,10 @@ class DBUpdate extends DBCommand {
 
 // ------------------------ SQL Delete --------------------------------
 class DBDelete extends DBCommand {
+
   final DBWhereStatement where;
 
-  DBDelete(DBTable table, this.where,) : super(table, sql: 'DELETE FROM ${table.tableName} ${where.sql}', params:where.params);
+  DBDelete(DBTable table, this.where) : super(table, sql: 'DELETE FROM ${table.tableName} ${where.sql}', params:where.params);
 }
 
 // ------------------------ SQL Indexed --------------------------------
@@ -307,6 +308,7 @@ class DBIndexed extends DBCommand {
 }
 
 class DBDrop extends DBCommand {
+
   DBDrop(DBTable table) : super(table);
 
   /// 删除索引
@@ -331,9 +333,8 @@ class DBDrop extends DBCommand {
 
 // ------------------------ SQL Alter --------------------------------
 class DBAlter extends DBCommand {
-  DBAlter(DBTable table) : super(table) {
-    this._sql = 'ALTER TABLE ${table.tableName}';
-  }
+
+  DBAlter(DBTable table) : super(table, sql: 'ALTER TABLE ${table.tableName}');
 
   /// 重命名表名
   /// @param newTableName 新的表名

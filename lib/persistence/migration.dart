@@ -19,10 +19,10 @@ class DBVersionTable extends DBTable {
   DBVersionTable(DBSchedulable scheduler, String flag) : super(scheduler, flag);
 
   String get tableName => '_db_version_table';
-  DBField get usingPrimaryKey => this.fid;
+  DBField get usingPrimaryKey => fid;
 
   List<DBCommand> tableUpgradeMigrationSteps(String version) {
-    if (this.isFirstCreate) {
+    if (isFirstCreate) {
       var fields = this.dequeueWillAddFieldsForVersion('1');
       return [this.createCommand(fields)];
     }
@@ -35,9 +35,9 @@ class DBVersionTable extends DBTable {
 
   Future<String> fetchMigrationVersion() async {
     try {
-      var cmd = new DBQuery(this, fields: [this.fversion], where: this.primaryKeyWhereStatement());
+      var cmd = new DBQuery(this, fields: [fversion], where: this.primaryKeyWhereStatement());
       var items = await this.executeQuery(cmd: cmd);
-      return items[0][this.fversion.name];
+      return items[0][fversion.name];
     } catch (err) {
       // 获取数据库版本出错，统一记作第一次创建数据库
       this.isFirstCreate = true;
@@ -47,7 +47,7 @@ class DBVersionTable extends DBTable {
 
   Future<dynamic> updateMigrationVersion(String version) async {
     this.fversion.value = version;
-    return this.executeUpdate(cmd: this.updateCommand(fields: [this.fversion]));
+    return this.executeUpdate(cmd: this.updateCommand(fields: [fversion]));
   }
 
   Future<dynamic> insertMigrationVersion(String version) async {
@@ -56,6 +56,9 @@ class DBVersionTable extends DBTable {
     this.isFirstCreate = false;
     return result;
   }
+
+  @override
+  List<DBField> get usingDBFields => [fid, fversion];
 }
 
 
@@ -89,7 +92,7 @@ class DBMigrator {
       return await (this.versionTable as DBVersionTable).insertMigrationVersion(version);
     }
     else {
-      return await (this.versionTable as DBVersionTable)?.updateMigrationVersion(version);
+      return await (this.versionTable as DBVersionTable).updateMigrationVersion(version);
     }
   }
 
@@ -97,10 +100,10 @@ class DBMigrator {
   /// @param version 对应版本
   /// @param upgrade 是否升级？
   /// @returns 命令数组
-  List<DBCommand> dequeueMigrationStep(String version, bool upgrade) {
+  List<DBCommand> dequeueMigrationStep(String version, bool isUpgrade) {
     var commands = [];
     this.tables.forEach((t) {
-      var cmds = upgrade ? t.tableUpgradeMigrationSteps(version) : t.tableDowngradeMigrationSteps(version);
+      var cmds = isUpgrade ? t.tableUpgradeMigrationSteps(version) : t.tableDowngradeMigrationSteps(version);
       if (cmds != null) {
         commands.addAll(cmds);
       }
@@ -113,19 +116,23 @@ class DBMigrator {
   /// @param isUpgrade 是否升级？
   /// @returns 最终版本号
   Future<String> executeMigrationAllSteps(List<String> versionList, bool isUpgrade) async {
-  for (var i = 0; i < versionList.length; i++) {
-    var version = versionList[i];
-    var cmds = this.dequeueMigrationStep(version, isUpgrade);
+    for (var i = 0; i < versionList.length; i++) {
+      var version = versionList[i];
+      try {
+        var cmds = this.dequeueMigrationStep(version, isUpgrade);
+        await this.scheduler.executeTransaction(cmds);
 
-    await this.scheduler.executeTransaction(cmds).then((val) {
-      print('version upgrade success: $version');
-      this.updateMigrationVersion(version);
-      this.currentVersion = version; // 更新当前版本号
-    }).catchError((err) {
-      print('version upgrade failure: $version $err');
-    });
-  }
-  return this.currentVersion ?? '';
+        print('version upgrade success: $version');
+        this.updateMigrationVersion(version);
+        this.currentVersion = version; // 更新当前版本号
+
+      } catch (err) {
+        // 报错直接返回，不往下升级了
+        print('version upgrade failure: $version $err');
+        return this.currentVersion;
+      }
+    }
+    return this.currentVersion ?? '';
   }
 
   /// 检测是否执行数据库版本迁移

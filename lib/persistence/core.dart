@@ -39,6 +39,8 @@ abstract class DBTable {
   String get tableName;
   /// 使用中的主键，例如用于默认查询、更新或删除等
   DBField get usingPrimaryKey;
+  /// 需要用到的表字段数组（dart 不能遍历属性 Σ(⊙▽⊙"a ）
+  List<DBField> get usingDBFields;
 
   /// 返回对应升级的版本操作
   /// @param version 对应升级版本
@@ -54,13 +56,13 @@ abstract class DBTable {
   /// @param fields 待输出的字段数组
   /// @returns 字典格式数据
   Map<String, dynamic> toMap({List<DBField> fields}) {
-    fields = fields ?? this.dequeueAvailableFieldsForVersion();
-  var map = new Map();
-  fields.forEach((field) {
-    map[field.name] = field.value;
-  });
-  return map;
-}
+    fields = fields ?? this.usingDBFields;
+    var map = new Map();
+    fields.forEach((field) {
+      map[field.name] = field.value;
+    });
+    return map;
+  }
 
   // ----------------------------------- Generate sql command ---------------------------------------
   /// 创建数据表
@@ -163,17 +165,12 @@ abstract class DBTable {
   }
 
   List<DBField> dequeueFieldsForCondition(DBFieldConditionFunc condition) {
-
     const fields = [];
-    // todo 遍历属性，等待解决
-    // for (const key in this) {
-    //   const field = this[key];
-    //   if (field instanceof DBField) {
-    //     if ( condition(field) ) {
-    //       fields.add(field);
-    //     }
-    //   }
-    // }
+    for (var field in usingDBFields) {
+      if ( condition(field) ) {
+        fields.add(field);
+      }
+    }
     return fields;
   }
 
@@ -181,7 +178,7 @@ abstract class DBTable {
   /// @param pk 主键
   /// @returns 主键的sql语句
   DBWhereStatement primaryKeyWhereStatement({DBField pk}) {
-    pk = pk == null ? this.usingPrimaryKey : pk;
+    pk = pk ?? this.usingPrimaryKey;
     return new DBWhereStatement(this).field(pk).equalTo(pk.value ?? 1);
   }
 

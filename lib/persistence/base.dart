@@ -35,7 +35,7 @@ enum FieldType {
 
 enum DBType {
   sqlite3,
-  mysql,
+  // mysql, // 未处理！！！！！！！！！
 }
 
 // ---------------------- 数据库命令调度接口 -----------------------
@@ -117,35 +117,35 @@ class DBField<T> {
 
   // 获取值
   T get value {
-  return this._value;
+    return this._value;
   }
 
   /// 检测值是否合法
   /// @param func 检测值的闭包
   DBField addCheckFunc(DBFieldCheckValue func) {
-  this.checkFunc = func;
-  return this;
+    this.checkFunc = func;
+    return this;
   }
 
   /// 在当前版本是否可用 ？
   /// @param version 版本号
   bool isAvailableForVersion(String version) {
-  if (this.removeVersion == null) {
-    return double.parse(version) >= double.parse(this.addVersion);
-  }
+    if (this.removeVersion == null) {
+      return double.parse(version) >= double.parse(this.addVersion);
+    }
     return double.parse(version) < double.parse(this.removeVersion);
   }
 
   /// 是否在当前版本新增 ？
   /// @param version 版本号
   bool isAddForVersion(String version) {
-  return version == this.addVersion;
+    return version == this.addVersion;
   }
 
   /// 是否在当前版本删除 ？
   /// @param version 版本号
   bool isRemoveForVersion(String version) {
-  return version == this.removeVersion;
+    return version == this.removeVersion;
   }
 
   /// 移除或废弃此字段
