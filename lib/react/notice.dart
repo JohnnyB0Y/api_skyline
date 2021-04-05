@@ -73,7 +73,7 @@ class NoticeCenter {
     List<Observer> list = observers[forName];
 
     if (list == null) {
-      list = List();
+      list = [];
       observers[forName] = list;
     }
     else { // 排除重复

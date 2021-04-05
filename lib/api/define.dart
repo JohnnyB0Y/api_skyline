@@ -7,7 +7,6 @@
 //
 
 import 'dart:async';
-import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 
 import '../verification/verify.dart';

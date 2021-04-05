@@ -45,7 +45,7 @@ abstract class DBTable {
   /// 返回对应升级的版本操作
   /// @param version 对应升级版本
   /// @return sql 命令数组
-  List<DBCommand>  tableUpgradeMigrationSteps(String version);
+  List<DBCommand> tableUpgradeMigrationSteps(String version);
 
   /// 返回对应降级的版本操作
   /// @param version 对应降级版本
@@ -122,14 +122,14 @@ abstract class DBTable {
   /// 执行删除命令
   /// @param cmd sql 命令
   /// @returns 执行结果
-  Future<dynamic>  executeDelete({DBCommand cmd}) async {
+  Future<dynamic> executeDelete({DBCommand cmd}) async {
     return this.scheduler.executeCommand(cmd ?? this.deleteCommand());
   }
 
   /// 执行更新操作
   /// @param cmd sql 命令
   /// @returns 执行结果
-  Future<dynamic>  executeUpdate({DBCommand cmd}) async {
+  Future<dynamic> executeUpdate({DBCommand cmd}) async {
     return this.scheduler.executeCommand(cmd ?? this.updateCommand());
   }
 
@@ -165,13 +165,7 @@ abstract class DBTable {
   }
 
   List<DBField> dequeueFieldsForCondition(DBFieldConditionFunc condition) {
-    const fields = [];
-    for (var field in usingDBFields) {
-      if ( condition(field) ) {
-        fields.add(field);
-      }
-    }
-    return fields;
+    return usingDBFields.where((field) => condition(field));
   }
 
   /// 拼装主键的where sql语句
@@ -179,7 +173,7 @@ abstract class DBTable {
   /// @returns 主键的sql语句
   DBWhereStatement primaryKeyWhereStatement({DBField pk}) {
     pk = pk ?? this.usingPrimaryKey;
-    return new DBWhereStatement(this).field(pk).equalTo(pk.value ?? 1);
+    return DBWhereStatement(this).field(pk).equalTo(pk.value ?? 1);
   }
 
 

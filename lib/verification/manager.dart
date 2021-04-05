@@ -52,7 +52,7 @@ class VerifyManager {
         if (hasError == false) {
           // 发现第一个错误
           hasError = true;
-          errors = List();
+          errors = [];
         }
         // 添加错误到集合
         errors.add(error);
@@ -66,7 +66,7 @@ class VerifyManager {
   /// 执行所有验证
   List<VerifyResult> executeAllVerifyingList() {
     
-    List<VerifyResult> results = List();
+    List<VerifyResult> results = [];
     
     _executeMap.keys?.forEach((key) {
       VerifyResult result = executeVerifyingListForKey(key);
