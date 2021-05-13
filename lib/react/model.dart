@@ -43,6 +43,17 @@ class ReactModel extends Object
     }
   }
 
+  /// 从 fromKey 拷贝数据到 toKey
+  copyValFromKeyToKey(String fromKey, String toKey) {
+    this.setVal(this.val(fromKey), toKey);
+  }
+
+  /// 从 fromKey 迁移数据到 toKey，并把 fromKey 制 null。
+  migratingValFromKeyToKey(String fromKey, String toKey) {
+    this.setVal(this.val(fromKey), toKey);
+    this.setNull(fromKey);
+  }
+
   /// 只有当 key 的 value == true 时，返回 true
   bool conditionForKey(String key) {
     var val = innerMap[key];

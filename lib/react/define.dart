@@ -33,7 +33,12 @@ abstract class ReactModelSafeAccess {
   // 图片数据
   setIconData(Object value, String forKey);
   IconData iconData(String forKey);
-  
+
+  /// 从 fromKey 拷贝数据到 toKey
+  copyValFromKeyToKey(String fromKey, String toKey);
+
+  /// 从 fromKey 迁移数据到 toKey，并把 fromKey 制 null。
+  migratingValFromKeyToKey(String fromKey, String toKey);
 }
 
 abstract class ReactModelBuilder {

@@ -93,6 +93,8 @@ class RMK {
   static const String closed = 'rmk_' + 'closed';
   ///< 是否编辑状态？ 👉 bool
   static const String edited = 'rmk_' + 'edited';
+  ///< 是否自动聚焦？ 👉 bool
+  static const String autofocus = 'rmk_' + 'autofocus';
 
 
   ///< Widget的Key 👉 Key
