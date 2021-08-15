@@ -150,6 +150,21 @@ class RMNoticeName {
   /// 移除
   static const String remove = 'RMNoticeName_' + 'remove';
 
+  /// 拖拽开始
+  static const String onDragStarted = 'RMNoticeName_' + 'onDragStarted';
+
+  /// 拖拽结束
+  static const String onDragEnd = 'RMNoticeName_' + 'onDragEnd';
+
+  /// 拖拽取消
+  static const String onDraggableCanceled = 'RMNoticeName_' + 'onDraggableCanceled';
+
+  /// 拖拽完成
+  static const String onDragCompleted = 'RMNoticeName_' + 'onDragCompleted';
+
+  /// 拖拽状态更新
+  static const String onDragUpdate = 'RMNoticeName_' + 'onDragUpdate';
+
 }
 
 
