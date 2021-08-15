@@ -115,6 +115,12 @@ class RMK {
   /// 投稿情况：审核中；审核通过；审核不通过； 👉 int
   static const String submitStatus = 'rmk_' + 'submitStatus';
 
+  ///< 偏移量 👉 Offset
+  static const String offset = 'rmk_' + 'offset';
+
+  /// 速度 👉 Velocity
+  static const String velocity = 'rmk_' + 'velocity';
+
 }
 
 
