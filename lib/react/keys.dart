@@ -185,3 +185,24 @@ enum RMUserInteractionType {
   /// 单选
   choose,
 }
+
+enum RMDirectionType {
+  /// left
+  l,
+  /// right
+  r,
+  /// top
+  t,
+  /// bottom
+  b,
+  /// left top
+  lt,
+  /// center
+  c,
+  /// left bottom
+  lb,
+  /// right top
+  rt,
+  /// right bottom
+  rb,
+}
