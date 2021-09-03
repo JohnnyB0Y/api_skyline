@@ -19,25 +19,25 @@ class ReactModel extends Object
 {
 
   final Map innerMap = Map();
-  Map rawData;
+  Map? rawData;
 
-  ReactModelBuilder _builder;
-  Widget widget;
+  ReactModelBuilder? _builder;
+  Widget? widget;
 
   // init
-  ReactModel([Map map]) {
+  ReactModel([Map? map]) {
     if (map != null) {
       innerMap.addAll(map);
     }
   }
 
-  ReactModel.withWidget(this.widget, [Map map]) {
+  ReactModel.withWidget(this.widget, [Map? map]) {
     if (map != null) {
       innerMap.addAll(map);
     }
   }
 
-  ReactModel.withBuilder(this._builder, [Map map]) {
+  ReactModel.withBuilder(this._builder, [Map? map]) {
     if (map != null) {
       innerMap.addAll(map);
     }
@@ -64,7 +64,7 @@ class ReactModel extends Object
   }
 
   /// trueKeys 的 value 都为 true ？falseKeys 的 value 都为 false ？
-  bool conditionForKeys({List<String> trueKeys, List<String> falseKeys}) {
+  bool conditionForKeys({required List<String> trueKeys, required List<String> falseKeys}) {
     return trueForKeys(trueKeys) && falseForKeys(falseKeys);
   }
 
@@ -98,7 +98,7 @@ class ReactModel extends Object
   }
 
   @override
-  setVal(Object value, String forKey) {
+  setVal(Object? value, String forKey) {
     innerMap[forKey] = value;
   }
 
@@ -115,7 +115,7 @@ class ReactModel extends Object
 
   // 数字
   @override
-  setNum(Object value, String forKey) {
+  setNum(Object? value, String forKey) {
     if (value is num) {
       innerMap[forKey] = value;
     }
@@ -124,10 +124,6 @@ class ReactModel extends Object
   /// 增加数值
   num increaseNum(num value, String forKey) {
     var old = numVal(forKey);
-    if (value == null) {
-      return old;
-    }
-
     var cur = old == null ? value : value + old;
     setNum(cur, forKey);
     return cur;
@@ -136,30 +132,26 @@ class ReactModel extends Object
   /// 减少数值
   num decreaseNum(num value, String forKey) {
     var old = numVal(forKey);
-    if (value == null) {
-      return old;
-    }
-
     var cur = old == null ? 0 - value : old - value;
     setNum(cur, forKey);
     return cur;
   }
 
   @override
-  num numVal(String forKey) {
+  num? numVal(String forKey) {
     var value = innerMap[forKey];
     return (value is num) ? value : null;
   }
 
   // 布尔值
   @override
-  bool boolVal(String forKey) {
+  bool? boolVal(String forKey) {
     var value = innerMap[forKey];
     return (value is bool) ? value : null;
   }
 
   @override
-  setBool(Object value, String forKey) {
+  setBool(Object? value, String forKey) {
     if (value is bool) {
       innerMap[forKey] = value;
     }
@@ -173,28 +165,28 @@ class ReactModel extends Object
 
   // 字符串
   @override
-  setStr(Object value, String forKey) {
+  setStr(Object? value, String forKey) {
     if (value is String) {
       innerMap[forKey] = value;
     }
   }
 
   @override
-  String strVal(String forKey) {
+  String? strVal(String forKey) {
     var value = innerMap[forKey];
     return (value is String) ? value : null;
   }
 
   // 图片数据
   @override
-  setIconData(Object value, String forKey) {
+  setIconData(Object? value, String forKey) {
     if (value is IconData) {
       innerMap[forKey] = value;
     }
   }
 
   @override
-  IconData iconData(String forKey) {
+  IconData? iconData(String forKey) {
     var value = innerMap[forKey];
     return (value is IconData) ? value : null;
   }
@@ -202,13 +194,11 @@ class ReactModel extends Object
   // TODO --------------------- i18n ---------------------------
   static Map _globalReactModelFuncMap = Map();
   static configI18nGetterFunc(I18nReactModelConfigFunc func) {
-    if (func != null) {
-      _globalReactModelFuncMap[RMK.i18nGetterFunc] = func;
-    }
+    _globalReactModelFuncMap[RMK.i18nGetterFunc] = func;
   }
 
   static dynamic i18nVal(BuildContext context, dynamic i18nKey) {
-    I18nReactModelConfigFunc func = _globalReactModelFuncMap[RMK.i18nGetterFunc];
+    I18nReactModelConfigFunc? func = _globalReactModelFuncMap[RMK.i18nGetterFunc];
     return func?.call(context, i18nKey);
   }
   
@@ -225,23 +215,19 @@ class ReactModel extends Object
       if (widget == null) {
         widget = _builder?.createWidget(this);
       }
-      return widget;
+      return widget!;
     }
 
-    return _builder?.createWidget(this) ?? widget;
+    return _builder?.createWidget(this) ?? widget!;
   }
 
   final Set<RebuildWidgetFunc> _rebuildWidgetFuncSet = Set();
   bindingWidgetFunc(RebuildWidgetFunc func) {
-    if (func != null) {
-      _rebuildWidgetFuncSet.add(func);
-    }
+    _rebuildWidgetFuncSet.add(func);
   }
 
   unbindingWidgetFunc(RebuildWidgetFunc func) {
-    if (func != null) {
-      _rebuildWidgetFuncSet.remove(func);
-    }
+    _rebuildWidgetFuncSet.remove(func);
   }
 
   unbindingAllWidgetFunc() {
@@ -254,7 +240,7 @@ class ReactModel extends Object
   }
 
   /// 更新模型数据并刷新UI，重建Widget。
-  refreshUIByUpdateModel(Function(ReactModel model) func) {
+  refreshUIByUpdateModel(Function(ReactModel model)? func) {
     // 更新模型数据
     func?.call(this);
     // 刷新UI
@@ -277,7 +263,7 @@ class ReactModel extends Object
   }
 
   // TODO --------------------- post & observed event ---------------------------
-  Function(Notice notice) observedEventNotice;
+  Function(Notice notice)? observedEventNotice;
 
   postEventNotice(Notice notice) {
     observedEventNotice?.call(notice);
@@ -298,7 +284,7 @@ class CollectParam {
   final String key;
   final dynamic cipher;
 
-  CollectParam({@required this.key, this.cipher});
+  CollectParam({required this.key, this.cipher});
 }
 
 /// 向子节点提供的数据
@@ -307,6 +293,6 @@ class ProvideParam {
   final dynamic param;
   final dynamic cipher;
 
-  ProvideParam({@required this.key, @required this.param, this.cipher});
+  ProvideParam({required this.key, required this.param, this.cipher});
 }
 

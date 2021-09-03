@@ -12,27 +12,27 @@ import '../api/manager.dart';
 
 abstract class ReactModelSafeAccess {
   // base access
-  setVal(Object value, String forKey);
-  Object val(String forKey);
+  setVal(Object? value, String forKey);
+  Object? val(String forKey);
 
   /// safe access
   setNull(String forKey);
 
   // 数字
-  setNum(Object value, String forKey);
-  num numVal(String forKey);
+  setNum(Object? value, String forKey);
+  num? numVal(String forKey);
 
   // 布尔值
-  setBool(Object value, String forKey);
-  bool boolVal(String forKey);
+  setBool(Object? value, String forKey);
+  bool? boolVal(String forKey);
 
   // 字符串
-  setStr(Object value, String forKey);
-  String strVal(String forKey);
+  setStr(Object? value, String forKey);
+  String? strVal(String forKey);
 
   // 图片数据
-  setIconData(Object value, String forKey);
-  IconData iconData(String forKey);
+  setIconData(Object? value, String forKey);
+  IconData? iconData(String forKey);
 
   /// 从 fromKey 拷贝数据到 toKey
   copyValFromKeyToKey(String fromKey, String toKey);
