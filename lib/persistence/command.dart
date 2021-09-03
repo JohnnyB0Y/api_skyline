@@ -12,10 +12,10 @@ import 'base.dart';
 
 class DBCommand {
   final DBTable table;
-  String _sql;
-  List<dynamic> _params;
+  late String _sql;
+  List<dynamic>? _params;
 
-  DBCommand(this.table, {String sql, List<dynamic> params}) {
+  DBCommand(this.table, {String sql="", List<dynamic>? params}) {
     this._sql = sql;
     this._params = params;
   }
@@ -28,7 +28,7 @@ class DBCommand {
     if (this._params == null) {
       this._params = [];
     }
-    return this._params;
+    return this._params!;
   }
 
 }
@@ -48,7 +48,7 @@ class DBSelect extends DBCommand {
   /// @param field 字段
   /// @param tableName 表名
   /// @param asField 字段别名（返回的数据表使用）
-  DBSelect field(DBField field, {String tableName, String asField}) {
+  DBSelect field(DBField field, {String? tableName, String? asField}) {
     this.isFirstField ? this.isFirstField = false : this._sql += ',';
     this._sql += tableName == null ? ' ${field.name}' : ' $tableName.${field.name}';
     this._sql += asField == null ? '' : ' AS $asField';
@@ -59,7 +59,7 @@ class DBSelect extends DBCommand {
   /// @param field 字段
   /// @param tableName 表名
   /// @param asField 字段别名（返回的数据表使用）
-  DBSelect andField(DBField field, {String fromTable, String asField}) {
+  DBSelect andField(DBField field, {String? fromTable, String? asField}) {
     return this.field(field, tableName: fromTable, asField: asField);
   }
 
@@ -158,10 +158,10 @@ class DBSelect extends DBCommand {
 // ------------------------ SQL Query --------------------------------
 class DBQuery extends DBCommand {
 
-  DBSelect selectCmd;
-  final List<DBField> fields;
-  final DBWhereStatement where;
-  final DBIndexedStatement indexed;
+  late DBSelect selectCmd;
+  final List<DBField>? fields;
+  final DBWhereStatement? where;
+  final DBIndexedStatement? indexed;
 
   DBQuery(DBTable table, {this.fields, this.where, this.indexed}) : super(table) {
     this.selectCmd = DBSelect(this.table);
@@ -169,26 +169,26 @@ class DBQuery extends DBCommand {
       this.selectCmd.allField();
     }
     else {
-      for (int i = 0; i<fields.length; i++) {
-        this.selectCmd.field(fields[i]);
+      for (int i = 0; i<fields!.length; i++) {
+        this.selectCmd.field(fields![i]);
       }
     }
 
     this.selectCmd.fromTable(table.tableName);
 
     if (indexed != null) {
-      this.selectCmd.indexed(indexed);
+      this.selectCmd.indexed(indexed!);
     }
     if (where != null) {
-      this.selectCmd.where(where);
-      this.params.addAll(where.params);
+      this.selectCmd.where(where!);
+      this.params.addAll(where!.params);
     }
   }
 
   /// 查询返回数据的排序条件
   /// @param field 排序字段
   /// @param descending 是否降序排列
-  DBQuery orderBy(DBField field, {bool descending}) {
+  DBQuery orderBy(DBField field, {bool descending=false}) {
     this.selectCmd.order(new DBOrderStatement(this.table).orderByField(field, descending));
     return this;
   }
@@ -296,7 +296,7 @@ class DBIndexed extends DBCommand {
 
   /// 创建联合索引
   /// @param field 字段数组
-  DBCommand createForFields(List<DBField> fields, String indexedName, {bool unique}) {
+  DBCommand createForFields(List<DBField> fields, String indexedName, {bool unique=false}) {
     var fs = '';
     for (int i = 0; i<fields.length; i++) {
       fs += (i == 0) ? (fields[i].name) : (', ${fields[i].name}');

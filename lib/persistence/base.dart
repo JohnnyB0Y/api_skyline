@@ -86,16 +86,16 @@ class DBField<T> {
   var _primaryKey = false; // 唯一标识数据库表中的每个记录
   var _primaryKeyDesc = false; // 主键索引是否降序
   var _autoIncrement = false; // 字段自增
-  String indexedName; // 索引名称
+  String? indexedName; // 索引名称
   var uniqueIndexed = false; // 唯一索引 ？
-  T _value;
+  T? _value;
   var valueChange = false; // 记录值改变状态
-  DBFieldCheckValue checkFunc;
+  DBFieldCheckValue? checkFunc;
   String name; // 字段名称
   FieldType fieldType; // 字段类型
   String addVersion; // 添加到数据表时的版本，做数据表升级和降级时用到
-  String removeVersion; // 从数据表中移除时的版本，做数据表升级和降级时用到
-  final T defaultValue;
+  String? removeVersion; // 从数据表中移除时的版本，做数据表升级和降级时用到
+  final T? defaultValue;
 
   DBField(
     this.name, // 字段名称
@@ -105,8 +105,8 @@ class DBField<T> {
   );
 
   // 设置值
-  set value(T v) {
-    if (this.checkFunc != null && this.checkFunc(v) == false) { // 检查数据
+  set value(T? v) {
+    if (this.checkFunc != null && this.checkFunc!(v) == false) { // 检查数据
       // console.log(`字段检测不通过！field: ${this.name} value: ${v}`);
     }
     else {
@@ -116,7 +116,7 @@ class DBField<T> {
   }
 
   // 获取值
-  T get value {
+  T? get value {
     return this._value;
   }
 
@@ -133,7 +133,7 @@ class DBField<T> {
     if (this.removeVersion == null) {
       return double.parse(version) >= double.parse(this.addVersion);
     }
-    return double.parse(version) < double.parse(this.removeVersion);
+    return double.parse(version) < double.parse(this.removeVersion!);
   }
 
   /// 是否在当前版本新增 ？
@@ -169,7 +169,7 @@ class DBField<T> {
 
   /// 设为主键（主键会创建索引，默认是升序，可以通过desc 设为降序）
   /// @param desc 是否降序
-  DBField primaryKey([bool desc]) {
+  DBField primaryKey([bool desc=false]) {
     this._primaryKey = true;
     this._primaryKeyDesc = desc;
     return this;
@@ -183,7 +183,7 @@ class DBField<T> {
 
   /// 设为索引
   /// @param indexedName 索引名称，默认是字段名
-  DBField indexed({String indexedName, bool unique}) {
+  DBField indexed({required String indexedName, bool unique=false}) {
     this.indexedName = indexedName;
     this.uniqueIndexed = unique;
     return this;

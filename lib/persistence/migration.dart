@@ -16,12 +16,12 @@ class DBVersionTable extends DBTable {
   final fversion = new DBField<int>('migration_version', FieldType.text, '1').notNull();
   var isFirstCreate = false; // 第一次创建？
 
-  DBVersionTable(DBSchedulable scheduler, String flag) : super(scheduler, flag);
+  DBVersionTable(DBSchedulable scheduler, String? flag) : super(scheduler, flag);
 
   String get tableName => '_db_version_table';
   DBField get usingPrimaryKey => fid;
 
-  List<DBCommand> tableUpgradeMigrationSteps(String version) {
+  List<DBCommand>? tableUpgradeMigrationSteps(String version) {
     if (isFirstCreate) {
       var fields = this.dequeueWillAddFieldsForVersion('1');
       return [this.createCommand(fields)];
@@ -29,11 +29,11 @@ class DBVersionTable extends DBTable {
     return null;
   }
 
-  List<DBCommand> tableDowngradeMigrationSteps(String version) {
+  List<DBCommand>? tableDowngradeMigrationSteps(String version) {
     return null;
   }
 
-  Future<String> fetchMigrationVersion() async {
+  Future<String?> fetchMigrationVersion() async {
     try {
       var cmd = new DBQuery(this, fields: [fversion], where: this.primaryKeyWhereStatement());
       var items = await this.executeQuery(cmd: cmd);
@@ -64,8 +64,8 @@ class DBVersionTable extends DBTable {
 
 // 数据库版本迁移工具
 class DBMigrator {
-  String currentVersion;
-  DBTable versionTable;
+  late String currentVersion;
+  late DBTable versionTable;
 
   final DBSchedulable scheduler;
   final List<DBTable> tables;
@@ -82,7 +82,7 @@ class DBMigrator {
   }
 
   /// 获取数据库当前旧版本
-  Future<String> fetchMigrationVersion() {
+  Future<String?> fetchMigrationVersion() {
     return (this.versionTable as DBVersionTable).fetchMigrationVersion();
   }
 
@@ -101,7 +101,7 @@ class DBMigrator {
   /// @param upgrade 是否升级？
   /// @returns 命令数组
   List<DBCommand> dequeueMigrationStep(String version, bool isUpgrade) {
-    var commands = [];
+    List<DBCommand> commands = [];
     this.tables.forEach((t) {
       var cmds = isUpgrade ? t.tableUpgradeMigrationSteps(version) : t.tableDowngradeMigrationSteps(version);
       if (cmds != null) {
@@ -132,7 +132,7 @@ class DBMigrator {
         return this.currentVersion;
       }
     }
-    return this.currentVersion ?? '';
+    return this.currentVersion;
   }
 
   /// 检测是否执行数据库版本迁移
@@ -141,18 +141,18 @@ class DBMigrator {
   Future<String> executeMigrationStepsOrNot(List<String> versionList) async {
     var oldVersion = await this.fetchMigrationVersion();
     var newVersion = versionList[versionList.length - 1];
-    this.currentVersion = oldVersion;
+    this.currentVersion = oldVersion ?? newVersion;
     // console.log(`ExecuteMigrationStepsOrNot old version: ${oldVersion}, new version: ${newVersion}`)
 
     if (oldVersion == newVersion) { // 版本相等，什么都不用做
-      return oldVersion;
+      return newVersion;
     }
 
     if (oldVersion == null) { // 数据库第一次创建，那么从 oldVersion 一步步升级到 newVersion
       return await this.executeMigrationAllSteps(versionList, true);
     }
 
-    var migrationVersions = [];
+    List<String> migrationVersions = [];
     var isUpgrade = true;
     var start = versionList.indexOf(oldVersion);
     var end = versionList.indexOf(newVersion);

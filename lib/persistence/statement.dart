@@ -12,14 +12,17 @@ import 'base.dart';
 
 class DBStatement {
   final DBTable table;
-  String sql = '';
-  List<dynamic> params = [];
-  DBStatement(this.table, {this.sql, this.params});
+  late String sql;
+  late List<dynamic> params;
+  DBStatement(this.table, {String? sql, List<dynamic>? params}) {
+    this.sql = sql ?? "";
+    this.params = params ?? [];
+  }
 
   /// 在sql语句后拼接字符串
   /// @param str 拼接的字符串
   /// @param betweenStr 拼接之间的间隔字符串，默认空格字符串 ' '
-  DBStatement appendSql(String str, [String betweenStr]) {
+  DBStatement appendSql(String str, [String betweenStr=" "]) {
     this.sql += betweenStr + str;
     return this;
   }
@@ -74,7 +77,7 @@ class DBOrderStatement extends DBStatement {
   }
 
   DBOrderStatement orderByFieldSql(String fieldSql) {
-    return this.appendSql(fieldSql);
+    return this.appendSql(fieldSql) as DBOrderStatement;
   }
 
   /// 查询返回数据的排序条件。
@@ -83,7 +86,7 @@ class DBOrderStatement extends DBStatement {
   DBOrderStatement orderByColumn(int column, bool descending) {
     this.isFirstField ? this.isFirstField = false : this.sql += ',';
     var order = descending ? 'DESC' : 'ASC';
-    return this.appendSql('$column $order');
+    return this.appendSql('$column $order') as DBOrderStatement;
   }
 }
 
@@ -97,7 +100,7 @@ class DBGroupStatement extends DBStatement {
   /// 对相同的数据进行分组
   /// @param field 分组字段
   /// @param tableName 表名
-  DBGroupStatement groupByField(DBField field, [String tableName]) {
+  DBGroupStatement groupByField(DBField field, [String? tableName]) {
   this.isFirstField ? this.isFirstField = false : this.sql += ',';
     return this.groupByFieldSql(tableName == null ? field.name : '$tableName.${field.name}');
   }
@@ -121,13 +124,13 @@ class DBWhereStatement extends DBStatement {
   /// 用 AND 连接下一个字段条件
   /// @param f 字段
   DBWhereStatement andField(DBField f) {
-    return this.appendSql('AND ${f.name}');
+    return this.appendSql('AND ${f.name}') as DBWhereStatement;
   }
 
   /// 用 OR 连接下一个字段条件
   /// @param f 字段
   DBWhereStatement orField(DBField f) {
-    return this.appendSql('OR ${f.name}');
+    return this.appendSql('OR ${f.name}') as DBWhereStatement;
   }
 
   /// 条件：等于
@@ -186,7 +189,7 @@ class DBWhereStatement extends DBStatement {
       this.params.add(values[i]);
       sql += (i == 0) ? '?' : ', ?';
     }
-    return this.appendSql('IN ($sql)');
+    return this.appendSql('IN ($sql)') as DBWhereStatement;
   }
 
   /// 条件：不在values里面
@@ -197,7 +200,7 @@ class DBWhereStatement extends DBStatement {
       this.params.add(values[i]);
       sql += (i == 0) ? '?' : ', ?';
     }
-    return this.appendSql('NOT IN ($sql)');
+    return this.appendSql('NOT IN ($sql)') as DBWhereStatement;
   }
 
   /// 条件：在 start 与 end 之间
@@ -206,7 +209,7 @@ class DBWhereStatement extends DBStatement {
   DBWhereStatement between(dynamic start,dynamic end) {
     this.params.add(start);
     this.params.add(end);
-    return this.appendSql('BETWEEN ? AND ?');
+    return this.appendSql('BETWEEN ? AND ?') as DBWhereStatement;
   }
 
   /// 条件判断
@@ -214,6 +217,6 @@ class DBWhereStatement extends DBStatement {
   /// @param value 条件值
   DBWhereStatement condition(String operators, dynamic value) {
     this.params.add(value);
-    return this.appendSql('$operators ?');
+    return this.appendSql('$operators ?') as DBWhereStatement;
   }
 }
