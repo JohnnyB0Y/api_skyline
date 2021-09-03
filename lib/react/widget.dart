@@ -20,43 +20,43 @@ class ReactWidget extends StatefulWidget {
 
   // ---------------------- 接口
   /// API集合类
-  final List<APIHub> apiHubs;
+  final List<APIHub>? apiHubs;
   /// 返回请求参数
-  final Map<String, Object> Function(APIManager manager) onApiCallParams;
+  final Map<String, Object> Function(APIManager manager)? onApiCallParams;
   /// 请求成功回调
-  final Function(APIManager manager) onApiCallSuccess;
+  final Function(APIManager manager)? onApiCallSuccess;
   /// 请求失败回调
-  final Function(APIManager manager) onApiCallFailure;
+  final Function(APIManager manager)? onApiCallFailure;
 
 
   // ----------------------- 通知
-  final ObservedDefaultNoticeCenter observedDefaultNoticeCenter;
+  final ObservedDefaultNoticeCenter? observedDefaultNoticeCenter;
 
   // ----------------------- UI 部件
   /// 控件创建方法: (context, params, child) { }
-  final ReactWidgetBuilderFunction builder;
+  final ReactWidgetBuilderFunction? builder;
   /// 模型，小部件可以绑定刷新UI
-  final ReactModel binding;
+  final ReactModel? binding;
   /// 展示的小部件
-  final Widget child;
+  final Widget? child;
 
 
   // ----------------------- 参数传递
   /// 取出传入的 ReactModel 的键s
-  final List<CollectParam> collectParams;
+  final List<CollectParam>? collectParams;
   /// 提供外界获取的 ReactModel键值对s
-  final List<ProvideParam> provideParams;
+  final List<ProvideParam>? provideParams;
 
 
   /// 初始化状态时调用
-  final Function() initState;
+  final Function()? initState;
   /// 销毁状态时调用
-  final Function() disposeState;
-  final Function(ReactWidget oldWidget) didUpdateWidget;
+  final Function()? disposeState;
+  final Function(ReactWidget oldWidget)? didUpdateWidget;
 
 
   ReactWidget.builder({
-    Key key,
+    Key? key,
 
     this.apiHubs,
     this.onApiCallParams,
@@ -81,7 +81,7 @@ class ReactWidget extends StatefulWidget {
 
   
   ReactWidget.apiHub({
-    Key key,
+    Key? key,
 
     @required this.apiHubs,
     this.onApiCallParams,
@@ -105,7 +105,7 @@ class ReactWidget extends StatefulWidget {
 
   
   ReactWidget.binding({
-    Key key,
+    Key? key,
 
     this.apiHubs,
     this.onApiCallParams,
@@ -147,17 +147,17 @@ class _ReactWidgetState extends State<ReactWidget> implements APICallDelegate, N
       element.callDelegate = this;
     });
     // 添加观察者
-    widget.observedDefaultNoticeCenter?.observations?.forEach((element) {
+    widget.observedDefaultNoticeCenter?.observations.forEach((element) {
       NoticeCenter.defaultCenter().addObserver(this, element.name, element.cipher);
     });
 
     // 提供的参数
     if (widget.provideParams != null) {
-      _provideParams[this] = widget.provideParams;
+      _provideParams[this] = widget.provideParams!;
     }
 
     if (widget.initState != null) {
-      widget.initState();
+      widget.initState!.call();
     }
   }
 
@@ -172,14 +172,14 @@ class _ReactWidgetState extends State<ReactWidget> implements APICallDelegate, N
 
     // 提供的参数
     if (widget.provideParams != null) {
-      _provideParams[this] = widget.provideParams;
+      _provideParams[this] = widget.provideParams!;
     }
     else {
       _provideParams.remove(this);
     }
 
     if (widget.didUpdateWidget != null) {
-      widget.didUpdateWidget(oldWidget);
+      widget.didUpdateWidget!(oldWidget);
     }
 
     super.didUpdateWidget(oldWidget);
@@ -192,7 +192,7 @@ class _ReactWidgetState extends State<ReactWidget> implements APICallDelegate, N
     widget.binding?.unbindingWidgetFunc(rebuildWidget);
 
     // 移除观察者
-    widget.observedDefaultNoticeCenter?.observations?.forEach((element) {
+    widget.observedDefaultNoticeCenter?.observations.forEach((element) {
       NoticeCenter.defaultCenter().removeObserver(this, element.name);
     });
 
@@ -207,7 +207,7 @@ class _ReactWidgetState extends State<ReactWidget> implements APICallDelegate, N
     }
 
     if (widget.disposeState != null) {
-      widget.disposeState();
+      widget.disposeState!();
     }
 
     super.dispose();
@@ -224,11 +224,11 @@ class _ReactWidgetState extends State<ReactWidget> implements APICallDelegate, N
   Widget build(BuildContext context) {
 
     // 向上找数据
-    Map params = findCollectParams(widget.collectParams);
-    return widget.builder(context, params ?? {}, widget.child);
+    Map? params = findCollectParams(widget.collectParams);
+    return widget.builder!(context, params ?? {}, widget.child);
   }
 
-  static Map findCollectParams(List<CollectParam> keys) {
+  static Map? findCollectParams(List<CollectParam>? keys) {
 
     if (keys == null || keys.isEmpty) {
       return null;
@@ -246,7 +246,7 @@ class _ReactWidgetState extends State<ReactWidget> implements APICallDelegate, N
       keySet.add(key);
     });
 
-    CollectParam delKey;
+    CollectParam? delKey;
     Map collectParams = Map();
 
     for (int i = length-1; i<length; i--) {
@@ -284,9 +284,9 @@ class _ReactWidgetState extends State<ReactWidget> implements APICallDelegate, N
 
   // -------------------- override
   @override
-  Map<String, Object> apiCallParams(APIManager manager) {
+  Map<String, Object>? apiCallParams(APIManager manager) {
     if (widget.onApiCallParams != null) {
-      return widget.onApiCallParams(manager);
+      return widget.onApiCallParams!(manager);
     }
     return null;
   }
@@ -294,14 +294,14 @@ class _ReactWidgetState extends State<ReactWidget> implements APICallDelegate, N
   @override
   apiCallbackFailure(APIManager manager) {
     if (widget.onApiCallFailure != null) {
-      widget.onApiCallFailure(manager);
+      widget.onApiCallFailure!(manager);
     }
   }
 
   @override
   apiCallbackSuccess(APIManager manager) {
     if (widget.onApiCallSuccess != null) {
-      widget.onApiCallSuccess(manager);
+      widget.onApiCallSuccess!(manager);
     }
   }
 

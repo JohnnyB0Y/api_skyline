@@ -44,16 +44,16 @@ abstract class ReactModelSafeAccess {
 abstract class ReactModelBuilder {
 
   // 创建 widget
-  Widget createWidget(ReactModel rm, {Object obj});
+  Widget createWidget(ReactModel rm, {Object? obj});
 
   // 创建 reactModel
-  ReactModel createModel(Object data, {APIManager manager, Object obj});
+  ReactModel createModel(Object data, {APIManager? manager, Object? obj});
 
 }
 
 typedef ReactWidgetBuilderFunction = Widget Function(
     BuildContext context,
     /// 传递的数据
-    Map params,
+    Map? params,
     /// 直接传递下来的child widget
-    Widget child);
+    Widget? child);
