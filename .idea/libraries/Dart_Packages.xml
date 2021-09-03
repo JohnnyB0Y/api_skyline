@@ -20,6 +20,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/args-1.6.0/lib" />
+              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/args-2.2.0/lib" />
             </list>
           </value>
         </entry>
@@ -328,6 +329,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/sqflite-2.0.0+3/lib" />
+              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/sqflite-2.0.0+4/lib" />
             </list>
           </value>
         </entry>
@@ -335,6 +337,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/sqflite_common-2.0.0+2/lib" />
+              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/sqflite_common-2.0.1/lib" />
             </list>
           </value>
         </entry>
@@ -414,6 +417,7 @@
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/_fe_analyzer_shared-22.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/analyzer-1.7.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/args-1.6.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/args-2.2.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/async-2.6.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/boolean_selector-2.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/build-2.1.0/lib" />
@@ -454,7 +458,9 @@
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/source_gen-1.0.3/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/source_span-1.8.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/sqflite-2.0.0+3/lib" />
+      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/sqflite-2.0.0+4/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/sqflite_common-2.0.0+2/lib" />
+      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/sqflite_common-2.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/stack_trace-1.10.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/stream_channel-2.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/string_scanner-1.1.0/lib" />

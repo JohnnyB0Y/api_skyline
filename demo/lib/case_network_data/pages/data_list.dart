@@ -23,7 +23,7 @@ class _ItemListPageState extends State<ItemListPage> {
 
   Map<String, Object> _onApiCallParams(APIManager manager) {
     // 请求参数
-    var params = {};
+    Map<String, Object> params = {};
     if (manager == _itemAPIHub.item) {
       params["param1"] = "1";
     }
@@ -37,7 +37,7 @@ class _ItemListPageState extends State<ItemListPage> {
     super.initState();
 
     // 检测网络状态
-    _itemAPIHub.item.service.sessionManager.checkConnectivityStatus().then((value) => {
+    _itemAPIHub.item.service?.sessionManager.checkConnectivityStatus().then((value) => {
       print('Network status: $value')
     });
 

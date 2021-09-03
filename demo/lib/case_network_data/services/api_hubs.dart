@@ -13,23 +13,23 @@ import 'package:demo/network_request/api/serial.dart';
 class ItemAPIHub extends APIHub {
 
   // item list api manager
-  ItemListAPIManager _itemList;
+  ItemListAPIManager? _itemList;
   ItemListAPIManager get itemList {
     if (_itemList == null) {
       _itemList = ItemListAPIManager();
-      _itemList.callDelegate = callDelegate;
+      _itemList!.callDelegate = callDelegate;
     }
-    return _itemList;
+    return _itemList!;
   }
 
   // item api manager
-  ItemAPIManager _item;
+  ItemAPIManager? _item;
   ItemAPIManager get item {
     if (_item == null) {
       _item = ItemAPIManager();
-      _item.callDelegate = callDelegate;
+      _item?.callDelegate = callDelegate;
     }
-    return _item;
+    return _item!;
   }
 
 }
@@ -37,40 +37,40 @@ class ItemAPIHub extends APIHub {
 class DependAPIHub extends APIHub {
   //  有前后依赖的API
 
-  Depend1APIManager _depend1;
+  Depend1APIManager? _depend1;
   Depend1APIManager get depend1 {
     if (_depend1 == null) {
       _depend1 = Depend1APIManager();
-      _depend1.callDelegate = callDelegate;
+      _depend1!.callDelegate = callDelegate;
     }
-    return _depend1;
+    return _depend1!;
   }
 
-  Depend2APIManager _depend2;
+  Depend2APIManager? _depend2;
   Depend2APIManager get depend2 {
     if (_depend2 == null) {
       _depend2 = Depend2APIManager();
-      _depend2.callDelegate = callDelegate;
+      _depend2!.callDelegate = callDelegate;
     }
-    return _depend2;
+    return _depend2!;
   }
 
-  Depend3APIManager _depend3;
+  Depend3APIManager? _depend3;
   Depend3APIManager get depend3 {
     if (_depend3 == null) {
       _depend3 = Depend3APIManager();
-      _depend3.callDelegate = callDelegate;
+      _depend3!.callDelegate = callDelegate;
     }
-    return _depend3;
+    return _depend3!;
   }
 
-  FinalAPIManager _final;
+  FinalAPIManager? _final;
   FinalAPIManager get finalAPI {
     if (_final == null) {
       _final = FinalAPIManager();
-      _final.callDelegate = callDelegate;
+      _final!.callDelegate = callDelegate;
     }
-    return _final;
+    return _final!;
   }
 
 }
