@@ -28,9 +28,9 @@ abstract class APIService extends Object implements APIAssembly {
   // API 运行环境
   APIEnvironment environment = APIEnvironment.develop;
   // 请求头
-  Map headers = Map<String, String>();
+  Map<String, String> headers = Map();
   // 公共请求参数
-  Map commonParams = Map<String, Object>();
+  Map<String, dynamic> commonParams = Map();
   // 真实的网络请求类
   APISessionManager sessionManager = APIDefaultSessionManager();
 
@@ -38,11 +38,11 @@ abstract class APIService extends Object implements APIAssembly {
   String get baseURL;
 
   // 校验HTTP状态码
-  VerifyResult verifyHTTPCode(APIManager manager, int code);
+  VerifyResult? verifyHTTPCode(APIManager manager, int code);
 
   // 全局错误，处理成功 返回 true 就不调用callback函数了，处理失败返回 false 继续往下走。
   // 当 exception != null，是抛异常才走到这里
-  bool handleGlobalError(APIManager manager, VerifyResult error, dynamic exception);
+  bool handleGlobalError(APIManager manager, VerifyResult? error, dynamic exception);
 
   // 配置分页参数（分页处理）
   configPagedParams(APIPagedManager manager, Map<String, Object> params);
@@ -55,11 +55,11 @@ abstract class APIService extends Object implements APIAssembly {
   @override
   APIRequestOptions requestOptionsForAPIManager(APIManager manager) {
 
-    Map finalParams = manager.clientParams;
+    Map<String, dynamic> finalParams = manager.clientParams;
     finalParams.addAll(this.commonParams);
 
-    Map queryParams;
-    Map data;
+    Map<String, dynamic> queryParams = {};
+    Map data = {};
     switch (manager.apiCallType) {
       case APICallType.get:
         queryParams = finalParams;
@@ -98,7 +98,7 @@ abstract class APIService extends Object implements APIAssembly {
 
   // 数据转换并组装
   @override
-  APIResponse responseForAPIManager(APIManager manager, Response response) {
+  APIResponse responseForAPIManager(APIManager manager, Response? response) {
 
     if (response == null) {
       return APIResponse(-1, null);
@@ -117,21 +117,21 @@ abstract class APIService extends Object implements APIAssembly {
         print('数据转换错误：$e');
       }
     }
-    return APIResponse(response.statusCode, bodyData);
+    return APIResponse(response.statusCode ?? -1, bodyData);
   }
 
   @override
-  Object rawDataForAPIManager(APIManager manager) {
-    return manager.response.bodyData;
+  Object? rawDataForAPIManager(APIManager manager) {
+    return manager.response?.bodyData;
   }
 
   @override
-  Object errorDataForAPIManager(APIManager manager) {
-    return manager.response.bodyData;
+  Object? errorDataForAPIManager(APIManager manager) {
+    return manager.response?.bodyData;
   }
 
   @override
-  String finalURL(String baseURL, String apiMethod, [Map param]) {
+  String finalURL(String baseURL, String apiMethod, [Map? param]) {
 
     String finalURL = baseURL + apiMethod;
     if (param != null && param.isNotEmpty) {
@@ -170,7 +170,7 @@ abstract class APIService extends Object implements APIAssembly {
   }
 
   // config basic authorization
-  configAuthorization(String username, String password) {
+  configAuthorization(String? username, String? password) {
     username = username ?? '';
     password = password ?? '';
     var bytes = utf8.encode(username + ':' + password);
@@ -178,7 +178,7 @@ abstract class APIService extends Object implements APIAssembly {
   }
 
   // config request headers
-  configRequestHeaders(String key, Object value) {
+  configRequestHeaders(String key, String value) {
     this.headers[key] = value;
   }
 

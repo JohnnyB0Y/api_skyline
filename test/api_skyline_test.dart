@@ -47,9 +47,9 @@ class AppAPIService extends APIService implements NoticeObservable {
 
   // 返回直接供APIManager使用的数据，JSON格式化后的数据
   @override
-  Object rawDataForAPIManager(APIManager manager) {
+  Object? rawDataForAPIManager(APIManager manager) {
     // TODO: implement rawDataForAPIManager
-    Object data = manager.response.bodyData;
+    Object? data = manager.response?.bodyData;
     if (data is Map) {
       return data['data'];
     }
@@ -61,7 +61,7 @@ class AppAPIService extends APIService implements NoticeObservable {
   }
 
   @override
-  VerifyResult verifyHTTPCode(APIManager manager, int code) {
+  VerifyResult? verifyHTTPCode(APIManager manager, int code) {
     // TODO: implement verifyHTTPCode
     // ✅ 状态码处理
     if (code == 200) return null;
@@ -71,7 +71,7 @@ class AppAPIService extends APIService implements NoticeObservable {
 
     // ❌ 状态码处理
     APICallbackStatus status;
-    String errorMsg;
+    String? errorMsg;
 
     var errorData = manager.errorDataForAPIManager(manager);
     if (errorData is Map) {
@@ -116,7 +116,7 @@ class AppAPIService extends APIService implements NoticeObservable {
   }
 
   @override
-  bool handleGlobalError(APIManager manager, VerifyResult error, exception) {
+  bool handleGlobalError(APIManager manager, VerifyResult? error, exception) {
     // TODO: implement handleGlobalError
     bool finished = false;
     // switch (manager.callbackStatus) {

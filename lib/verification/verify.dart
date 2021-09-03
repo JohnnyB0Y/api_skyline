@@ -10,23 +10,23 @@
 abstract class Verifiable {
 
   /// 有错误返回 VerifyError对象，无错误返回 null
-  VerifyError verifyData(dynamic data);
+  VerifyError? verifyData(dynamic data);
 }
 
 /// 验证错误
 class VerifyError {
 
   /// 错误信息
-  String msg;
+  String? msg;
 
   /// 错误代码
-  int code;
+  int? code;
 
   /// 打包的错误信息
-  Map userInfo;
+  Map? userInfo;
 
   /// 由调用方传入的对象，起对象传递作用
-  Object context;
+  Object? context;
 
   VerifyError({this.msg, this.code, this.userInfo, this.context});
 
@@ -35,13 +35,13 @@ class VerifyError {
 /// 验证结果
 class VerifyResult {
   final bool hasError;
-  String msg;
-  int code;
-  final List<VerifyError> errors;
+  String? msg;
+  int? code;
+  final List<VerifyError>? errors;
 
   VerifyResult({this.hasError=false, this.msg, this.code, this.errors});
 
-  factory VerifyResult.hasError([String msg, int code]) {
+  factory VerifyResult.hasError([String? msg, int? code]) {
     return VerifyResult(hasError: true, msg: msg, code: code);
   }
 }
@@ -63,7 +63,7 @@ class TextLengthVerify implements Verifiable {
   }
 
   @override
-  VerifyError verifyData(data) {
+  VerifyError? verifyData(data) {
     // TODO: implement verifyData
     VerifyError error = VerifyError();
 
@@ -91,7 +91,7 @@ class TextLengthVerify implements Verifiable {
 class IdNumberVerify implements Verifiable {
 
   @override
-  VerifyError verifyData(data) {
+  VerifyError? verifyData(data) {
     // TODO: implement verifyData
     VerifyError error = VerifyError();
 
@@ -113,7 +113,7 @@ class IdNumberVerify implements Verifiable {
 /// 判空
 class NotNullVerify implements Verifiable {
   @override
-  VerifyError verifyData(data) {
+  VerifyError? verifyData(data) {
     // TODO: implement verifyData
     VerifyError error = VerifyError();
 

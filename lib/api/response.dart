@@ -6,12 +6,10 @@
 
 //
 
-import 'package:dio/dio.dart';
-
-class APIResponse extends Response {
+class APIResponse {
   int httpCode;
   /// 转换后的JSON对象
-  Object bodyData;
+  Object? bodyData;
 
   APIResponse(this.httpCode, this.bodyData);
 }

@@ -21,38 +21,38 @@ import '../verification/verify.dart';
 abstract class APIManager extends Object implements APIAssembly {
 
   // API 回调代理
-  APICallDelegate callDelegate;
+  APICallDelegate? callDelegate;
   // 验证器
-  APIVerifier verifier;
+  APIVerifier? verifier;
   // 生命周期拦截器
-  APIInterceptor interceptor;
+  APIInterceptor? interceptor;
 
-  VerifyResult errorResult;
+  VerifyResult? errorResult;
 
-  Map<String, Object> _clientParams;
-  APIService _service;
-  APIResponse _response;
-  Object _rawData;
+  Map<String, Object>? _clientParams;
+  APIService? _service;
+  APIResponse? _response;
+  Object? _rawData;
   bool _isLoading = false;
   dynamic cancelToken;
 
   APICallbackStatus callbackStatus = APICallbackStatus.none;
 
   Map<String, Object> get clientParams => _clientParams ?? Map();
-  APIService get service {
+  APIService? get service {
     if (_service == null) {
       _service = APIConfig.dequeueAPIServiceForKey(apiServiceKey);
     }
     return _service;
   }
   dynamic get rawData => _rawData;
-  APIResponse get response => _response;
+  APIResponse? get response => _response;
   bool get isLoading => _isLoading;
 
 
   // TODO ---------------------------- call api -----------------------------------
   /// 通过传入参数调用API
-  Future<APICallbackStatus> loadDataWithParams(Map<String, Object> params) async {
+  Future<APICallbackStatus> loadDataWithParams(Map<String, Object>? params) async {
 
     if (_isLoading) {
       callbackStatus = APICallbackStatus.repetitionRequest;
@@ -68,7 +68,7 @@ abstract class APIManager extends Object implements APIAssembly {
     }
 
     //  检测网络可用性
-    if (await service.sessionManager.checkConnectivityStatus() == APIConnectivityStatus.none) {
+    if (await service!.sessionManager.checkConnectivityStatus() == APIConnectivityStatus.none) {
       callbackStatus = APICallbackStatus.networkError;
       _apiCallbackFailure();
       return callbackStatus;
@@ -76,8 +76,8 @@ abstract class APIManager extends Object implements APIAssembly {
     
     // 参数校验
     _clientParams = params ?? Map();
-    _clientParams = reformParams(_clientParams);
-    if (_verifyCallParams(_clientParams) == false) {
+    _clientParams = reformParams(_clientParams!);
+    if (_verifyCallParams(_clientParams!) == false) {
       callbackStatus = APICallbackStatus.paramError;
       _apiCallbackFailure();
       // 参数错误，终止请求
@@ -97,7 +97,7 @@ abstract class APIManager extends Object implements APIAssembly {
 
       _isLoading = true; // 请求中
 
-      Response response = await service.sessionManager.callAPIForAPIManager(this);
+      Response response = await service!.sessionManager.callAPIForAPIManager(this);
 
       _isLoading = false; // 请求结束
 
@@ -113,7 +113,7 @@ abstract class APIManager extends Object implements APIAssembly {
       _response = responseForAPIManager(this, response);
 
       // 判断 http code
-      if (_verifyHTTPCode(_response.httpCode) == true) {
+      if (_verifyHTTPCode(_response!.httpCode) == true) {
         // http code pass
         _rawData = rawDataForAPIManager(this);
         // 校验数据
@@ -181,23 +181,23 @@ abstract class APIManager extends Object implements APIAssembly {
 
   /// 调用API加载数据
   Future<APICallbackStatus> loadData() {
-    return loadDataWithParams(callDelegate?.apiCallParams?.call(this));
+    return loadDataWithParams(callDelegate?.apiCallParams.call(this));
   }
 
   /// 取消请求
   cancelAPIRequest([dynamic reason]) {
-    service?.sessionManager?.cancelAPIForAPIManager(this, reason);
+    service?.sessionManager.cancelAPIForAPIManager(this, reason);
   }
 
   /// 清除API缓存
   deleteAPICache() {
-    service?.sessionManager?.deleteCacheForAPIManager(this);
+    service?.sessionManager.deleteCacheForAPIManager(this);
   }
 
   // 获取整理后的数据
-  ReactModel fetchReactModel(APIReformerDelegate reformer, [Object obj]) {
+  ReactModel? fetchReactModel(APIReformerDelegate reformer, [Object? obj]) {
     try {
-      return reformer?.reformDataToReactModel(this, this.rawData, obj);
+      return reformer.reformDataToReactModel(this, this.rawData, obj);
     }
     catch (e) {
       print('APIReformerDelegate reformDataToReactModel $e');
@@ -208,9 +208,9 @@ abstract class APIManager extends Object implements APIAssembly {
   }
 
   // 获取整理后的数据
-  List<ReactModel> fetchReactModels(APIReformerDelegate reformer, [Object obj]) {
+  List<ReactModel>? fetchReactModels(APIReformerDelegate reformer, [Object? obj]) {
     try {
-      return reformer?.reformDataToReactModels(this, this.rawData, obj);
+      return reformer.reformDataToReactModels(this, this.rawData, obj);
     }
     catch (e) {
       print('APIReformerDelegate reformDataToReactModels $e');
@@ -224,25 +224,25 @@ abstract class APIManager extends Object implements APIAssembly {
   bool _beforeCallingAPI(APIManager manager) {
     return (interceptor == null)
         ? beforeCallingAPI(this)
-        : interceptor.beforeCallingAPI(this);
+        : interceptor!.beforeCallingAPI(this);
   }
 
 
   bool _afterCallingAPI(APIManager manager) {
     return (interceptor == null)
         ? afterCallingAPI(this)
-        : interceptor.afterCallingAPI(this);
+        : interceptor!.afterCallingAPI(this);
   }
 
 
-  bool _verifyCallbackData(Object data) {
+  bool _verifyCallbackData(Object? data) {
     if (verifier == null) {
       errorResult = verifyCallbackData(data);
     }
     else {
-      errorResult = verifier.verifyCallbackData(this, data);
+      errorResult = verifier?.verifyCallbackData(this, data);
     }
-    return (errorResult == null) ? true : (! errorResult.hasError);
+    return (errorResult == null) ? true : (! errorResult!.hasError);
   }
 
 
@@ -251,15 +251,15 @@ abstract class APIManager extends Object implements APIAssembly {
       errorResult = verifyCallParams(params);
     }
     else {
-      errorResult = verifier.verifyCallParams(this, params);
+      errorResult = verifier?.verifyCallParams(this, params);
     }
-    return (errorResult == null) ? true : (! errorResult.hasError);
+    return (errorResult == null) ? true : (! errorResult!.hasError);
   }
 
 
   bool _verifyHTTPCode(int code) {
     errorResult = verifyHTTPCode(this, code);
-    return (errorResult == null) ? true : (! errorResult.hasError);
+    return (errorResult == null) ? true : (! errorResult!.hasError);
   }
 
 
@@ -271,7 +271,7 @@ abstract class APIManager extends Object implements APIAssembly {
   _apiCallbackFailure() {
     bool callback = (interceptor == null)
         ? beforePerformApiCallbackFailure(this)
-        : interceptor.beforePerformApiCallbackFailure(this);
+        : interceptor!.beforePerformApiCallbackFailure(this);
 
     if (callback) {
       callDelegate?.apiCallbackFailure(this);
@@ -284,7 +284,7 @@ abstract class APIManager extends Object implements APIAssembly {
   _apiCallbackSuccess() {
     bool callback = (interceptor == null)
         ? beforePerformApiCallbackSuccess(this)
-        : interceptor.beforePerformApiCallbackSuccess(this);
+        : interceptor!.beforePerformApiCallbackSuccess(this);
 
     if (callback) {
       callDelegate?.apiCallbackSuccess(this);
@@ -309,24 +309,17 @@ abstract class APIManager extends Object implements APIAssembly {
     switch (this.apiCallType) {
       case APICallType.get:
         return "GET";
-        break;
       case APICallType.post:
         return "POST";
-        break;
       case APICallType.put:
         return "PUT";
-        break;
       case APICallType.delete:
         return "DELETE";
-        break;
       case APICallType.head:
         return "HEAD";
-        break;
       case APICallType.patch:
         return "PATCH";
-        break;
     }
-    return 'GET';
   }
 
   // API 方法名
@@ -335,19 +328,19 @@ abstract class APIManager extends Object implements APIAssembly {
   //
   // API缓存策略 override
   //
-  APICacheOptions get apiCacheOptions => null;
+  APICacheOptions? get apiCacheOptions => null;
 
   //
   // 切片方法 override
   //
 
   /// 验证回调数据是否合规
-  VerifyResult verifyCallbackData(Object data) {
+  VerifyResult? verifyCallbackData(Object? data) {
     return null;
   }
 
   /// 验证请求参数是否合规
-  VerifyResult verifyCallParams(Map<String, Object> params) {
+  VerifyResult? verifyCallParams(Map<String, Object> params) {
     return null;
   }
 
@@ -383,62 +376,62 @@ abstract class APIManager extends Object implements APIAssembly {
   }
 
   /// 处理HTTP状态码
-  VerifyResult verifyHTTPCode(APIManager manager, int code) {
-    return service?.verifyHTTPCode(manager, code);
+  VerifyResult? verifyHTTPCode(APIManager manager, int code) {
+    return service!.verifyHTTPCode(manager, code);
   }
 
   /// 全局错误，处理成功 返回 true 就不调用callback函数了，处理失败返回 false 继续往下走。
-  bool handleGlobalError(APIManager manager, VerifyResult error, exception) {
-    return service?.handleGlobalError(manager, error, exception);
+  bool handleGlobalError(APIManager manager, VerifyResult? error, exception) {
+    return service!.handleGlobalError(manager, error, exception);
   }
 
   // -------------- API 组装相关
   @override
   APIResponse responseForAPIManager(APIManager manager, Response response) {
     // TODO: implement responseForAPIManager
-    return service?.responseForAPIManager(manager, response);
+    return service!.responseForAPIManager(manager, response);
   }
 
   /// 在这里可以override 修改请求参数配置，例如超时时间、请求头信息等
   @override
   APIRequestOptions requestOptionsForAPIManager(APIManager manager) {
-    return service?.requestOptionsForAPIManager(manager);
+    return service!.requestOptionsForAPIManager(manager);
   }
 
   @override
-  Object rawDataForAPIManager(APIManager manager) {
+  Object? rawDataForAPIManager(APIManager manager) {
     // TODO: implement rawDataForAPIManager
     return service?.rawDataForAPIManager(manager);
   }
 
   @override
-  Object errorDataForAPIManager(APIManager manager) {
+  Object? errorDataForAPIManager(APIManager manager) {
     // TODO: implement errorDataForAPIManager
     return service?.errorDataForAPIManager(manager);
   }
 
   @override
-  String finalURL(String baseURL, String apiMethod, [Map param]) {
+  String finalURL(String baseURL, String apiMethod, [Map? param]) {
     // TODO: implement finalURL
-    return service?.finalURL(baseURL, apiMethod, param);
+    return service!.finalURL(baseURL, apiMethod, param);
   }
 
   // 连接超时时间
   @override
   int connectTimeout() {
-    return service?.connectTimeout();
+    return service!.connectTimeout();
   }
 
   // 接收数据超时时间
   @override
   int receiveTimeout() {
-    return service?.receiveTimeout();
+    return service!.receiveTimeout();
   }
 
   // 发送数据超时时间
   @override
   int sendTimeout() {
-    return service?.sendTimeout();
+    return service!.sendTimeout();
   }
 
 }
@@ -457,15 +450,15 @@ abstract class APIPagedManager extends APIManager {
   @override
   Future<APICallbackStatus> loadData() {
     // TODO: implement loadData
-    return loadDataWithParams(callDelegate?.apiCallParams?.call(this));
+    return loadDataWithParams(callDelegate?.apiCallParams.call(this));
   }
 
   Future<APICallbackStatus> loadNextData() {
-    return loadNextDataWithParams(callDelegate?.apiCallParams?.call(this));
+    return loadNextDataWithParams(callDelegate?.apiCallParams.call(this));
   }
 
   @override
-  Future<APICallbackStatus> loadDataWithParams(Map<String, Object> params) {
+  Future<APICallbackStatus> loadDataWithParams(Map<String, Object>? params) {
     // TODO: implement loadData
     _isFirstPage = true;
     _currentPage = 1;
@@ -473,7 +466,7 @@ abstract class APIPagedManager extends APIManager {
     return super.loadDataWithParams(params);
   }
 
-  loadNextDataWithParams(Map<String, Object> params) {
+  loadNextDataWithParams(Map<String, Object>? params) {
     if (_isLoading) {
       callbackStatus = APICallbackStatus.repetitionRequest;
       _apiCallbackFailure();
@@ -499,7 +492,7 @@ abstract class APIPagedManager extends APIManager {
   @override
   bool beforePerformApiCallbackSuccess(APIManager manager) {
 
-    _isLastPage = isTheLastPageForAPIManager(manager);
+    _isLastPage = isTheLastPageForAPIManager(manager as APIPagedManager);
     _isFirstPage = _currentPage == 1;
     if (_isLastPage == false) {
       _currentPage++;
@@ -515,7 +508,7 @@ abstract class APIPagedManager extends APIManager {
 
   // 验证是否最后一页
   bool isTheLastPageForAPIManager(APIManager manager) {
-    return service?.isTheLastPageForAPIManager(manager);
+    return service?.isTheLastPageForAPIManager(manager as APIPagedManager) ?? true;
   }
 
 }

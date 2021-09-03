@@ -11,28 +11,28 @@ import 'package:dio/dio.dart';
 class APIRequestOptions extends Options {
 
   String baseUrl;
-  Map<String, dynamic> queryParams;
+  Map<String, dynamic>? queryParams;
   dynamic data;
-  int connectTimeout;
+  int? connectTimeout;
 
   APIRequestOptions({
-    this.baseUrl,
+    required this.baseUrl,
     this.queryParams,
     this.data,
     this.connectTimeout,
-    String method,
-    int sendTimeout,
-    int receiveTimeout,
-    Map<String, dynamic> extra,
-    Map<String, dynamic> headers,
-    ResponseType responseType,
-    String contentType,
-    ValidateStatus validateStatus,
-    bool receiveDataWhenStatusError,
-    bool followRedirects,
-    int maxRedirects,
-    RequestEncoder requestEncoder,
-    ResponseDecoder responseDecoder,
+    required String method,
+    int? sendTimeout,
+    int? receiveTimeout,
+    Map<String, dynamic>? extra,
+    Map<String, dynamic>? headers,
+    ResponseType? responseType,
+    String? contentType,
+    ValidateStatus? validateStatus,
+    bool? receiveDataWhenStatusError,
+    bool? followRedirects,
+    int? maxRedirects,
+    RequestEncoder? requestEncoder,
+    ResponseDecoder? responseDecoder,
   }) : super(
     method: method,
     sendTimeout: sendTimeout,

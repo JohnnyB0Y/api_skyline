@@ -13,7 +13,7 @@ typedef APIHubCallingFunc = void Function(APIHub hub, Function() next);
 abstract class APIHub extends Object {
 
   // api 回调代理
-  APICallDelegate callDelegate;
+  late APICallDelegate callDelegate;
 
   /// 串行执行函数
   serialCalling(List<APIHubCallingFunc> functions) {

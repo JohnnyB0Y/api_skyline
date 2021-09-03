@@ -21,11 +21,11 @@ class APIConfig {
     APIConfig.registerAPIServiceForKey(kDefaultAPIServiceKey, service);
   }
 
-  static APIService dequeueAPIServiceForKey(String key) {
+  static APIService? dequeueAPIServiceForKey(String key) {
     return apiServices[key];
   }
 
-  static APIService dequeueDefaultAPIService() {
+  static APIService? dequeueDefaultAPIService() {
     return apiServices[kDefaultAPIServiceKey];
   }
 

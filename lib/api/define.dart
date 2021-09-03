@@ -89,10 +89,10 @@ abstract class APIAssembly {
   APIResponse responseForAPIManager(APIManager manager, Response response);
 
   // 返回直接供APIManager使用的数据，也是方便Reformer处理的JSON数据
-  Object rawDataForAPIManager(APIManager manager);
+  Object? rawDataForAPIManager(APIManager manager);
 
   // 错误信息 data
-  Object errorDataForAPIManager(APIManager manager);
+  Object? errorDataForAPIManager(APIManager manager);
 
   // 最终的URL
   String finalURL(String baseURL, String apiMethod, [Map param]);
@@ -111,7 +111,7 @@ abstract class APIAssembly {
 // API请求代理
 abstract class APICallDelegate {
   // 返回请求参数
-  Map<String, Object> apiCallParams(APIManager manager);
+  Map<String, Object>? apiCallParams(APIManager manager);
 
   // 请求成功回调
   apiCallbackSuccess(APIManager manager);
@@ -122,9 +122,9 @@ abstract class APICallDelegate {
 // API数据处理代理
 abstract class APIReformerDelegate {
 
-  ReactModel reformDataToReactModel(APIManager manager, Object data, [Object obj]);
+  ReactModel reformDataToReactModel(APIManager manager, Object? data, [Object? obj]);
 
-  List<ReactModel> reformDataToReactModels(APIManager manager, Object data, [Object obj]);
+  List<ReactModel> reformDataToReactModels(APIManager manager, Object? data, [Object? obj]);
 
 }
 
@@ -133,10 +133,10 @@ abstract class APIReformerDelegate {
 abstract class APIVerifier {
 
   /// 验证回调数据是否合规
-  VerifyResult verifyCallbackData(APIManager manager, Object data);
+  VerifyResult? verifyCallbackData(APIManager manager, Object? data);
 
   /// 验证请求参数是否合规
-  VerifyResult verifyCallParams(APIManager manager, Map<String, Object> params);
+  VerifyResult? verifyCallParams(APIManager manager, Map<String, Object>? params);
 
 }
 

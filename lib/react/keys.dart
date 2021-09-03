@@ -206,3 +206,34 @@ enum RMDirectionType {
   /// right bottom
   rb,
 }
+
+List<RMDirectionType> rmDirectionTypes = [
+  RMDirectionType.t,
+  RMDirectionType.r,
+  RMDirectionType.b,
+  RMDirectionType.l
+];
+
+/// 获取 originIndex 对应的方向位置
+int indexOfRMDirection(int originIndex, int numOfRow, RMDirectionType direction) {
+  if (direction == RMDirectionType.t) { return originIndex-numOfRow; } // 顶
+  else if (direction == RMDirectionType.b) { return originIndex+numOfRow; } // 底
+  else if (direction == RMDirectionType.l) { return originIndex-1; } // 左
+  else { return originIndex+1; } // 右
+}
+
+/// 该方向的位置是否存在?
+bool isIndexExistOfRMDirection(int index, numOfRow, numOfCol, RMDirectionType direction) {
+  if (direction == RMDirectionType.t) { return index ~/ numOfRow >= 0; }// 顶
+  else if (direction == RMDirectionType.b) { return index ~/ numOfRow <= numOfCol - 1; }// 底
+  else if (direction == RMDirectionType.r) { return index % numOfRow <= numOfRow - 1; }// 右
+  else { return index % numOfRow >= 0; }// 左
+}
+
+/// 该方向的位置是否是边界? （最上、最右、最左、最底）
+bool isBorderIndexOfRMDirection(int index, numOfRow, numOfCol, RMDirectionType direction) {
+  if (direction == RMDirectionType.t) { return index ~/ numOfRow == 0; }// 顶
+  else if (direction == RMDirectionType.b) { return index ~/ numOfRow == numOfCol - 1; }// 底
+  else if (direction == RMDirectionType.r) { return index % numOfRow == numOfRow - 1; }// 右
+  else { return index % numOfRow == 0; }// 左
+}

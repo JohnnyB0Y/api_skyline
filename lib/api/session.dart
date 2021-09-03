@@ -18,14 +18,14 @@ import 'package:connectivity/connectivity.dart';
 class APIDefaultSessionManager implements APISessionManager {
 
   // dio 网络请求
-  Dio _dio;
+  Dio? _dio;
   Dio get dio {
     _dio ??= Dio();
-    return _dio;
+    return _dio!;
   }
 
-  CacheConfig _cacheConfig;
-  DioCacheManager _cacheManager;
+  CacheConfig? _cacheConfig;
+  DioCacheManager? _cacheManager;
 
   @override
   Future<Response> callAPIForAPIManager(APIManager manager, [obj]) async {
@@ -35,8 +35,8 @@ class APIDefaultSessionManager implements APISessionManager {
     // 缓存配置
     if (_cacheConfig?.baseUrl != options.baseUrl) {
       _cacheConfig = CacheConfig(baseUrl: options.baseUrl,);
-      _cacheManager = DioCacheManager(_cacheConfig);
-      dio.interceptors.add(_cacheManager.interceptor);
+      _cacheManager = DioCacheManager(_cacheConfig!);
+      dio.interceptors.add(_cacheManager?.interceptor);
     }
 
     // 取消请求的token
@@ -66,11 +66,11 @@ class APIDefaultSessionManager implements APISessionManager {
   }
 
   Options _buildCacheOptions(APIManager manager, APIRequestOptions options) {
-    APICacheOptions cacheOptions = manager.apiCacheOptions;
+    APICacheOptions? cacheOptions = manager.apiCacheOptions;
 
     if (cacheOptions != null) {
       return buildCacheOptions(
-        cacheOptions.shelfLife,
+        cacheOptions.shelfLife!,
         forceRefresh: cacheOptions.forceRefresh,
         options: options,
       );
@@ -81,8 +81,8 @@ class APIDefaultSessionManager implements APISessionManager {
   /// 删除缓存
   @override
   Future<bool> deleteCacheForAPIManager(APIManager manager, [obj]) async {
-    APICacheOptions cacheOptions = manager.apiCacheOptions;
-    var result = false;
+    APICacheOptions? cacheOptions = manager.apiCacheOptions;
+    bool? result = false;
     if (cacheOptions != null) {
       // 有缓存才删
       result = await _cacheManager?.deleteByPrimaryKey(
@@ -90,7 +90,7 @@ class APIDefaultSessionManager implements APISessionManager {
         requestMethod: manager.apiMethod,
       );
     }
-    return result;
+    return result ?? false;
   }
 
   @override
@@ -99,11 +99,11 @@ class APIDefaultSessionManager implements APISessionManager {
   }
 
   String cachePrimaryKeyForAPI(APIManager manager, APIRequestOptions options) {
-    return options.method+'+'+options.baseUrl+manager.apiPathName;
+    return options.method!+'+'+options.baseUrl+manager.apiPathName;
   }
 
   String cacheSubKeyForAPI(APIManager manager, APIRequestOptions options) {
-    return options.queryParams?.toString() ?? options.data?.toString();
+    return options.queryParams?.toString() ?? options.data?.toString() ?? "";
   }
 
   /// 检测网络状态
@@ -115,8 +115,6 @@ class APIDefaultSessionManager implements APISessionManager {
   /// 监听网络状态变化
   @override
   StreamSubscription onConnectivityStatusChanged(Function(APIConnectivityStatus status) listen) {
-    if (listen == null) return null;
-
     return Connectivity().onConnectivityChanged.listen((event) {
       listen(_conversionConnectivityResult(event));
     });
@@ -126,10 +124,8 @@ class APIDefaultSessionManager implements APISessionManager {
     switch (result) {
       case ConnectivityResult.wifi:
         return APIConnectivityStatus.wifi;
-        break;
       case ConnectivityResult.mobile:
         return APIConnectivityStatus.mobile;
-        break;
       default:
     }
     return APIConnectivityStatus.none;
@@ -139,9 +135,9 @@ class APIDefaultSessionManager implements APISessionManager {
 
 class APICacheOptions {
   /// 保质期
-  Duration shelfLife;
+  Duration? shelfLife;
   /// 强制刷新数据
-  bool forceRefresh;
+  bool? forceRefresh;
 
   APICacheOptions({
     this.shelfLife = const Duration(minutes: 5),
