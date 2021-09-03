@@ -13,9 +13,10 @@ const String kVerifyManagerDefaultVerifying = 'kVerifyManagerDefaultVerifying';
 class VerifyManager {
   final Map<String, List<Verifying>> _executeMap = Map();
   
-  VerifyManager({Map<String, List<Verifying>> executeMap}) {
-    assert(executeMap is Map);
-    _executeMap.addAll(executeMap);
+  VerifyManager({Map<String, List<Verifying>>? executeMap}) {
+    if (executeMap is Map) {
+      _executeMap.addAll(executeMap!);
+    }
   }
 
   /// 默认的验证单个数据集
@@ -39,20 +40,19 @@ class VerifyManager {
   VerifyResult executeVerifyingListForKey(String key) {
     
     assert(key is String);
-    List<Verifying> verifyingList = _executeMap[key];
-    List<VerifyError> errors;
+    List<Verifying>? verifyingList = _executeMap[key];
+    List<VerifyError> errors = [];
     bool hasError = false;
 
     // 开始验证
     verifyingList?.forEach((verifying) {
 
-      VerifyError error = verifying.execute();
+      VerifyError? error = verifying.execute();
       if (error != null) {
         
         if (hasError == false) {
           // 发现第一个错误
           hasError = true;
-          errors = [];
         }
         // 添加错误到集合
         errors.add(error);
@@ -68,7 +68,7 @@ class VerifyManager {
     
     List<VerifyResult> results = [];
     
-    _executeMap.keys?.forEach((key) {
+    _executeMap.keys.forEach((key) {
       VerifyResult result = executeVerifyingListForKey(key);
       results.add(result);
     });
@@ -89,10 +89,10 @@ class Verifying {
   final Object data;
 
   /// 错误提示信息
-  String msg;
+  String? msg;
 
   /// 你想传递的对象（由VerifyError对象持有传递）
-  Object context;
+  Object? context;
 
 
   /// 验证数据，传入验证器、数据
@@ -108,9 +108,9 @@ class Verifying {
   Verifying.dataWithMsgWithContext(this.verifier, this.data, this.msg, this.context);
 
   /// 执行 验证器
-  VerifyError execute() {
+  VerifyError? execute() {
 
-    VerifyError error = verifier?.verifyData(data);
+    VerifyError? error = verifier.verifyData(data);
     if (error != null) {
       error.context = context;
       error.msg = msg ?? error.msg;
