@@ -98,12 +98,12 @@ class ReactModel extends Object
   }
 
   @override
-  setVal(Object? value, String forKey) {
+  setVal(dynamic value, String forKey) {
     innerMap[forKey] = value;
   }
 
   @override
-  Object val(String forKey) {
+  dynamic val(String forKey) {
     return innerMap[forKey];
   }
 

@@ -33,7 +33,7 @@ abstract class DBTable {
   /// 数据库标识（用来对同一个表结构做区分创建，在返回tableName的时候用上）
   final String? flag;
 
-  DBTable(this.scheduler, this.flag);
+  DBTable(this.scheduler, [this.flag]);
 
   /// 数据表名称
   String get tableName;

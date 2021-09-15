@@ -12,8 +12,8 @@ import '../api/manager.dart';
 
 abstract class ReactModelSafeAccess {
   // base access
-  setVal(Object? value, String forKey);
-  Object? val(String forKey);
+  setVal(dynamic value, String forKey);
+  dynamic val(String forKey);
 
   /// safe access
   setNull(String forKey);
@@ -44,10 +44,10 @@ abstract class ReactModelSafeAccess {
 abstract class ReactModelBuilder {
 
   // 创建 widget
-  Widget createWidget(ReactModel rm, {Object? obj});
+  Widget? createWidget(ReactModel rm, {Object? obj});
 
   // 创建 reactModel
-  ReactModel createModel(Object data, {APIManager? manager, Object? obj});
+  ReactModel? createModel(Object data, {APIManager? manager, Object? obj});
 
 }
 
