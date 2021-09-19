@@ -246,9 +246,7 @@ class DBCreate extends DBCommand {
     var fs = '';
     for (int i = 0; i<fields.length; i++) {
       var field = fields[i];
-      if (field.valueChange) {
-        fs += (i == 0) ? (field.statement(this.table).sql) : (', ${field.statement(this.table).sql}');
-      }
+      fs += (i == 0) ? (field.statement(this.table).sql) : (', ${field.statement(this.table).sql}');
     }
     this._sql = 'CREATE TABLE IF NOT EXISTS ${table.tableName} ($fs)';
   }

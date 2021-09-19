@@ -165,7 +165,7 @@ abstract class DBTable {
   }
 
   List<DBField> dequeueFieldsForCondition(DBFieldConditionFunc condition) {
-    return usingDBFields.where((field) => condition(field)) as List<DBField>;
+    return usingDBFields.where((field) => condition(field)).toList() as List<DBField>;
   }
 
   /// 拼装主键的where sql语句
@@ -173,7 +173,7 @@ abstract class DBTable {
   /// @returns 主键的sql语句
   DBWhereStatement primaryKeyWhereStatement({DBField? pk}) {
     pk = pk ?? this.usingPrimaryKey;
-    return DBWhereStatement(this).field(pk).equalTo(pk.value ?? 1);
+    return DBWhereStatement(this).field(pk).equalTo("${pk.value}");
   }
 
 

@@ -13,7 +13,7 @@ import 'command.dart';
 
 class DBVersionTable extends DBTable {
   final fid = new DBField<int>('id', FieldType.integer, '1').primaryKey().autoIncrement();
-  final fversion = new DBField<int>('migration_version', FieldType.text, '1').notNull();
+  final fversion = new DBField<String>('migration_version', FieldType.text, '1').notNull();
   var isFirstCreate = false; // 第一次创建？
 
   DBVersionTable(DBSchedulable scheduler, String? flag) : super(scheduler, flag);
