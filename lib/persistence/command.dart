@@ -266,7 +266,7 @@ class DBUpdate extends DBCommand {
       var field = fields[i];
       if (field.valueChange) {
         this.params.add(field.value);
-        fs += (i == 0) ? ('${field.name} = ?') : (', ${field.name} = ?');
+        fs += (fs == '') ? ('${field.name} = ?') : (', ${field.name} = ?');
       }
     }
     this._sql = 'UPDATE ${table.tableName} SET $fs ${where.sql}';
