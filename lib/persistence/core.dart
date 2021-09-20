@@ -165,7 +165,7 @@ abstract class DBTable {
   }
 
   List<DBField> dequeueFieldsForCondition(DBFieldConditionFunc condition) {
-    return usingDBFields.where((field) => condition(field)).toList() as List<DBField>;
+    return usingDBFields.where((field) => condition(field)).toList();
   }
 
   /// 拼装主键的where sql语句
