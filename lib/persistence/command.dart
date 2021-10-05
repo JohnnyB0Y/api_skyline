@@ -358,4 +358,9 @@ class DBAlter extends DBCommand {
     this._sql += ' ADD COLUMN $name $type';
     return this;
   }
+  DBCommand addColumnForField(DBField field) {
+    var type = stringForFieldType(field.fieldType);
+    this._sql += ' ADD COLUMN ${field.name} $type';
+    return this;
+  }
 }

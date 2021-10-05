@@ -78,7 +78,9 @@ class DBMigrator {
   /// 当前需要使用的版本表
   /// @returns 迁移版本表
   DBTable usingVersionTable() {
-    return new DBVersionTable(this.scheduler, null);
+    var t = DBVersionTable(this.scheduler, null);
+    t.fid.value = 1;
+    return t;
   }
 
   /// 获取数据库当前旧版本
@@ -88,7 +90,9 @@ class DBMigrator {
 
   /// 更新数据库版本
   Future<dynamic> updateMigrationVersion(String version) async {
-    if ((this.versionTable as DBVersionTable).isFirstCreate) {
+    var t = this.versionTable as DBVersionTable;
+    if (t.isFirstCreate) {
+      t.isFirstCreate = false;
       return await (this.versionTable as DBVersionTable).insertMigrationVersion(version);
     }
     else {
