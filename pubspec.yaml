@@ -13,8 +13,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter # 本地化
   dio: ^4.0.4
   dio_http_cache: ^0.3.0
   connectivity: ^3.0.6
