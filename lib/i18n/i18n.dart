@@ -9,7 +9,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 extension LocalizationsContext on BuildContext {
   LocalizationsManager localizationsManager() {
@@ -31,14 +30,6 @@ class LocalizationsManager {
 
   /// 当前的 locale
   late Locale currentLocale;
-
-  /// 国际化的代理类数组
-  static List<LocalizationsDelegate> get delegates => [
-    LocalizationsManager().delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ];
 
 }
 

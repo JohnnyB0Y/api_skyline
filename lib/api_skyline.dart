@@ -29,3 +29,6 @@ export 'react/notice.dart';
 // data verify
 export 'verification/verify.dart';
 export 'verification/manager.dart';
+
+// i18n
+export 'i18n/i18n.dart';
