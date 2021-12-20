@@ -279,6 +279,69 @@ class ReactModel extends Object
 
 }
 
+typedef ReactClosureFunc = dynamic Function(ReactModel model, String key, dynamic ctx);
+
+/// 响应闭包
+class ReactClosure {
+  bool isExecutable;
+  ReactClosureFunc func;
+
+  ReactClosure(this.func, this.isExecutable);
+}
+
+extension Closure on ReactModel {
+  // TODO --------------------- Closure ---------------------------
+  static Map _reactClosureFuncMap = Map();
+
+  /// 添加闭包函数
+  void setClosureFunc(ReactClosureFunc func, String forKey) {
+    setClosure(ReactClosure(func, true), forKey);
+  }
+
+  /// 添加闭包对象
+  void setClosure(ReactClosure closure, String forKey) {
+    _reactClosureFuncMap[forKey] = closure;
+  }
+
+  /// 移除闭包对象
+  ReactClosure? removeClosure(String forKey) {
+    return _reactClosureFuncMap.remove(forKey);
+  }
+
+  /// 移除所有闭包
+  void clearAllClosure() {
+    _reactClosureFuncMap.clear();
+  }
+
+  /// 取出闭包对象
+  ReactClosure? closure(String forKey) {
+    return _reactClosureFuncMap[forKey];
+  }
+
+  /// 设置闭包为可执行
+  void setClosureNeedsExecute(String forKey) {
+    closure(forKey)?.isExecutable = true;
+  }
+
+  /// 强制执行闭包，返回执行结果
+  dynamic executeClosure(String forKey, [dynamic ctx]) {
+    setClosureNeedsExecute(forKey);
+    return executeClosureIfNeeded(forKey, ctx);
+  }
+
+  /// 执行闭包并获得结果，如果需要的话（可以保证闭包不重复执行，结果会存储）
+  dynamic executeClosureIfNeeded(String forKey, [dynamic ctx]) {
+    var c = closure(forKey);
+    if (c != null && c.isExecutable) {
+      innerMap[forKey] = c.func(this, forKey, ctx); // 存储计算结果
+      c.isExecutable = false;
+    }
+    return innerMap[forKey];
+  }
+
+}
+
+
 /// 向父节点收集数据的 key
 class CollectParam {
   final String key;
@@ -295,4 +358,3 @@ class ProvideParam {
 
   ProvideParam({required this.key, required this.param, this.cipher});
 }
-
