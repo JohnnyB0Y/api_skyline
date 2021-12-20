@@ -7,12 +7,9 @@
 //
 
 import 'package:flutter/material.dart';
-import 'keys.dart';
 import 'define.dart';
 import 'notice.dart';
 import 'widget.dart';
-
-typedef I18nReactModelConfigFunc = dynamic Function(BuildContext context, dynamic key);
 
 class ReactModel extends Object
     implements ReactModelSafeAccess
@@ -189,21 +186,6 @@ class ReactModel extends Object
   IconData? iconData(String forKey) {
     var value = innerMap[forKey];
     return (value is IconData) ? value : null;
-  }
-
-  // TODO --------------------- i18n ---------------------------
-  static Map _globalReactModelFuncMap = Map();
-  static configI18nGetterFunc(I18nReactModelConfigFunc func) {
-    _globalReactModelFuncMap[RMK.i18nGetterFunc] = func;
-  }
-
-  static dynamic i18nVal(BuildContext context, dynamic i18nKey) {
-    I18nReactModelConfigFunc? func = _globalReactModelFuncMap[RMK.i18nGetterFunc];
-    return func?.call(context, i18nKey);
-  }
-  
-  setI18nVal(BuildContext context, dynamic i18nKey, String forKey) {
-    innerMap[forKey] = i18nVal(context, i18nKey);
   }
 
   // TODO --------------------- UI Operation ---------------------------
