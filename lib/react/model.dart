@@ -41,12 +41,12 @@ class ReactModel extends Object
   }
 
   /// 从 fromKey 拷贝数据到 toKey
-  copyValFromKeyToKey(String fromKey, String toKey) {
+  void copyValFromKeyToKey(String fromKey, String toKey) {
     this.setVal(this.val(fromKey), toKey);
   }
 
   /// 从 fromKey 迁移数据到 toKey，并把 fromKey 制 null。
-  migratingValFromKeyToKey(String fromKey, String toKey) {
+  void migratingValFromKeyToKey(String fromKey, String toKey) {
     this.setVal(this.val(fromKey), toKey);
     this.setNull(fromKey);
   }
@@ -88,14 +88,14 @@ class ReactModel extends Object
   }
 
   // public method
-  setValForKeys(Object value, List<String> keys) {
+  void setValForKeys(Object value, List<String> keys) {
     keys.forEach((key) {
       innerMap[key] = value;
     });
   }
 
   @override
-  setVal(dynamic value, String forKey) {
+  void setVal(dynamic value, String forKey) {
     innerMap[forKey] = value;
   }
 
@@ -106,13 +106,13 @@ class ReactModel extends Object
 
   /// safe access
   @override
-  setNull(String forKey) {
+  void setNull(String forKey) {
     innerMap[forKey] = null;
   }
 
   // 数字
   @override
-  setNum(Object? value, String forKey) {
+  void setNum(Object? value, String forKey) {
     if (value is num) {
       innerMap[forKey] = value;
     }
@@ -148,7 +148,7 @@ class ReactModel extends Object
   }
 
   @override
-  setBool(Object? value, String forKey) {
+  void setBool(Object? value, String forKey) {
     if (value is bool) {
       innerMap[forKey] = value;
     }
@@ -162,7 +162,7 @@ class ReactModel extends Object
 
   // 字符串
   @override
-  setStr(Object? value, String forKey) {
+  void setStr(Object? value, String forKey) {
     if (value is String) {
       innerMap[forKey] = value;
     }
@@ -176,7 +176,7 @@ class ReactModel extends Object
 
   // 图片数据
   @override
-  setIconData(Object? value, String forKey) {
+  void setIconData(Object? value, String forKey) {
     if (value is IconData) {
       innerMap[forKey] = value;
     }
@@ -204,25 +204,25 @@ class ReactModel extends Object
   }
 
   final Set<RebuildWidgetFunc> _rebuildWidgetFuncSet = Set();
-  bindingWidgetFunc(RebuildWidgetFunc func) {
+  void bindingWidgetFunc(RebuildWidgetFunc func) {
     _rebuildWidgetFuncSet.add(func);
   }
 
-  unbindingWidgetFunc(RebuildWidgetFunc func) {
+  void unbindingWidgetFunc(RebuildWidgetFunc func) {
     _rebuildWidgetFuncSet.remove(func);
   }
 
-  unbindingAllWidgetFunc() {
+  void unbindingAllWidgetFunc() {
     _rebuildWidgetFuncSet.clear();
   }
 
   /// 刷新UI，重建Widget。
-  refreshUI() {
+  void refreshUI() {
     refreshUIByUpdateModel(null);
   }
 
   /// 更新模型数据并刷新UI，重建Widget。
-  refreshUIByUpdateModel(Function(ReactModel model)? func) {
+  void refreshUIByUpdateModel(Function(ReactModel model)? func) {
     // 更新模型数据
     func?.call(this);
     // 刷新UI
@@ -230,7 +230,6 @@ class ReactModel extends Object
       rebuildWidgetFunc.call((){});
     });
   }
-
 
   ReactModel copy([bool onlyData = true]) {
     ReactModel rm;
@@ -245,22 +244,31 @@ class ReactModel extends Object
   }
 
   // TODO --------------------- post & observed event ---------------------------
-  Function(Notice notice)? observedEventNotice;
+  void Function(Notice notice)? observedEventNotice;
 
-  postEventNotice(Notice notice) {
+  // TODO --------------------- Closure ---------------------------
+  final Map _reactClosureFuncMap = Map();
+
+}
+
+// todo ------------------------- 通知分类
+extension Notification on ReactModel {
+  /// 发送通知
+  void postEventNotice(Notice notice) {
     observedEventNotice?.call(notice);
   }
 
-  postEventNoticeForName(String name, {dynamic context}) {
+  /// 发送通知
+  void postEventNoticeForName(String name, {dynamic context}) {
     postEventNotice(Notice(
       name: name,
       context: context,
       rm: this,
     ));
   }
-
 }
 
+// todo ------------------------- 闭包分类
 typedef ReactClosureFunc = dynamic Function(ReactModel model, String key, dynamic ctx);
 
 /// 响应闭包
@@ -272,9 +280,6 @@ class ReactClosure {
 }
 
 extension Closure on ReactModel {
-  // TODO --------------------- Closure ---------------------------
-  static Map _reactClosureFuncMap = Map();
-
   /// 添加闭包函数
   void setClosureFunc(ReactClosureFunc func, String forKey) {
     setClosure(ReactClosure(func, true), forKey);
@@ -282,6 +287,7 @@ extension Closure on ReactModel {
 
   /// 添加闭包对象
   void setClosure(ReactClosure closure, String forKey) {
+    closure.isExecutable = true;
     _reactClosureFuncMap[forKey] = closure;
   }
 
