@@ -147,27 +147,25 @@ abstract class APIManager extends Object implements APIAssembly {
       callbackStatus = APICallbackStatus.exceptionError;
       var errorMsg = '程序异常';
 
-      if (e is DioError) {
-        switch (e.type) {
-          case DioErrorType.connectTimeout:
-            callbackStatus = APICallbackStatus.timeout;
-            errorMsg = '网络连接超时';
-            break;
-          case DioErrorType.sendTimeout:
-            callbackStatus = APICallbackStatus.timeout;
-            errorMsg = '网络发送超时';
-            break;
-          case DioErrorType.receiveTimeout:
-            callbackStatus = APICallbackStatus.timeout;
-            errorMsg = '网络接收超时';
-            break;
-          case DioErrorType.cancel:
-            callbackStatus = APICallbackStatus.cancel;
-            errorMsg = '取消网络请求';
-            break;
-          default:
-            // 其他错误
-        }
+      switch (e.type) {
+        case DioErrorType.connectTimeout:
+          callbackStatus = APICallbackStatus.timeout;
+          errorMsg = '网络连接超时';
+          break;
+        case DioErrorType.sendTimeout:
+          callbackStatus = APICallbackStatus.timeout;
+          errorMsg = '网络发送超时';
+          break;
+        case DioErrorType.receiveTimeout:
+          callbackStatus = APICallbackStatus.timeout;
+          errorMsg = '网络接收超时';
+          break;
+        case DioErrorType.cancel:
+          callbackStatus = APICallbackStatus.cancel;
+          errorMsg = '取消网络请求';
+          break;
+        default:
+        // 其他错误
       }
 
       errorResult = VerifyResult.hasError(errorMsg, callbackStatus.index);

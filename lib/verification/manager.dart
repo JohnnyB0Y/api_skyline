@@ -31,15 +31,11 @@ class VerifyManager {
 
   /// 添加待执行的验证数据集, 同一个Key会覆盖旧的
   addVerifyingListForKey(String key, List<Verifying> verifyingList) {
-    assert(key is String);
-    assert(verifyingList is List);
     _executeMap[key] = verifyingList;
   }
 
   /// 执行待验证的数据集
   VerifyResult executeVerifyingListForKey(String key) {
-    
-    assert(key is String);
     List<Verifying>? verifyingList = _executeMap[key];
     List<VerifyError> errors = [];
     bool hasError = false;
