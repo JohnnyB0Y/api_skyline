@@ -18,14 +18,18 @@ extension LocalizationsContext on BuildContext {
 
 class LocalizationsManager {
 
-  // 用于获取全局context
+  /// 支持的语言
+  final Iterable<Locale> supportedLocales;
+  /// 用于获取全局context
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   late GeneratedLocalizationsDelegate delegate;
 
-  LocalizationsManager() {
+  LocalizationsManager(this.supportedLocales):
+        assert(supportedLocales.isNotEmpty)
+  {
     delegate = GeneratedLocalizationsDelegate(this);
-    currentLocale = Locale('zh');
+    currentLocale = this.supportedLocales.first;
   }
 
   /// 当前的 locale
