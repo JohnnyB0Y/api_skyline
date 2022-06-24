@@ -58,6 +58,20 @@ class DBIndexedStatement extends DBStatement {
   }
 }
 
+// ------------------------ SQL CountStatement ----------------------------
+class DBCountStatement extends DBStatement {
+  DBCountStatement(DBTable table) : super(table);
+  /// 计数对应字段的记录数，field 字段， distinct 是否去重；
+  DBCountStatement count({DBField? field, bool distinct=false}) {
+    if (distinct) {
+      this.sql = field == null ? 'COUNT(DISTINCT)': 'COUNT(DISTINCT ${field.name})';
+    } else {
+      this.sql = field == null ? 'COUNT(*)': 'COUNT(${field.name})';
+    }
+    return this;
+  }
+}
+
 // ------------------------ SQL OrderStatement ----------------------------
 class DBOrderStatement extends DBStatement {
 

@@ -69,6 +69,12 @@ class DBSelect extends DBCommand {
     return this;
   }
 
+  /// 计数
+  DBSelect count(DBCountStatement count) {
+    this._sql += ' ' + count.sql;
+    return this;
+  }
+
   /// 左边的表（A表）
   /// @param tableA 表名
   DBSelect fromTable(String tableA) {
@@ -160,17 +166,24 @@ class DBQuery extends DBCommand {
 
   late DBSelect selectCmd;
   final List<DBField>? fields;
+  final DBCountStatement? count;
   final DBWhereStatement? where;
   final DBIndexedStatement? indexed;
 
-  DBQuery(DBTable table, {this.fields, this.where, this.indexed}) : super(table) {
+  DBQuery(DBTable table, {this.fields, this.where, this.indexed, this.count}) : super(table) {
     this.selectCmd = DBSelect(this.table);
     if (fields == null) {
-      this.selectCmd.allField();
-    }
-    else {
+      if (this.count == null) { // 查询所有字段
+        this.selectCmd.allField();
+      } else { // 计数
+        this.selectCmd.count(this.count!);
+      }
+    } else { // 查询指定字段
       for (int i = 0; i<fields!.length; i++) {
         this.selectCmd.field(fields![i]);
+      }
+      if (this.count != null) { // 计数
+        this.selectCmd.count(this.count!);
       }
     }
 
