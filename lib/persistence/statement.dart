@@ -226,6 +226,16 @@ class DBWhereStatement extends DBStatement {
     return this.appendSql('BETWEEN ? AND ?') as DBWhereStatement;
   }
 
+  /// 条件：值为NULL
+  DBWhereStatement isNull() {
+    return this.appendSql('IS NULL') as DBWhereStatement;
+  }
+
+  /// 条件：值不为NULL
+  DBWhereStatement isNotNull() {
+    return this.appendSql('IS NOT NULL') as DBWhereStatement;
+  }
+
   /// 条件判断
   /// @param operators 操作类型的字符串
   /// @param value 条件值
