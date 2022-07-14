@@ -127,24 +127,33 @@ class DBGroupStatement extends DBStatement {
 // ------------------------ SQL WhereStatement --------------------------------
 class DBWhereStatement extends DBStatement {
 
+  bool _hasOneField = false;
+
   DBWhereStatement(DBTable table) : super(table, sql: 'WHERE');
 
   /// 直接连接下一个字段条件
   /// @param f 字段
   DBWhereStatement field(DBField f) {
+    _hasOneField = true;
     return this.appendSql(f.name) as DBWhereStatement;
   }
 
   /// 用 AND 连接下一个字段条件
   /// @param f 字段
   DBWhereStatement andField(DBField f) {
-    return this.appendSql('AND ${f.name}') as DBWhereStatement;
+    if (_hasOneField) {
+      return this.appendSql('AND ${f.name}') as DBWhereStatement;
+    }
+    return field(f);
   }
 
   /// 用 OR 连接下一个字段条件
   /// @param f 字段
   DBWhereStatement orField(DBField f) {
-    return this.appendSql('OR ${f.name}') as DBWhereStatement;
+    if (_hasOneField) {
+      return this.appendSql('OR ${f.name}') as DBWhereStatement;
+    }
+    return field(f);
   }
 
   /// 条件：等于
