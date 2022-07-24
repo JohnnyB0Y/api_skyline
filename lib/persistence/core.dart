@@ -175,6 +175,4 @@ abstract class DBTable {
     pk = pk ?? this.usingPrimaryKey;
     return DBWhereStatement(this).field(pk).equalTo("${pk.value}");
   }
-
-
 }
