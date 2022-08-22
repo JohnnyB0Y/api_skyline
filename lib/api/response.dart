@@ -6,10 +6,14 @@
 
 //
 
+import 'package:dio/dio.dart';
+
 class APIResponse {
   int httpCode;
   /// 转换后的JSON对象
   Object? bodyData;
 
-  APIResponse(this.httpCode, this.bodyData);
+  RequestOptions? requestOptions;
+
+  APIResponse(this.httpCode, this.requestOptions, this.bodyData);
 }

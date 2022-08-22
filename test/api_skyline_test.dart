@@ -28,14 +28,14 @@ class AppAPIService extends APIService implements NoticeObservable {
 
   @override
   get baseURL {
-    if (this.isDebugMode) {
-      if (this.environment == APIEnvironment.develop) {
+    if (isDebugMode) {
+      if (environment == APIEnvironment.develop) {
         if (Platform.isAndroid) {
           return 'http://192.168.3.7:5000/';
         }
         return 'http://localhost:5000/';
       }
-      else if (this.environment == APIEnvironment.releaseCandidate) {
+      else if (environment == APIEnvironment.releaseCandidate) {
         return 'https://your—domain';
       }
       else {

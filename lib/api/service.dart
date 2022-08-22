@@ -101,7 +101,7 @@ abstract class APIService extends Object implements APIAssembly {
   APIResponse responseForAPIManager(APIManager manager, Response? response) {
 
     if (response == null) {
-      return APIResponse(-1, null);
+      return APIResponse(-1, null, null);
     }
 
     Object? bodyData;
@@ -117,7 +117,7 @@ abstract class APIService extends Object implements APIAssembly {
         // print('数据转换错误：$e');
       }
     }
-    return APIResponse(response.statusCode ?? -1, bodyData);
+    return APIResponse(response.statusCode ?? -1, response.requestOptions, bodyData);
   }
 
   @override

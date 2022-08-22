@@ -11,20 +11,12 @@ import 'define.dart';
 import 'manager.dart';
 import 'request.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_http_cache/dio_http_cache.dart';
-import 'package:connectivity/connectivity.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class APIDefaultSessionManager implements APISessionManager {
 
-  // dio 网络请求
-  Dio? _dio;
-  Dio get dio {
-    _dio ??= Dio();
-    return _dio!;
-  }
-
-  CacheConfig? _cacheConfig;
-  DioCacheManager? _cacheManager;
+  final MemCacheStore memCacheStore = MemCacheStore();
 
   @override
   Future<Response> callAPIForAPIManager(APIManager manager, [obj]) async {
@@ -32,10 +24,10 @@ class APIDefaultSessionManager implements APISessionManager {
     APIRequestOptions options = manager.requestOptionsForAPIManager(manager);
 
     // 缓存配置
-    if (_cacheConfig?.baseUrl != options.baseUrl) {
-      _cacheConfig = CacheConfig(baseUrl: options.baseUrl,);
-      _cacheManager = DioCacheManager(_cacheConfig!);
-      dio.interceptors.add(_cacheManager?.interceptor);
+    final dio = Dio();
+    var cacheOpt = _buildCacheOptions(manager, options);
+    if (cacheOpt != null) {
+      dio.interceptors.add(DioCacheInterceptor(options: cacheOpt));
     }
 
     // 取消请求的token
@@ -47,7 +39,7 @@ class APIDefaultSessionManager implements APISessionManager {
       manager.apiPathName,
       queryParameters: options.queryParams,
       data: options.data,
-      options: _buildCacheOptions(manager, options),
+      options: options,
       cancelToken: manager.cancelToken,
     );
 
@@ -62,45 +54,60 @@ class APIDefaultSessionManager implements APISessionManager {
     }
   }
 
-  Options _buildCacheOptions(APIManager manager, APIRequestOptions options) {
+  CacheOptions? _buildCacheOptions(APIManager manager, APIRequestOptions options) {
     APICacheOptions? cacheOptions = manager.apiCacheOptions;
 
     if (cacheOptions != null) {
-      return buildCacheOptions(
-        cacheOptions.shelfLife!,
-        forceRefresh: cacheOptions.forceRefresh,
-        options: options,
+      // return buildCacheOptions(
+      //   cacheOptions.shelfLife!,
+      //   forceRefresh: cacheOptions.forceRefresh,
+      //   options: options,
+      // );
+      return CacheOptions(
+        // A default store is required for interceptor.
+        store: memCacheStore,
+
+        // All subsequent fields are optional.
+
+        // Default.
+        policy: cacheOptions.forceRefresh ? CachePolicy.refresh : CachePolicy.request,
+        // Returns a cached response on error but for statuses 401 & 403.
+        // Also allows to return a cached response on network errors (e.g. offline usage).
+        // Defaults to [null].
+        hitCacheOnErrorExcept: [401, 403],
+        // Overrides any HTTP directive to delete entry past this duration.
+        // Useful only when origin server has no cache config or custom behaviour is desired.
+        // Defaults to [null].
+        maxStale: cacheOptions.shelfLife,
+        // Default. Allows 3 cache sets and ease cleanup.
+        priority: CachePriority.normal,
+        // Default. Body and headers encryption with your own algorithm.
+        cipher: null,
+        // Default. Key builder to retrieve requests.
+        keyBuilder: CacheOptions.defaultCacheKeyBuilder,
+        // Default. Allows to cache POST requests.
+        // Overriding [keyBuilder] is strongly recommended when [true].
+        allowPostMethod: false,
       );
     }
-    return options;
+    return null;
   }
 
   /// 删除缓存
   @override
   Future<bool> deleteCacheForAPIManager(APIManager manager, [obj]) async {
     APICacheOptions? cacheOptions = manager.apiCacheOptions;
-    bool? result = false;
-    if (cacheOptions != null) {
-      // 有缓存才删
-      result = await _cacheManager?.deleteByPrimaryKey(
-        manager.apiPathName,
-        requestMethod: manager.apiMethod,
-      );
+    if (cacheOptions != null && manager.response?.requestOptions != null) {
+      RequestOptions options = manager.response!.requestOptions!;
+      await memCacheStore.delete(CacheOptions.defaultCacheKeyBuilder(options));
+      return true;
     }
-    return result ?? false;
+    return false;
   }
 
   @override
   deleteAllCache(APIManager manager, [obj]) {
-    _cacheManager?.clearAll();
-  }
-
-  String cachePrimaryKeyForAPI(APIManager manager, APIRequestOptions options) {
-    return '${options.method!}+${options.baseUrl}${manager.apiPathName}';
-  }
-
-  String cacheSubKeyForAPI(APIManager manager, APIRequestOptions options) {
-    return options.queryParams?.toString() ?? options.data?.toString() ?? "";
+    memCacheStore.clean();
   }
 
   /// 检测网络状态
@@ -132,58 +139,22 @@ class APIDefaultSessionManager implements APISessionManager {
 
 class APICacheOptions {
   /// 保质期
-  Duration? shelfLife;
+  final Duration shelfLife;
   /// 强制刷新数据
-  bool? forceRefresh;
+  final bool forceRefresh;
 
-  APICacheOptions({
-    this.shelfLife = const Duration(minutes: 5),
-    this.forceRefresh,
-  });
+  APICacheOptions(this.shelfLife, this.forceRefresh);
 
-  APICacheOptions.for15m({
-    this.shelfLife = const Duration(minutes: 15),
-    this.forceRefresh,
-  });
+  factory APICacheOptions.for15m() => APICacheOptions.forMinutes(15);
+  factory APICacheOptions.for30m() => APICacheOptions.forMinutes(30);
+  factory APICacheOptions.for60m() => APICacheOptions.forMinutes(60);
+  factory APICacheOptions.for60s() => APICacheOptions.forSeconds(60);
+  factory APICacheOptions.for30s() => APICacheOptions.forSeconds(30);
+  factory APICacheOptions.for15s() => APICacheOptions.forSeconds(15);
+  factory APICacheOptions.for10s() => APICacheOptions.forSeconds(10);
+  factory APICacheOptions.for5s() => APICacheOptions.forSeconds(5);
+  factory APICacheOptions.for3s() => APICacheOptions.forSeconds(3);
 
-  APICacheOptions.for30m({
-    this.shelfLife = const Duration(minutes: 30),
-    this.forceRefresh,
-  });
-
-  APICacheOptions.for60m({
-    this.shelfLife = const Duration(minutes: 60),
-    this.forceRefresh,
-  });
-
-  APICacheOptions.for60s({
-    this.shelfLife = const Duration(seconds: 60),
-    this.forceRefresh,
-  });
-
-  APICacheOptions.for30s({
-    this.shelfLife = const Duration(seconds: 30),
-    this.forceRefresh,
-  });
-
-  APICacheOptions.for15s({
-    this.shelfLife = const Duration(seconds: 15),
-    this.forceRefresh,
-  });
-
-  APICacheOptions.for10s({
-    this.shelfLife = const Duration(seconds: 10),
-    this.forceRefresh,
-  });
-
-  APICacheOptions.for5s({
-    this.shelfLife = const Duration(seconds: 5),
-    this.forceRefresh,
-  });
-
-  APICacheOptions.for3s({
-    this.shelfLife = const Duration(seconds: 3),
-    this.forceRefresh,
-  });
-
+  factory APICacheOptions.forSeconds(int seconds) => APICacheOptions(Duration(seconds: seconds), false);
+  factory APICacheOptions.forMinutes(int minutes) => APICacheOptions(Duration(minutes: minutes), false);
 }
