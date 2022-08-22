@@ -11,7 +11,7 @@ import 'define.dart';
 
 class APIConfig {
 
-  static Map<String, APIService> apiServices = Map();
+  static Map<String, APIService> apiServices = {};
 
   static registerAPIServiceForKey(String key, APIService service) {
     apiServices[key] = service;

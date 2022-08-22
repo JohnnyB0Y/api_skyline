@@ -7,7 +7,6 @@
 //  
 
 import 'dart:async';
-
 import 'define.dart';
 import 'manager.dart';
 import 'request.dart';
@@ -40,9 +39,7 @@ class APIDefaultSessionManager implements APISessionManager {
     }
 
     // 取消请求的token
-    if (manager.cancelToken == null) {
-      manager.cancelToken = CancelToken();
-    }
+    manager.cancelToken ??= CancelToken();
 
     // 发起请求
     dio.options.baseUrl = options.baseUrl;
@@ -99,7 +96,7 @@ class APIDefaultSessionManager implements APISessionManager {
   }
 
   String cachePrimaryKeyForAPI(APIManager manager, APIRequestOptions options) {
-    return options.method!+'+'+options.baseUrl+manager.apiPathName;
+    return '${options.method!}+${options.baseUrl}${manager.apiPathName}';
   }
 
   String cacheSubKeyForAPI(APIManager manager, APIRequestOptions options) {

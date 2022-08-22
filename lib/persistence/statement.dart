@@ -23,23 +23,23 @@ class DBStatement {
   /// @param str 拼接的字符串
   /// @param betweenStr 拼接之间的间隔字符串，默认空格字符串 ' '
   DBStatement appendSql(String str, [String betweenStr=" "]) {
-    this.sql += betweenStr + str;
+    sql += betweenStr + str;
     return this;
   }
 
   /// 拼接参数
   /// @param param 参数
   DBStatement appendParam(dynamic param) {
-    this.params.add(param);
+    params.add(param);
     return this;
   }
 
   /// 合并参数
   /// @param params 待合并的参数数组
   DBStatement mergeParams(List params) {
-    params.forEach((param) {
+    for (var param in params) {
       this.params.add(param);
-    });
+    }
     return this;
   }
 }
@@ -49,11 +49,11 @@ class DBIndexedStatement extends DBStatement {
   DBIndexedStatement(DBTable table) : super(table);
  // 指定操作使用的索引
   DBIndexedStatement indexedBy(String indexName) {
-    this.sql = 'INDEXED BY ' + indexName;
+    sql = 'INDEXED BY $indexName';
     return this;
   }
   DBIndexedStatement notIndexed() {
-    this.sql = 'NOT INDEXED';
+    sql = 'NOT INDEXED';
     return this;
   }
 }
@@ -64,9 +64,9 @@ class DBCountStatement extends DBStatement {
   /// 计数对应字段的记录数，field 字段， distinct 是否去重；
   DBCountStatement count({DBField? field, bool distinct=false}) {
     if (distinct) {
-      this.sql = field == null ? 'COUNT(DISTINCT)': 'COUNT(DISTINCT ${field.name})';
+      sql = field == null ? 'COUNT(DISTINCT)': 'COUNT(DISTINCT ${field.name})';
     } else {
-      this.sql = field == null ? 'COUNT(*)': 'COUNT(${field.name})';
+      sql = field == null ? 'COUNT(*)': 'COUNT(${field.name})';
     }
     return this;
   }
@@ -85,22 +85,22 @@ class DBOrderStatement extends DBStatement {
   /// @param field 排序字段
   /// @param descending 是否降序排列（默认升序排列）
   DBOrderStatement orderByField(DBField field, bool descending) {
-    this.isFirstField ? this.isFirstField = false : this.sql += ',';
+    isFirstField ? isFirstField = false : sql += ',';
     var order = descending ? 'DESC' : 'ASC';
-    return this.orderByFieldSql('${field.name} $order');
+    return orderByFieldSql('${field.name} $order');
   }
 
   DBOrderStatement orderByFieldSql(String fieldSql) {
-    return this.appendSql(fieldSql) as DBOrderStatement;
+    return appendSql(fieldSql) as DBOrderStatement;
   }
 
   /// 查询返回数据的排序条件。
   /// @param column 排序的列位（字段的列的位置）
   /// @param descending 是否降序排列（默认升序排列）
   DBOrderStatement orderByColumn(int column, bool descending) {
-    this.isFirstField ? this.isFirstField = false : this.sql += ',';
+    isFirstField ? isFirstField = false : sql += ',';
     var order = descending ? 'DESC' : 'ASC';
-    return this.appendSql('$column $order') as DBOrderStatement;
+    return appendSql('$column $order') as DBOrderStatement;
   }
 }
 
@@ -115,12 +115,12 @@ class DBGroupStatement extends DBStatement {
   /// @param field 分组字段
   /// @param tableName 表名
   DBGroupStatement groupByField(DBField field, [String? tableName]) {
-  this.isFirstField ? this.isFirstField = false : this.sql += ',';
-    return this.groupByFieldSql(tableName == null ? field.name : '$tableName.${field.name}');
+  isFirstField ? isFirstField = false : sql += ',';
+    return groupByFieldSql(tableName == null ? field.name : '$tableName.${field.name}');
   }
 
   DBGroupStatement groupByFieldSql(String fieldSql) {
-    return this.appendSql(fieldSql) as DBGroupStatement;
+    return appendSql(fieldSql) as DBGroupStatement;
   }
 }
 
@@ -135,14 +135,14 @@ class DBWhereStatement extends DBStatement {
   /// @param f 字段
   DBWhereStatement field(DBField f) {
     _hasOneField = true;
-    return this.appendSql(f.name) as DBWhereStatement;
+    return appendSql(f.name) as DBWhereStatement;
   }
 
   /// 用 AND 连接下一个字段条件
   /// @param f 字段
   DBWhereStatement andField(DBField f) {
     if (_hasOneField) {
-      return this.appendSql('AND ${f.name}') as DBWhereStatement;
+      return appendSql('AND ${f.name}') as DBWhereStatement;
     }
     return field(f);
   }
@@ -151,7 +151,7 @@ class DBWhereStatement extends DBStatement {
   /// @param f 字段
   DBWhereStatement orField(DBField f) {
     if (_hasOneField) {
-      return this.appendSql('OR ${f.name}') as DBWhereStatement;
+      return appendSql('OR ${f.name}') as DBWhereStatement;
     }
     return field(f);
   }
@@ -159,49 +159,49 @@ class DBWhereStatement extends DBStatement {
   /// 条件：等于
   /// @param value 数值
   DBWhereStatement equalTo(String value) {
-    return this.condition('=', value);
+    return condition('=', value);
   }
 
   /// 条件：不等于
   /// @param value 数值
   DBWhereStatement notEqualTo(String value) {
-    return this.condition('!=', value);
+    return condition('!=', value);
   }
 
   /// 条件：大于
   /// @param value 数值
   DBWhereStatement greaterThan(String value) {
-    return this.condition('>', value);
+    return condition('>', value);
   }
 
   /// 条件：大于等于
   /// @param value 数值
   DBWhereStatement greaterEqual(String value) {
-    return this.condition('>=', value);
+    return condition('>=', value);
   }
 
   /// 条件：小于
   /// @param value 数值
   DBWhereStatement lessThan(dynamic value) {
-    return this.condition('<', value);
+    return condition('<', value);
   }
 
   /// 条件：小于等于
   /// @param value 数值
   DBWhereStatement lessEqual(dynamic value) {
-    return this.condition('<=', value);
+    return condition('<=', value);
   }
 
   /// 条件：匹配通配符；https://www.runoob.com/sqlite/sqlite-like-clause.html
   /// @param value 匹配字符串（%）
   DBWhereStatement like(String value) {
-    return this.condition('LIKE', value);
+    return condition('LIKE', value);
   }
 
   /// 条件：匹配通配符；https://www.runoob.com/sqlite/sqlite-glob-clause.html
   /// @param value 匹配字符串
   DBWhereStatement glob(String value) {
-    return this.condition('GLOB', value);
+    return condition('GLOB', value);
   }
 
   /// 条件：在values里面
@@ -209,10 +209,10 @@ class DBWhereStatement extends DBStatement {
   DBWhereStatement inValues(List<dynamic> values) {
     var sql = '';
     for (int i = 0; i<values.length; i++) {
-      this.params.add(values[i]);
+      params.add(values[i]);
       sql += (i == 0) ? '?' : ', ?';
     }
-    return this.appendSql('IN ($sql)') as DBWhereStatement;
+    return appendSql('IN ($sql)') as DBWhereStatement;
   }
 
   /// 条件：不在values里面
@@ -220,36 +220,36 @@ class DBWhereStatement extends DBStatement {
   DBWhereStatement notInValues(List<dynamic> values) {
     var sql = '';
     for (int i = 0; i<values.length; i++) {
-      this.params.add(values[i]);
+      params.add(values[i]);
       sql += (i == 0) ? '?' : ', ?';
     }
-    return this.appendSql('NOT IN ($sql)') as DBWhereStatement;
+    return appendSql('NOT IN ($sql)') as DBWhereStatement;
   }
 
   /// 条件：在 start 与 end 之间
   /// @param start 开始值
   /// @param end 结束值
   DBWhereStatement between(dynamic start,dynamic end) {
-    this.params.add(start);
-    this.params.add(end);
-    return this.appendSql('BETWEEN ? AND ?') as DBWhereStatement;
+    params.add(start);
+    params.add(end);
+    return appendSql('BETWEEN ? AND ?') as DBWhereStatement;
   }
 
   /// 条件：值为NULL
   DBWhereStatement isNull() {
-    return this.appendSql('IS NULL') as DBWhereStatement;
+    return appendSql('IS NULL') as DBWhereStatement;
   }
 
   /// 条件：值不为NULL
   DBWhereStatement isNotNull() {
-    return this.appendSql('IS NOT NULL') as DBWhereStatement;
+    return appendSql('IS NOT NULL') as DBWhereStatement;
   }
 
   /// 条件判断
   /// @param operators 操作类型的字符串
   /// @param value 条件值
   DBWhereStatement condition(String operators, dynamic value) {
-    this.params.add(value);
-    return this.appendSql('$operators ?') as DBWhereStatement;
+    params.add(value);
+    return appendSql('$operators ?') as DBWhereStatement;
   }
 }

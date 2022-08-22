@@ -55,7 +55,7 @@ class ReactWidget extends StatefulWidget {
   final Function(ReactWidget oldWidget)? didUpdateWidget;
 
 
-  ReactWidget.builder({
+  const ReactWidget.builder({
     Key? key,
 
     this.apiHubs,
@@ -80,7 +80,7 @@ class ReactWidget extends StatefulWidget {
   }): assert(builder != null), super(key: key);
 
   
-  ReactWidget.apiHub({
+  const ReactWidget.apiHub({
     Key? key,
 
     @required this.apiHubs,
@@ -104,7 +104,7 @@ class ReactWidget extends StatefulWidget {
   }): assert(apiHubs != null), assert(builder != null), super(key: key);
 
   
-  ReactWidget.binding({
+  const ReactWidget.binding({
     Key? key,
 
     this.apiHubs,
@@ -128,13 +128,13 @@ class ReactWidget extends StatefulWidget {
   }): assert(binding != null), assert(builder != null), super(key: key);
 
   @override
-  _ReactWidgetState createState() => _ReactWidgetState();
+  State<ReactWidget> createState() => _ReactWidgetState();
 }
 
 
 class _ReactWidgetState extends State<ReactWidget> implements APICallDelegate, NoticeObservable {
 
-  static Map<_ReactWidgetState, List<ProvideParam>> _provideParams = Map();
+  static final Map<_ReactWidgetState, List<ProvideParam>> _provideParams = {};
 
   @override
   void initState() {
@@ -241,18 +241,18 @@ class _ReactWidgetState extends State<ReactWidget> implements APICallDelegate, N
     }
 
     // 拿到去重的key
-    Set<CollectParam> keySet = Set();
-    keys.forEach((key) {
+    Set<CollectParam> keySet = {};
+    for (var key in keys) {
       keySet.add(key);
-    });
+    }
 
     CollectParam? delKey;
-    Map collectParams = Map();
+    Map collectParams = {};
 
     for (int i = length-1; i<length; i--) {
       // 向上找！
       var provideParams = data[i];
-      keySet.forEach((collect) {
+      for (var collect in keySet) {
         for (int j = 0; j<provideParams.length; j++) {
           var provide = provideParams[j];
 
@@ -263,7 +263,7 @@ class _ReactWidgetState extends State<ReactWidget> implements APICallDelegate, N
             break;
           }
         }
-      });
+      }
 
       // 找完没？
       if (delKey != null) {

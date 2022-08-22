@@ -15,7 +15,7 @@ class ReactModel extends Object
     implements ReactModelSafeAccess
 {
 
-  final Map innerMap = Map();
+  final Map innerMap = {};
   Map? rawData;
 
   ReactModelBuilder? _builder;
@@ -41,14 +41,16 @@ class ReactModel extends Object
   }
 
   /// 从 fromKey 拷贝数据到 toKey
+  @override
   void copyValFromKeyToKey(String fromKey, String toKey) {
-    this.setVal(this.val(fromKey), toKey);
+    setVal(val(fromKey), toKey);
   }
 
   /// 从 fromKey 迁移数据到 toKey，并把 fromKey 制 null。
+  @override
   void migratingValFromKeyToKey(String fromKey, String toKey) {
-    this.setVal(this.val(fromKey), toKey);
-    this.setNull(fromKey);
+    setVal(val(fromKey), toKey);
+    setNull(fromKey);
   }
 
   /// 只有当 key 的 value == true 时，返回 true
@@ -89,9 +91,9 @@ class ReactModel extends Object
 
   // public method
   void setValForKeys(Object value, List<String> keys) {
-    keys.forEach((key) {
+    for (var key in keys) {
       innerMap[key] = value;
-    });
+    }
   }
 
   @override
@@ -194,16 +196,14 @@ class ReactModel extends Object
   /// reuse 指定为 true，每次调用，会检测成员变量 widget 是否有值，没有就创建，有直接返回。
   Widget createWidget({bool reuse = false}) {
     if (reuse) {
-      if (widget == null) {
-        widget = _builder?.createWidget(this);
-      }
+      widget ??= _builder?.createWidget(this);
       return widget!;
     }
 
     return _builder?.createWidget(this) ?? widget!;
   }
 
-  final Set<RebuildWidgetFunc> _rebuildWidgetFuncSet = Set();
+  final Set<RebuildWidgetFunc> _rebuildWidgetFuncSet = {};
   void bindingWidgetFunc(RebuildWidgetFunc func) {
     _rebuildWidgetFuncSet.add(func);
   }
@@ -226,9 +226,9 @@ class ReactModel extends Object
     // 更新模型数据
     func?.call(this);
     // 刷新UI
-    _rebuildWidgetFuncSet.forEach((rebuildWidgetFunc) {
+    for (var rebuildWidgetFunc in _rebuildWidgetFuncSet) {
       rebuildWidgetFunc.call((){});
-    });
+    }
   }
 
   ReactModel copy([bool onlyData = true]) {
@@ -247,7 +247,7 @@ class ReactModel extends Object
   void Function(Notice notice)? observedEventNotice;
 
   // TODO --------------------- Closure ---------------------------
-  final Map _reactClosureFuncMap = Map();
+  final Map _reactClosureFuncMap = {};
 
 }
 

@@ -11,7 +11,7 @@ import 'verify.dart';
 const String kVerifyManagerDefaultVerifying = 'kVerifyManagerDefaultVerifying';
 
 class VerifyManager {
-  final Map<String, List<Verifying>> _executeMap = Map();
+  final Map<String, List<Verifying>> _executeMap = {};
   
   VerifyManager({Map<String, List<Verifying>>? executeMap}) {
     if (executeMap is Map) {
@@ -64,10 +64,10 @@ class VerifyManager {
     
     List<VerifyResult> results = [];
     
-    _executeMap.keys.forEach((key) {
+    for (var key in _executeMap.keys) {
       VerifyResult result = executeVerifyingListForKey(key);
       results.add(result);
-    });
+    }
     
     return results;
   }

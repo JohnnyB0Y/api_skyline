@@ -48,14 +48,12 @@ class NoticeCenter {
 
   // 单例
   factory NoticeCenter.defaultCenter() {
-    if (_instance == null) {
-      _instance = NoticeCenter();
-    }
+    _instance ??= NoticeCenter();
     return _instance!;
   }
   static NoticeCenter? _instance;
 
-  final Map<String, List<Observer>> observers = Map();
+  final Map<String, List<Observer>> observers = {};
 
 
   /// 添加观察者

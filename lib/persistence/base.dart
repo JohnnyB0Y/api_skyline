@@ -106,78 +106,78 @@ class DBField<T> {
 
   // 设置值
   set value(T? v) {
-    if (this.checkFunc != null && this.checkFunc!(v) == false) { // 检查数据
+    if (checkFunc != null && checkFunc!(v) == false) { // 检查数据
       // console.log(`字段检测不通过！field: ${this.name} value: ${v}`);
     }
     else {
-      this.valueChange = true;
-      this._value = v;
+      valueChange = true;
+      _value = v;
     }
   }
 
   // 获取值
   T? get value {
-    return this._value;
+    return _value;
   }
 
   /// 检测值是否合法
   /// @param func 检测值的闭包
   DBField addCheckFunc(DBFieldCheckValue func) {
-    this.checkFunc = func;
+    checkFunc = func;
     return this;
   }
 
   /// 在当前版本是否可用 ？
   /// @param version 版本号
   bool isAvailableForVersion(String version) {
-    if (this.removeVersion == null) {
-      return double.parse(version) >= double.parse(this.addVersion);
+    if (removeVersion == null) {
+      return double.parse(version) >= double.parse(addVersion);
     }
-    return double.parse(version) < double.parse(this.removeVersion!);
+    return double.parse(version) < double.parse(removeVersion!);
   }
 
   /// 是否在当前版本新增 ？
   /// @param version 版本号
   bool isAddForVersion(String version) {
-    return version == this.addVersion;
+    return version == addVersion;
   }
 
   /// 是否在当前版本删除 ？
   /// @param version 版本号
   bool isRemoveForVersion(String version) {
-    return version == this.removeVersion;
+    return version == removeVersion;
   }
 
   /// 移除或废弃此字段
   /// @param v 移除或废弃此字段的版本号
   DBField removeAtVersion(String v) {
-    this.removeVersion = v;
+    removeVersion = v;
     return this;
   }
 
   /// 设为不为空
   DBField notNull() {
-    this._notNull = true;
+    _notNull = true;
     return this;
   }
 
   /// 设为唯一
   DBField unique() {
-    this._unique = true;
+    _unique = true;
     return this;
   }
 
   /// 设为主键（主键会创建索引，默认是升序，可以通过desc 设为降序）
   /// @param desc 是否降序
   DBField primaryKey([bool desc=false]) {
-    this._primaryKey = true;
-    this._primaryKeyDesc = desc;
+    _primaryKey = true;
+    _primaryKeyDesc = desc;
     return this;
   }
 
   /// 设为自增
   DBField autoIncrement() {
-    this._autoIncrement = true;
+    _autoIncrement = true;
     return this;
   }
 
@@ -185,29 +185,29 @@ class DBField<T> {
   /// @param indexedName 索引名称，默认是字段名
   DBField indexed({required String indexedName, bool unique=false}) {
     this.indexedName = indexedName;
-    this.uniqueIndexed = unique;
+    uniqueIndexed = unique;
     return this;
   }
 
   /// 生成sql语句对象
   DBStatement statement(DBTable table) {
-    var statement = DBStatement(table, sql: this.name);
-    statement.appendSql(stringForFieldType(this.fieldType));
-    if (this._primaryKey) {
+    var statement = DBStatement(table, sql: name);
+    statement.appendSql(stringForFieldType(fieldType));
+    if (_primaryKey) {
       statement.appendSql('PRIMARY KEY');
-      statement.appendSql((this._primaryKeyDesc ? 'DESC' : 'ASC'));
+      statement.appendSql((_primaryKeyDesc ? 'DESC' : 'ASC'));
     }
-    if (this._autoIncrement) {
+    if (_autoIncrement) {
       statement.appendSql('AUTOINCREMENT');
     }
-    if (this._notNull) {
+    if (_notNull) {
       statement.appendSql('NOT NULL');
     }
-    if (this._unique) {
+    if (_unique) {
       statement.appendSql('UNIQUE');
     }
-    if (this.defaultValue != null) {
-      statement.appendSql('DEFAULT ${this.defaultValue}');
+    if (defaultValue != null) {
+      statement.appendSql('DEFAULT $defaultValue');
     }
     return statement;
   }

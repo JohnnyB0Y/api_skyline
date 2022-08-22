@@ -24,13 +24,13 @@ import 'define.dart';
 abstract class APIService extends Object implements APIAssembly {
 
   // APP 运行模式
-  final bool isDebugMode = ! bool.fromEnvironment("dart.vm.product");
+  final bool isDebugMode = ! const bool.fromEnvironment("dart.vm.product");
   // API 运行环境
   APIEnvironment environment = APIEnvironment.develop;
   // 请求头
-  Map<String, String> headers = Map();
+  Map<String, String> headers = {};
   // 公共请求参数
-  Map<String, dynamic> commonParams = Map();
+  Map<String, dynamic> commonParams = {};
   // 真实的网络请求类
   APISessionManager sessionManager = APIDefaultSessionManager();
 
@@ -56,7 +56,7 @@ abstract class APIService extends Object implements APIAssembly {
   APIRequestOptions requestOptionsForAPIManager(APIManager manager) {
 
     Map<String, dynamic> finalParams = manager.clientParams;
-    finalParams.addAll(this.commonParams);
+    finalParams.addAll(commonParams);
 
     Map<String, dynamic> queryParams = {};
     Map data = {};
@@ -82,7 +82,7 @@ abstract class APIService extends Object implements APIAssembly {
     }
 
     APIRequestOptions options = APIRequestOptions(
-      headers: this.headers,
+      headers: headers,
       method: manager.apiMethod,
       baseUrl: baseURL,
       queryParams: queryParams,
@@ -104,17 +104,17 @@ abstract class APIService extends Object implements APIAssembly {
       return APIResponse(-1, null);
     }
 
-    var bodyData;
+    Object? bodyData;
     if (response.data is Map || response.data is List) {
       bodyData = response.data;
     }
     else if (response.data is String) {
       try {
-        bodyData = JsonDecoder().convert(response.data);
+        bodyData = const JsonDecoder().convert(response.data);
       }
       catch (e) {
         manager.callbackStatus = APICallbackStatus.dataError;
-        print('数据转换错误：$e');
+        // print('数据转换错误：$e');
       }
     }
     return APIResponse(response.statusCode ?? -1, bodyData);
@@ -138,10 +138,11 @@ abstract class APIService extends Object implements APIAssembly {
       String queryUrl = '?';
       int i = 0;
       param.forEach((k, v){
-        if (i == 0)
-          queryUrl += k + '=' + v.toString();
-        else
-          queryUrl += '&' + k + '=' + v.toString();
+        if (i == 0) {
+          queryUrl += '$k=${v.toString()}';
+        } else {
+          queryUrl += '&$k=${v.toString()}';
+        }
         i++;
       });
 
@@ -173,13 +174,13 @@ abstract class APIService extends Object implements APIAssembly {
   configAuthorization(String? username, String? password) {
     username = username ?? '';
     password = password ?? '';
-    var bytes = utf8.encode(username + ':' + password);
-    this.headers['Authorization'] = 'Basic ${base64.encode(bytes)}';
+    var bytes = utf8.encode('$username:$password');
+    headers['Authorization'] = 'Basic ${base64.encode(bytes)}';
   }
 
   // config request headers
   configRequestHeaders(String key, String value) {
-    this.headers[key] = value;
+    headers[key] = value;
   }
 
   // 注册初始化

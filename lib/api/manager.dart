@@ -38,11 +38,9 @@ abstract class APIManager extends Object implements APIAssembly {
 
   APICallbackStatus callbackStatus = APICallbackStatus.none;
 
-  Map<String, Object> get clientParams => _clientParams ?? Map();
+  Map<String, Object> get clientParams => _clientParams ?? {};
   APIService? get service {
-    if (_service == null) {
-      _service = APIConfig.dequeueAPIServiceForKey(apiServiceKey);
-    }
+    _service ??= APIConfig.dequeueAPIServiceForKey(apiServiceKey);
     return _service;
   }
   dynamic get rawData => _rawData;
@@ -75,7 +73,7 @@ abstract class APIManager extends Object implements APIAssembly {
     }
     
     // 参数校验
-    _clientParams = params ?? Map();
+    _clientParams = params ?? {};
     _clientParams = reformParams(_clientParams!);
     if (_verifyCallParams(_clientParams!) == false) {
       callbackStatus = APICallbackStatus.paramError;
@@ -195,10 +193,10 @@ abstract class APIManager extends Object implements APIAssembly {
   // 获取整理后的数据
   ReactModel? fetchReactModel(APIReformerDelegate reformer, [Object? obj]) {
     try {
-      return reformer.reformDataToReactModel(this, this.rawData, obj);
+      return reformer.reformDataToReactModel(this, rawData, obj);
     }
     catch (e) {
-      print('APIReformerDelegate reformDataToReactModel $e');
+      // print('APIReformerDelegate reformDataToReactModel $e');
       callbackStatus = APICallbackStatus.reformerDataError;
       _apiCallbackFailure();
     }
@@ -208,10 +206,10 @@ abstract class APIManager extends Object implements APIAssembly {
   // 获取整理后的数据
   List<ReactModel>? fetchReactModels(APIReformerDelegate reformer, [Object? obj]) {
     try {
-      return reformer.reformDataToReactModels(this, this.rawData, obj);
+      return reformer.reformDataToReactModels(this, rawData, obj);
     }
     catch (e) {
-      print('APIReformerDelegate reformDataToReactModels $e');
+      // print('APIReformerDelegate reformDataToReactModels $e');
       callbackStatus = APICallbackStatus.reformerDataError;
       _apiCallbackFailure();
     }
@@ -304,7 +302,7 @@ abstract class APIManager extends Object implements APIAssembly {
   APICallType get apiCallType;
 
   String get apiMethod {
-    switch (this.apiCallType) {
+    switch (apiCallType) {
       case APICallType.get:
         return "GET";
       case APICallType.post:

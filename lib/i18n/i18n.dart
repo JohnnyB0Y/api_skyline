@@ -29,7 +29,7 @@ class LocalizationsManager {
         assert(supportedLocales.isNotEmpty)
   {
     delegate = GeneratedLocalizationsDelegate(this);
-    currentLocale = this.supportedLocales.first;
+    currentLocale = supportedLocales.first;
   }
 
   /// 当前的 locale
@@ -43,8 +43,8 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<Localizations
 
   @override
   Future<LocalizationsManager> load(Locale locale) {
-    this.manager.currentLocale = locale;
-    return SynchronousFuture(this.manager);
+    manager.currentLocale = locale;
+    return SynchronousFuture(manager);
   }
 
   @override

@@ -16,19 +16,17 @@ class DBCommand {
   List<dynamic>? _params;
 
   DBCommand(this.table, {String sql="", List<dynamic>? params}) {
-    this._sql = sql;
-    this._params = params;
+    _sql = sql;
+    _params = params;
   }
 
   String get sql {
-    return this._sql;
+    return _sql;
   }
 
   List<dynamic> get params {
-    if (this._params == null) {
-      this._params = [];
-    }
-    return this._params!;
+    _params ??= [];
+    return _params!;
   }
 
 }
@@ -40,7 +38,7 @@ class DBSelect extends DBCommand {
 
   /// 对结果去重
   DBSelect distinct() {
-    this._sql += ' DISTINCT';
+    _sql += ' DISTINCT';
     return this;
   }
 
@@ -49,9 +47,9 @@ class DBSelect extends DBCommand {
   /// @param tableName 表名
   /// @param asField 字段别名（返回的数据表使用）
   DBSelect field(DBField field, {String? tableName, String? asField}) {
-    this.isFirstField ? this.isFirstField = false : this._sql += ',';
-    this._sql += tableName == null ? ' ${field.name}' : ' $tableName.${field.name}';
-    this._sql += asField == null ? '' : ' AS $asField';
+    isFirstField ? isFirstField = false : _sql += ',';
+    _sql += tableName == null ? ' ${field.name}' : ' $tableName.${field.name}';
+    _sql += asField == null ? '' : ' AS $asField';
     return this;
   }
 
@@ -65,34 +63,34 @@ class DBSelect extends DBCommand {
 
   /// 查询取出所有字段
   DBSelect allField() {
-    this._sql += ' *';
+    _sql += ' *';
     return this;
   }
 
   /// 计数
   DBSelect count(DBCountStatement count) {
-    this._sql += ' ' + count.sql;
+    _sql += ' ${count.sql}';
     return this;
   }
 
   /// 左边的表（A表）
   /// @param tableA 表名
   DBSelect fromTable(String tableA) {
-    this._sql += ' FROM $tableA';
+    _sql += ' FROM $tableA';
     return this;
   }
 
   /// 内连接查询，获得两表的交集，即共有的行。
   /// @param tableB 表名
   DBSelect innerJoin(String tableB) {
-    this._sql += ' INNER JOIN $tableB ON';
+    _sql += ' INNER JOIN $tableB ON';
     return this;
   }
 
   /// 左外连接查询，获得A表所有的列，加上匹配到B表的列。
   /// @param tableB 表名
   DBSelect leftJoin(String tableB) {
-    this._sql += ' LEFT OUTER JOIN $tableB ON';
+    _sql += ' LEFT OUTER JOIN $tableB ON';
     return this;
   }
 
@@ -100,7 +98,7 @@ class DBSelect extends DBCommand {
   /// A[1, 2] B[a, b] => [(1, a), (1, b), (2, a), (2, b)]
   /// @param tableB 表名
   DBSelect crossJoin(String tableB) {
-    this._sql += ' CROSS JOIN $tableB';
+    _sql += ' CROSS JOIN $tableB';
     return this;
   }
 
@@ -111,52 +109,52 @@ class DBSelect extends DBCommand {
   /// @param field2 表B字段
   /// @param operators 条件操作符（不用传）
   DBSelect onCondition(String tableA, DBField field1, String tableB, DBField field2, {String operators = '='}) {
-    this._sql += ' $tableA.${field1.name} $operators $tableB.$field2.name';
+    _sql += ' $tableA.${field1.name} $operators $tableB.$field2.name';
     return this;
   }
 
   /// 通过指定索引查询
   /// @param indexed 索引语句
   DBSelect indexed(DBIndexedStatement indexed) {
-    this._sql += ' ${indexed.sql}';
+    _sql += ' ${indexed.sql}';
     return this;
   }
 
   /// 对结果进行筛选
   /// @param where where语句
   DBSelect where(DBWhereStatement where) {
-    this._sql += ' ${where.sql}';
-    where.params.forEach((param) {
-      this.params.add(param);
-    });
+    _sql += ' ${where.sql}';
+    for (var param in where.params) {
+      params.add(param);
+    }
     return this;
   }
 
   /// 对相同的数据进行分组
   /// @param group 分组语句
   DBSelect group(DBGroupStatement group) {
-    this._sql += ' ' + group.sql;
+    _sql += ' ${group.sql}';
     return this;
   }
 
   /// 查询返回数据的排序条件。
   /// @param fields 排序语句
   DBSelect order(DBOrderStatement order) {
-    this._sql += ' ' + order.sql;
+    _sql += ' ${order.sql}';
     return this;
   }
 
   /// 查询返回的数量限制
   /// @param num 限制量
   DBSelect limit(int num) {
-    this._sql += ' LIMIT $num';
+    _sql += ' LIMIT $num';
     return this;
   }
 
   /// 查询返回数据的偏移值
   /// @param num 偏移量
   DBSelect offset(int num) {
-    this._sql += ' OFFSET $num';
+    _sql += ' OFFSET $num';
     return this;
   }
 }
@@ -171,30 +169,30 @@ class DBQuery extends DBCommand {
   final DBIndexedStatement? indexed;
 
   DBQuery(DBTable table, {this.fields, this.where, this.indexed, this.count}) : super(table) {
-    this.selectCmd = DBSelect(this.table);
+    selectCmd = DBSelect(this.table);
     if (fields == null) {
-      if (this.count == null) { // 查询所有字段
-        this.selectCmd.allField();
+      if (count == null) { // 查询所有字段
+        selectCmd.allField();
       } else { // 计数
-        this.selectCmd.count(this.count!);
+        selectCmd.count(count!);
       }
     } else { // 查询指定字段
       for (int i = 0; i<fields!.length; i++) {
-        this.selectCmd.field(fields![i]);
+        selectCmd.field(fields![i]);
       }
-      if (this.count != null) { // 计数
-        this.selectCmd.count(this.count!);
+      if (count != null) { // 计数
+        selectCmd.count(count!);
       }
     }
 
-    this.selectCmd.fromTable(table.tableName);
+    selectCmd.fromTable(table.tableName);
 
     if (indexed != null) {
-      this.selectCmd.indexed(indexed!);
+      selectCmd.indexed(indexed!);
     }
     if (where != null) {
-      this.selectCmd.where(where!);
-      this.params.addAll(where!.params);
+      selectCmd.where(where!);
+      params.addAll(where!.params);
     }
   }
 
@@ -202,7 +200,7 @@ class DBQuery extends DBCommand {
   /// @param field 排序字段
   /// @param descending 是否降序排列
   DBQuery orderBy(DBField field, {bool descending=false}) {
-    this.selectCmd.order(new DBOrderStatement(this.table).orderByField(field, descending));
+    selectCmd.order(DBOrderStatement(table).orderByField(field, descending));
     return this;
   }
 
@@ -211,12 +209,13 @@ class DBQuery extends DBCommand {
   /// @param size 数量
   /// @returns
   DBQuery paged(int page, int size) {
-    this.selectCmd.limit(size).offset((page - 1) * size);
+    selectCmd.limit(size).offset((page - 1) * size);
     return this;
   }
 
+  @override
   String get sql {
-    return this.selectCmd.sql;
+    return selectCmd.sql;
   }
 }
 
@@ -240,11 +239,11 @@ class DBInsert extends DBCommand {
     var vs = '';
     for (int i = 0; i<fields.length; i++) {
     var field = fields[i];
-      this.params.add(field.value == null ? field.defaultValue : field.value);
+      params.add(field.value ?? field.defaultValue);
       fs += (i == 0) ? field.name : ', ${field.name}';
       vs += (i == 0) ? '?' : ', ?';
     }
-    this._sql = 'INSERT INTO ${table.tableName} ($fs) VALUES ($vs)';
+    _sql = 'INSERT INTO ${table.tableName} ($fs) VALUES ($vs)';
   }
 }
 
@@ -261,7 +260,7 @@ class DBCreate extends DBCommand {
       var field = fields[i];
       fs += (i == 0) ? (field.statement(this.table).sql) : (', ${field.statement(this.table).sql}');
     }
-    this._sql = 'CREATE TABLE IF NOT EXISTS ${table.tableName} ($fs)';
+    _sql = 'CREATE TABLE IF NOT EXISTS ${table.tableName} ($fs)';
   }
 }
 
@@ -278,12 +277,12 @@ class DBUpdate extends DBCommand {
     for (int i = 0; i<fields.length; i++) {
       var field = fields[i];
       if (field.valueChange) {
-        this.params.add(field.value);
+        params.add(field.value);
         fs += (fs == '') ? ('${field.name} = ?') : (', ${field.name} = ?');
       }
     }
-    this._sql = 'UPDATE ${table.tableName} SET $fs ${where.sql}';
-    this.params.addAll(where.params);
+    _sql = 'UPDATE ${table.tableName} SET $fs ${where.sql}';
+    params.addAll(where.params);
   }
 }
 
@@ -302,7 +301,7 @@ class DBIndexed extends DBCommand {
   /// 对单个字段创建索引
   /// @param field 字段
   DBCommand createForField(DBField field) {
-    return this.createForFields([field], field.indexedName ?? field.name, unique: field.uniqueIndexed);
+    return createForFields([field], field.indexedName ?? field.name, unique: field.uniqueIndexed);
   }
 
   /// 创建联合索引
@@ -313,7 +312,7 @@ class DBIndexed extends DBCommand {
       fs += (i == 0) ? (fields[i].name) : (', ${fields[i].name}');
     }
     var indexSql = unique ? 'UNIQUE INDEX' : 'INDEX';
-    this._sql = 'CREATE $indexSql IF NOT EXISTS $indexedName ON ${this.table.tableName} ($fs)';
+    _sql = 'CREATE $indexSql IF NOT EXISTS $indexedName ON ${table.tableName} ($fs)';
     return this;
   }
 }
@@ -324,19 +323,19 @@ class DBDrop extends DBCommand {
 
   /// 删除索引
   DBCommand dropIndex(String indexName) {
-    this._sql = 'DROP INDEX IF EXISTS $indexName';
+    _sql = 'DROP INDEX IF EXISTS $indexName';
     return this;
   }
 
   /// 删除表
   DBCommand dropTable(String tableName) {
-    this._sql = 'DROP TABLE IF EXISTS $tableName';
+    _sql = 'DROP TABLE IF EXISTS $tableName';
     return this;
   }
 
   /// 删除视图（虚表）
   DBCommand dropView(String viewName) {
-    this._sql = 'DROP VIEW IF EXISTS $viewName';
+    _sql = 'DROP VIEW IF EXISTS $viewName';
     return this;
   }
 
@@ -350,7 +349,7 @@ class DBAlter extends DBCommand {
   /// 重命名表名
   /// @param newTableName 新的表名
   DBCommand renameTable(String newTableName) {
-    this._sql += ' RENAME TO $newTableName';
+    _sql += ' RENAME TO $newTableName';
     return this;
   }
 
@@ -359,7 +358,7 @@ class DBAlter extends DBCommand {
   /// @param newColumnName 新的字段名
   /// @returns
   DBCommand renameColumn(String oldColumnName, String newColumnName) {
-    this._sql += ' RENAME COLUMN $oldColumnName TO $newColumnName';
+    _sql += ' RENAME COLUMN $oldColumnName TO $newColumnName';
     return this;
   }
 
@@ -368,12 +367,12 @@ class DBAlter extends DBCommand {
   /// @param fieldType 字段值类型
   DBCommand addColumn(String name, FieldType fieldType) {
     var type = stringForFieldType(fieldType);
-    this._sql += ' ADD COLUMN $name $type';
+    _sql += ' ADD COLUMN $name $type';
     return this;
   }
   DBCommand addColumnForField(DBField field) {
     var type = stringForFieldType(field.fieldType);
-    this._sql += ' ADD COLUMN ${field.name} $type';
+    _sql += ' ADD COLUMN ${field.name} $type';
     return this;
   }
 }

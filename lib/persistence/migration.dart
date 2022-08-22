@@ -12,48 +12,52 @@ import 'base.dart';
 import 'command.dart';
 
 class DBVersionTable extends DBTable {
-  final fid = new DBField<int>('id', FieldType.integer, '1').primaryKey().autoIncrement();
-  final fversion = new DBField<String>('migration_version', FieldType.text, '1').notNull();
+  final fid = DBField<int>('id', FieldType.integer, '1').primaryKey().autoIncrement();
+  final fversion = DBField<String>('migration_version', FieldType.text, '1').notNull();
   var isFirstCreate = false; // 第一次创建？
 
   DBVersionTable(DBSchedulable scheduler, String? flag) : super(scheduler, flag);
 
+  @override
   String get tableName => '_db_version_table';
+  @override
   DBField get usingPrimaryKey => fid;
 
+  @override
   List<DBCommand>? tableUpgradeMigrationSteps(String version) {
     if (isFirstCreate) {
-      var fields = this.dequeueWillAddFieldsForVersion('1');
-      return [this.createCommand(fields)];
+      var fields = dequeueWillAddFieldsForVersion('1');
+      return [createCommand(fields)];
     }
     return null;
   }
 
+  @override
   List<DBCommand>? tableDowngradeMigrationSteps(String version) {
     return null;
   }
 
   Future<String?> fetchMigrationVersion() async {
     try {
-      var cmd = new DBQuery(this, fields: [fversion], where: this.primaryKeyWhereStatement());
-      var items = await this.executeQuery(cmd: cmd);
+      var cmd = DBQuery(this, fields: [fversion], where: primaryKeyWhereStatement());
+      var items = await executeQuery(cmd: cmd);
       return items[0][fversion.name];
     } catch (err) {
       // 获取数据库版本出错，统一记作第一次创建数据库
-      this.isFirstCreate = true;
+      isFirstCreate = true;
       return null;
     }
   }
 
   Future<dynamic> updateMigrationVersion(String version) async {
-    this.fversion.value = version;
-    return this.executeUpdate(cmd: this.updateCommand(fields: [fversion]));
+    fversion.value = version;
+    return executeUpdate(cmd: updateCommand(fields: [fversion]));
   }
 
   Future<dynamic> insertMigrationVersion(String version) async {
-    this.fversion.value = version;
-    var result = await this.executeInsert();
-    this.isFirstCreate = false;
+    fversion.value = version;
+    var result = await executeInsert();
+    isFirstCreate = false;
     return result;
   }
 
@@ -71,32 +75,32 @@ class DBMigrator {
   final List<DBTable> tables;
 
   DBMigrator(this.scheduler, this.tables) {
-    this.versionTable = this.usingVersionTable();
-    tables.insert(0, this.versionTable);
+    versionTable = usingVersionTable();
+    tables.insert(0, versionTable);
   }
 
   /// 当前需要使用的版本表
   /// @returns 迁移版本表
   DBTable usingVersionTable() {
-    var t = DBVersionTable(this.scheduler, null);
+    var t = DBVersionTable(scheduler, null);
     t.fid.value = 1;
     return t;
   }
 
   /// 获取数据库当前旧版本
   Future<String?> fetchMigrationVersion() {
-    return (this.versionTable as DBVersionTable).fetchMigrationVersion();
+    return (versionTable as DBVersionTable).fetchMigrationVersion();
   }
 
   /// 更新数据库版本
   Future<dynamic> updateMigrationVersion(String version) async {
-    var t = this.versionTable as DBVersionTable;
+    var t = versionTable as DBVersionTable;
     if (t.isFirstCreate) {
       t.isFirstCreate = false;
-      return await (this.versionTable as DBVersionTable).insertMigrationVersion(version);
+      return await (versionTable as DBVersionTable).insertMigrationVersion(version);
     }
     else {
-      return await (this.versionTable as DBVersionTable).updateMigrationVersion(version);
+      return await (versionTable as DBVersionTable).updateMigrationVersion(version);
     }
   }
 
@@ -106,12 +110,12 @@ class DBMigrator {
   /// @returns 命令数组
   List<DBCommand> dequeueMigrationStep(String version, bool isUpgrade) {
     List<DBCommand> commands = [];
-    this.tables.forEach((t) {
+    for (var t in tables) {
       var cmds = isUpgrade ? t.tableUpgradeMigrationSteps(version) : t.tableDowngradeMigrationSteps(version);
       if (cmds != null) {
         commands.addAll(cmds);
       }
-    });
+    }
     return commands;
   }
 
@@ -123,29 +127,29 @@ class DBMigrator {
     for (var i = 0; i < versionList.length; i++) {
       var version = versionList[i];
       try {
-        var cmds = this.dequeueMigrationStep(version, isUpgrade);
-        await this.scheduler.executeTransaction(cmds);
+        var cmds = dequeueMigrationStep(version, isUpgrade);
+        await scheduler.executeTransaction(cmds);
 
         print('version upgrade success: $version');
-        this.updateMigrationVersion(version);
-        this.currentVersion = version; // 更新当前版本号
+        updateMigrationVersion(version);
+        currentVersion = version; // 更新当前版本号
 
       } catch (err) {
         // 报错直接返回，不往下升级了
         print('version upgrade failure: $version $err');
-        return this.currentVersion;
+        return currentVersion;
       }
     }
-    return this.currentVersion;
+    return currentVersion;
   }
 
   /// 检测是否执行数据库版本迁移
   /// @param versionList 历史版本号数组
   /// @returns 最终版本号
   Future<String> executeMigrationStepsOrNot(List<String> versionList) async {
-    var oldVersion = await this.fetchMigrationVersion();
+    var oldVersion = await fetchMigrationVersion();
     var newVersion = versionList[versionList.length - 1];
-    this.currentVersion = oldVersion ?? newVersion;
+    currentVersion = oldVersion ?? newVersion;
     // console.log(`ExecuteMigrationStepsOrNot old version: ${oldVersion}, new version: ${newVersion}`)
 
     if (oldVersion == newVersion) { // 版本相等，什么都不用做
@@ -153,7 +157,7 @@ class DBMigrator {
     }
 
     if (oldVersion == null) { // 数据库第一次创建，那么从 oldVersion 一步步升级到 newVersion
-      return await this.executeMigrationAllSteps(versionList, true);
+      return await executeMigrationAllSteps(versionList, true);
     }
 
     List<String> migrationVersions = [];
@@ -176,7 +180,7 @@ class DBMigrator {
       }
     }
 
-    return await this.executeMigrationAllSteps(migrationVersions, isUpgrade);
+    return await executeMigrationAllSteps(migrationVersions, isUpgrade);
   }
 }
 
