@@ -312,7 +312,7 @@ class DBIndexed extends DBCommand {
       fs += (i == 0) ? (fields[i].name) : (', ${fields[i].name}');
     }
     var indexSql = unique ? 'UNIQUE INDEX' : 'INDEX';
-    _sql = 'CREATE $indexSql IF NOT EXISTS $indexedName ON ${table.tableName} ($fs)';
+    _sql = 'CREATE $indexSql IF NOT EXISTS ${table.tableName}_$indexedName ON ${table.tableName} ($fs)';
     return this;
   }
 }
@@ -374,5 +374,13 @@ class DBAlter extends DBCommand {
     var type = stringForFieldType(field.fieldType);
     _sql += ' ADD COLUMN ${field.name} $type';
     return this;
+  }
+  /// 批量新增字段
+  static List<DBCommand> addColumnCommandsForFields(List<DBField> fields, DBTable table) {
+    List<DBCommand> commands = [];
+    for (var f in fields) {
+      commands.add(DBAlter(table).addColumnForField(f));
+    }
+    return commands;
   }
 }
