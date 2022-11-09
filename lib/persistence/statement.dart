@@ -47,11 +47,15 @@ class DBStatement {
 // ------------------------ SQL IndexedStatement ----------------------------
 class DBIndexedStatement extends DBStatement {
   DBIndexedStatement(DBTable table) : super(table);
- // 指定操作使用的索引
-  DBIndexedStatement indexedBy(String indexName) {
-    sql = 'INDEXED BY $indexName';
+  /// 指定操作使用的索引
+  DBIndexedStatement indexedBy(String indexedName) {
+    sql = 'INDEXED BY ${table.tableName}_$indexedName';
     return this;
   }
+  DBIndexedStatement indexedByField(DBField field) {
+    return indexedBy(field.indexedName!);
+  }
+  /// 无索引
   DBIndexedStatement notIndexed() {
     sql = 'NOT INDEXED';
     return this;
