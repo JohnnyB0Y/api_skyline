@@ -312,8 +312,13 @@ class DBIndexed extends DBCommand {
       fs += (i == 0) ? (fields[i].name) : (', ${fields[i].name}');
     }
     var indexSql = unique ? 'UNIQUE INDEX' : 'INDEX';
-    _sql = 'CREATE $indexSql IF NOT EXISTS ${table.tableName}_$indexedName ON ${table.tableName} ($fs)';
+    _sql = 'CREATE $indexSql IF NOT EXISTS ${fullIndexedName(indexedName)} ON ${table.tableName} ($fs)';
     return this;
+  }
+
+  /// 加上表面前缀的索引全称
+  String fullIndexedName(String indexedName) {
+    return '${table.tableName}_$indexedName';
   }
 }
 
