@@ -53,7 +53,7 @@ class DBIndexedStatement extends DBStatement {
     return this;
   }
   DBIndexedStatement indexedByField(DBField field) {
-    return indexedBy(field.indexedName!);
+    return indexedBy(field.indexedName ?? field.name);
   }
   /// 无索引
   DBIndexedStatement notIndexed() {

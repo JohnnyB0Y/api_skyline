@@ -163,37 +163,41 @@ class DBSelect extends DBCommand {
 class DBQuery extends DBCommand {
 
   late DBSelect selectCmd;
-  final List<DBField>? fields;
-  final DBCountStatement? count;
-  final DBWhereStatement? where;
-  final DBIndexedStatement? indexed;
+  DBQuery(DBTable table) : super(table);
 
-  DBQuery(DBTable table, {this.fields, this.where, this.indexed, this.count}) : super(table) {
-    selectCmd = DBSelect(this.table);
+  /// 查询
+  DBQuery fetch({
+    List<DBField>? fields,
+    DBWhereStatement? where,
+    DBCountStatement? count,
+    DBIndexedStatement? indexed,
+  }) {
+    selectCmd = DBSelect(table);
     if (fields == null) {
       if (count == null) { // 查询所有字段
         selectCmd.allField();
       } else { // 计数
-        selectCmd.count(count!);
+        selectCmd.count(count);
       }
     } else { // 查询指定字段
-      for (int i = 0; i<fields!.length; i++) {
-        selectCmd.field(fields![i]);
+      for (int i = 0; i<fields.length; i++) {
+        selectCmd.field(fields[i]);
       }
       if (count != null) { // 计数
-        selectCmd.count(count!);
+        selectCmd.count(count);
       }
     }
 
     selectCmd.fromTable(table.tableName);
 
     if (indexed != null) {
-      selectCmd.indexed(indexed!);
+      selectCmd.indexed(indexed);
     }
     if (where != null) {
-      selectCmd.where(where!);
-      params.addAll(where!.params);
+      selectCmd.where(where);
+      params.addAll(where.params);
     }
+    return this;
   }
 
   /// 查询返回数据的排序条件
@@ -387,5 +391,24 @@ class DBAlter extends DBCommand {
       commands.add(DBAlter(table).addColumnForField(f));
     }
     return commands;
+  }
+}
+
+extension DBTableCommand on DBTable {
+  DBQuery get newQuery => DBQuery(this);
+  DBWhereStatement get newWhere => DBWhereStatement(this);
+
+  /// 计数对应字段的记录数，field 字段， distinct 是否去重；
+  DBCountStatement countByField({DBField? field, bool distinct=false}) {
+    return DBCountStatement(this).count(field: field, distinct: distinct);
+  }
+
+  /// 指定操作使用的索引
+  DBIndexedStatement newIndexedStatementWithName(String indexedName) {
+    return DBIndexedStatement(this).indexedBy(indexedName);
+  }
+  /// 指定操作使用的索引
+  DBIndexedStatement newIndexedStatementWithField(DBField field) {
+    return DBIndexedStatement(this).indexedByField(field);
   }
 }

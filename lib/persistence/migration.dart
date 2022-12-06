@@ -39,7 +39,7 @@ class DBVersionTable extends DBTable {
 
   Future<String?> fetchMigrationVersion() async {
     try {
-      var cmd = DBQuery(this, fields: [fversion], where: primaryKeyWhereStatement());
+      var cmd = DBQuery(this).fetch(fields: [fversion], where: primaryKeyWhereStatement());
       var items = await executeQuery(cmd: cmd);
       return items[0][fversion.name];
     } catch (err) {
@@ -130,13 +130,13 @@ class DBMigrator {
         var cmds = dequeueMigrationStep(version, isUpgrade);
         await scheduler.executeTransaction(cmds);
 
-        print('version upgrade success: $version');
+        // print('version upgrade success: $version');
         updateMigrationVersion(version);
         currentVersion = version; // 更新当前版本号
 
       } catch (err) {
         // 报错直接返回，不往下升级了
-        print('version upgrade failure: $version $err');
+        // print('version upgrade failure: $version $err');
         return currentVersion;
       }
     }
