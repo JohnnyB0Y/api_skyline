@@ -161,49 +161,61 @@ class DBWhereStatement extends DBStatement {
   }
 
   /// 条件：等于
-  /// @param value 数值
-  DBWhereStatement equalTo(String value) {
+  /// @param value 数值(数字或字符)
+  DBWhereStatement equalTo(dynamic value) {
     return condition('=', value);
   }
 
   /// 条件：不等于
-  /// @param value 数值
-  DBWhereStatement notEqualTo(String value) {
+  /// @param value 数值(数字或字符)
+  DBWhereStatement notEqualTo(dynamic value) {
     return condition('!=', value);
   }
 
   /// 条件：大于
-  /// @param value 数值
-  DBWhereStatement greaterThan(String value) {
+  /// @param value 数值(数字或字符)
+  DBWhereStatement greaterThan(dynamic value) {
     return condition('>', value);
   }
 
   /// 条件：大于等于
-  /// @param value 数值
-  DBWhereStatement greaterEqual(String value) {
+  /// @param value 数值(数字或字符)
+  DBWhereStatement greaterEqual(dynamic value) {
     return condition('>=', value);
   }
 
   /// 条件：小于
-  /// @param value 数值
+  /// @param value 数值(数字或字符)
   DBWhereStatement lessThan(dynamic value) {
     return condition('<', value);
   }
 
   /// 条件：小于等于
-  /// @param value 数值
+  /// @param value 数值(数字或字符)
   DBWhereStatement lessEqual(dynamic value) {
     return condition('<=', value);
   }
 
   /// 条件：匹配通配符；https://www.runoob.com/sqlite/sqlite-like-clause.html
-  /// @param value 匹配字符串（%）
+  /// @param value 匹配字符串（%）;
+  /// 百分号（%）代表零个、一个或多个数字或字符。下划线（_）代表一个单一的数字或字符。这些符号可以被组合使用。
+  /// Example:
+  /// '200%'	查找以 200 开头的任意值;
+  /// '%200%'	查找任意位置包含 200 的任意值;
+  /// '_00%'	查找第二位和第三位为 00 的任意值;
+  /// '2___3'	查找长度为 5 位数，且以 2 开头以 3 结尾的任意值;
   DBWhereStatement like(String value) {
     return condition('LIKE', value);
   }
 
   /// 条件：匹配通配符；https://www.runoob.com/sqlite/sqlite-glob-clause.html
   /// @param value 匹配字符串
+  /// 星号（*）代表零个、一个或多个数字或字符。问号（?）代表一个单一的数字或字符。这些符号可以被组合使用。
+  /// Example:
+  /// '200*'	查找以 200 开头的任意值;
+  /// '*200*'	查找任意位置包含 200 的任意值;
+  /// '?00*'	查找第二位和第三位为 00 的任意值;
+  /// '2???3'	查找长度为 5 位数，且以 2 开头以 3 结尾的任意值;
   DBWhereStatement glob(String value) {
     return condition('GLOB', value);
   }
