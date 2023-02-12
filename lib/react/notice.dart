@@ -29,7 +29,7 @@ class Observation {
   /// 发送与接收通知之间约定的暗号
   final dynamic cipher;
 
-  Observation({required this.name, required this.cipher});
+  Observation({required this.name, this.cipher});
 }
 
 /// 观察者模型
@@ -101,7 +101,7 @@ class NoticeCenter {
     }
   }
 
-  postNoticeForName(String name, dynamic context, ReactModel rm, [cipher]) {
+  postNoticeForName(String name, {dynamic context, ReactModel? rm, dynamic cipher}) {
     var notice = Notice(name: name, context: context, rm: rm);
     postNotice(notice, name, cipher);
   }
