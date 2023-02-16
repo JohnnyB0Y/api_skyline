@@ -39,3 +39,6 @@ export 'persistence/command.dart';
 export 'persistence/core.dart';
 export 'persistence/migration.dart';
 export 'persistence/statement.dart';
+
+// pkg
+export 'package:dio/dio.dart';
