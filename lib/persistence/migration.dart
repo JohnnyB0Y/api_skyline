@@ -16,7 +16,7 @@ class DBVersionTable extends DBTable {
   final fversion = DBField<String>('migration_version', FieldType.text, '1').notNull();
   var isFirstCreate = false; // 第一次创建？
 
-  DBVersionTable(DBSchedulable scheduler, String? flag) : super(scheduler, flag);
+  DBVersionTable(DBSchedulable scheduler, String? flag) : super(scheduler, flag: flag,);
 
   @override
   String get tableName => '_db_version_table';
@@ -70,6 +70,7 @@ class DBVersionTable extends DBTable {
 class DBMigrator {
   late String currentVersion;
   late DBTable versionTable;
+  late List<String> allVersionList; // 存放版本升级序列号
 
   final DBSchedulable scheduler;
   final List<DBTable> tables;
@@ -111,6 +112,23 @@ class DBMigrator {
   List<DBCommand> dequeueMigrationStep(String version, bool isUpgrade) {
     List<DBCommand> commands = [];
     for (var t in tables) {
+
+      if (t.addToDBVersion == version) { // 版本对上？把前面的升级步骤补齐！
+        int start = 0;
+        int end = allVersionList.indexOf(t.addToDBVersion!);
+        var v = allVersionList[start];
+        bool isUpgrade = true;
+        while (start < end) {
+          var cmds = isUpgrade ? t.tableUpgradeMigrationSteps(v) : t.tableDowngradeMigrationSteps(v);
+          if (cmds != null) {
+            commands.addAll(cmds);
+          }
+          start++; // 下一个版本
+          isUpgrade = double.parse(allVersionList[start]) > double.parse(v);
+          v = allVersionList[start];
+        }
+      }
+      // 当前版本
       var cmds = isUpgrade ? t.tableUpgradeMigrationSteps(version) : t.tableDowngradeMigrationSteps(version);
       if (cmds != null) {
         commands.addAll(cmds);
@@ -147,6 +165,7 @@ class DBMigrator {
   /// @param versionList 历史版本号数组
   /// @returns 最终版本号
   Future<String> executeMigrationStepsOrNot(List<String> versionList) async {
+    allVersionList = versionList; // 记录版本升级序列号
     var oldVersion = await fetchMigrationVersion();
     var newVersion = versionList[versionList.length - 1];
     currentVersion = oldVersion ?? newVersion;

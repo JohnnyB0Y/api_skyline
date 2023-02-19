@@ -32,8 +32,11 @@ abstract class DBTable {
   final DBSchedulable scheduler;
   /// 数据库标识（用来对同一个表结构做区分创建，在返回tableName的时候用上）
   final String? flag;
+  /// 添加进数据库的当前版本号，（方便一张表以另一个表名添加进数据库时，补齐前面的升级步骤）
+  /// null 的时候，表示不需要补齐前面的升级步骤
+  final String? addToDBVersion;
 
-  DBTable(this.scheduler, [this.flag]);
+  DBTable(this.scheduler, {this.flag, this.addToDBVersion});
 
   /// 数据表名称
   String get tableName;
