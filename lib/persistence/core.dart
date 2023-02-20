@@ -194,7 +194,7 @@ abstract class DBTableSafetyCURD implements DBTable {
     try {
       return await executeInsert(cmd: cmd); // 返回id
     } catch (err) {
-      debugPrint('$err');
+      debugPrint('safeInsert: $err');
       return null;
     }
   }
@@ -204,7 +204,7 @@ abstract class DBTableSafetyCURD implements DBTable {
     try {
       return await executeUpdate(cmd: cmd); // 返回id
     } catch (err) {
-      debugPrint('$err');
+      debugPrint('safeUpdate: $err');
       return null;
     }
   }
@@ -214,7 +214,7 @@ abstract class DBTableSafetyCURD implements DBTable {
     try {
       return await executeDelete(cmd: cmd); // 返回id
     } catch (err) {
-      debugPrint('$err');
+      debugPrint('safeDelete: $err');
       return null;
     }
   }
@@ -224,7 +224,7 @@ abstract class DBTableSafetyCURD implements DBTable {
     try {
       return await executeQuery(cmd: cmd) as List<Map>; // 返回查询结果
     } catch (err) {
-      debugPrint('$err');
+      debugPrint('safeQuery: $err');
       return [];
     }
   }
@@ -235,7 +235,7 @@ abstract class DBTableSafetyCURD implements DBTable {
       var items = await executeQuery(cmd: cmd); // 返回查询结果
       return items.isEmpty ? null : items.first;
     } catch (err) {
-      debugPrint('$err');
+      debugPrint('safeQueryOne: $err');
       return null;
     }
   }
@@ -250,6 +250,6 @@ abstract class DBTableSafetyCURD implements DBTable {
       var id = await whenInsert.call();
       return id == null ? null : await whenQuery.call();
     }
-    return null;
+    return r;
   }
 }
