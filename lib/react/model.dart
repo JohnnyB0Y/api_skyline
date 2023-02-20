@@ -201,6 +201,16 @@ class ReactModel extends Object
     return (value is IconData) ? value : null;
   }
 
+  /// 获取数组
+  List<T> listVal<T>(String forKey) {
+    return innerMap[forKey];
+  }
+
+  /// 设置数组
+  void setList(dynamic value, String forKey) {
+    innerMap[forKey] = value;
+  }
+
   // TODO --------------------- UI Operation ---------------------------
   /// 创建Widget
   /// reuse 默认为 false，每次调用，builder都会重新创建Widget。
