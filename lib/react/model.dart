@@ -211,6 +211,16 @@ class ReactModel extends Object
     innerMap[forKey] = value;
   }
 
+  /// 获取字典
+  Map<K,V> mapVal<K, V>(String forKey) {
+    return innerMap[forKey];
+  }
+
+  /// 设置字典
+  void setMap(dynamic value, String forKey) {
+    innerMap[forKey] = value;
+  }
+
   // TODO --------------------- UI Operation ---------------------------
   /// 创建Widget
   /// reuse 默认为 false，每次调用，builder都会重新创建Widget。
