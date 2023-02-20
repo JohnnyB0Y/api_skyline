@@ -202,7 +202,7 @@ class ReactModel extends Object
   }
 
   /// 获取数组
-  List<T> listVal<T>(String forKey) {
+  List listVal(String forKey) {
     return innerMap[forKey];
   }
 
@@ -212,7 +212,7 @@ class ReactModel extends Object
   }
 
   /// 获取字典
-  Map<K,V> mapVal<K, V>(String forKey) {
+  Map mapVal(String forKey) {
     return innerMap[forKey];
   }
 
