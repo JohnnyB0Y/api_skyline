@@ -11,27 +11,27 @@ import 'model.dart';
 import '../api/manager.dart';
 
 abstract class ReactModelSafeAccess {
-  // base access
+  // 设置 value
   setVal(dynamic value, String forKey);
   dynamic val(String forKey);
 
-  /// safe access
+  /// 设 null
   setNull(String forKey);
 
   // 数字
-  setNum(Object? value, String forKey);
+  setNum(dynamic value, String forKey);
   num? numVal(String forKey);
 
   // 布尔值
-  setBool(Object? value, String forKey);
+  setBool(dynamic value, String forKey);
   bool? boolVal(String forKey);
 
   // 字符串
-  setStr(Object? value, String forKey);
+  setStr(dynamic value, String forKey);
   String? strVal(String forKey);
 
   // 图片数据
-  setIconData(Object? value, String forKey);
+  setIconData(dynamic value, String forKey);
   IconData? iconData(String forKey);
 
   /// 从 fromKey 拷贝数据到 toKey

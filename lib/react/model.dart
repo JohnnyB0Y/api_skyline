@@ -6,6 +6,7 @@
 
 //
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'define.dart';
 import 'notice.dart';
@@ -38,6 +39,16 @@ class ReactModel extends Object
     if (map != null) {
       innerMap.addAll(map);
     }
+  }
+
+  /// 从 Json字符串反序列数据，并添加到innerMap中
+  ReactModel.withJsonData(String jsonData) {
+    innerMap.addAll(json.decode(jsonData));
+  }
+
+  /// 序列化内部字典为Json字符串
+  String encodeInnerMap() {
+    return json.encode(innerMap);
   }
 
   /// 从 fromKey 拷贝数据到 toKey
@@ -90,7 +101,7 @@ class ReactModel extends Object
   }
 
   // public method
-  void setValForKeys(Object value, List<String> keys) {
+  void setValForKeys(dynamic value, List<String> keys) {
     for (var key in keys) {
       innerMap[key] = value;
     }
@@ -106,7 +117,7 @@ class ReactModel extends Object
     return innerMap[forKey];
   }
 
-  /// safe access
+  /// 设 null
   @override
   void setNull(String forKey) {
     innerMap[forKey] = null;
@@ -114,7 +125,7 @@ class ReactModel extends Object
 
   // 数字
   @override
-  void setNum(Object? value, String forKey) {
+  void setNum(dynamic value, String forKey) {
     if (value is num) {
       innerMap[forKey] = value;
     }
@@ -150,7 +161,7 @@ class ReactModel extends Object
   }
 
   @override
-  void setBool(Object? value, String forKey) {
+  void setBool(dynamic value, String forKey) {
     if (value is bool) {
       innerMap[forKey] = value;
     }
@@ -164,7 +175,7 @@ class ReactModel extends Object
 
   // 字符串
   @override
-  void setStr(Object? value, String forKey) {
+  void setStr(dynamic value, String forKey) {
     if (value is String) {
       innerMap[forKey] = value;
     }
@@ -178,7 +189,7 @@ class ReactModel extends Object
 
   // 图片数据
   @override
-  void setIconData(Object? value, String forKey) {
+  void setIconData(dynamic value, String forKey) {
     if (value is IconData) {
       innerMap[forKey] = value;
     }
