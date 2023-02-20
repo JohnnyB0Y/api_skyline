@@ -6,6 +6,7 @@
 
 //  
 
+import 'package:flutter/foundation.dart';
 import 'statement.dart';
 import 'command.dart';
 import 'base.dart';
@@ -177,5 +178,78 @@ abstract class DBTable {
   DBWhereStatement primaryKeyWhereStatement({DBField? pk}) {
     pk = pk ?? usingPrimaryKey;
     return DBWhereStatement(this).field(pk).equalTo("${pk.value}");
+  }
+}
+
+typedef WhenInsertDB = Future<int?> Function();
+typedef WhenUpdateDB = Future<int?> Function();
+typedef WhenDeleteDB = Future<int?> Function();
+typedef WhenQueryDB = Future<Map?> Function();
+
+/// 方便DBTable的派生类 with mixin，减少冗余代码。
+abstract class DBTableSafetyCURD implements DBTable {
+
+  /// 插入表
+  Future<int?> safeInsert({DBInsert? cmd}) async {
+    try {
+      return await executeInsert(cmd: cmd); // 返回id
+    } catch (err) {
+      debugPrint('$err');
+      return null;
+    }
+  }
+
+  /// 更新表
+  Future<int?> safeUpdate({DBUpdate? cmd}) async {
+    try {
+      return await executeUpdate(cmd: cmd); // 返回id
+    } catch (err) {
+      debugPrint('$err');
+      return null;
+    }
+  }
+
+  /// 删除表
+  Future<int?> safeDelete({DBDelete? cmd}) async {
+    try {
+      return await executeDelete(cmd: cmd); // 返回id
+    } catch (err) {
+      debugPrint('$err');
+      return null;
+    }
+  }
+
+  /// 查询表
+  Future<List<Map>> safeQuery({DBQuery? cmd}) async {
+    try {
+      return await executeQuery(cmd: cmd) as List<Map>; // 返回查询结果
+    } catch (err) {
+      debugPrint('$err');
+      return [];
+    }
+  }
+
+  /// 查询表,返回一个数据
+  Future<Map?> safeQueryOne({DBQuery? cmd}) async {
+    try {
+      var items = await executeQuery(cmd: cmd); // 返回查询结果
+      return items.isEmpty ? null : items.first;
+    } catch (err) {
+      debugPrint('$err');
+      return null;
+    }
+  }
+
+  /// 查询表,如果没有就插入表，再返回数据结果;
+  /// whenQuery 当需要查询时会调用;
+  /// whenInsert 当需要插入时会调用;
+  /// 如果查不到并且插入失败，会返回null；
+  Future<Map?> safeQueryOrInsertOne({required WhenQueryDB whenQuery, required WhenInsertDB whenInsert}) async {
+    var r = await whenQuery.call();
+    if (r == null) {
+      var id = await whenInsert.call();
+      return id == null ? null : await whenQuery.call();
+    }
+    return null;
   }
 }
