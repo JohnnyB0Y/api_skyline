@@ -221,6 +221,58 @@ class ReactModel extends Object
     innerMap[forKey] = value;
   }
 
+  /// 设置更大的值(同一个key 比较两者数值，取最大的设置)
+  void setBigger(ReactModel other, String forKey) {
+    setBiggerVal(other.val(forKey), forKey);
+  }
+
+  /// 设置更大的值(比较两者数值，取最大的设置)
+  void setBiggerVal(dynamic value, String forKey) {
+    if (value == null) return;
+
+    var myValue = val(forKey);
+    if (myValue == null || value > myValue) {
+      innerMap[forKey] = value;
+    }
+  }
+
+  /// 设置更小的值(同一个key 比较两者数值，取最小的设置);
+  /// minValue 保底的最小值，比如0，那么只有大于0才能被设置；
+  void setSmaller(ReactModel other, String forKey, [dynamic minValue]) {
+    setSmallerVal(other.val(forKey), forKey, minValue);
+  }
+
+  /// 设置更小的值(比较两者数值，取最小的设置);
+  /// minValue 保底的最小值，比如0，那么只有大于0才能被设置；
+  void setSmallerVal(dynamic value, String forKey, [dynamic minValue]) {
+    if (value == null) return; // 确保 other 有值
+    if (minValue != null && value <= minValue) return; // 确保 other 大于 minValue
+
+    var myValue = val(forKey);
+    if (myValue != null && myValue < value) return; // 确保 other 大于 myValue
+
+    innerMap[forKey] = value;
+  }
+
+  /// 设置累加数值(同一个key 累加两个值, 取和设置)
+  num? setSum(ReactModel other, String forKey) {
+    return setSumVal(other.val(forKey), forKey);
+  }
+
+  /// 设置累加数值(同一个key 累加两个值, 取和设置)
+  num? setSumVal(dynamic value, String forKey) {
+    var myValue = val(forKey);
+    if (value == null) return myValue; // other 无值
+
+    if (myValue == null) { // myValue 无值
+      innerMap[forKey] = value;
+      return value;
+    }
+    var sum = myValue + value; // 都有值
+    innerMap[forKey] = sum;
+    return sum;
+  }
+
   // TODO --------------------- UI Operation ---------------------------
   /// 创建Widget
   /// reuse 默认为 false，每次调用，builder都会重新创建Widget。
