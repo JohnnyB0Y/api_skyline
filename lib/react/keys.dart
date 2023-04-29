@@ -23,7 +23,18 @@ class RMK {
   static const String text = 'rmk_' + 'text';
   /// url字符串 👉 String
   static const String url = 'rmk_' + 'url';
-
+  /// 内容 👉 String
+  static const String content = 'rmk_' + 'content';
+  /// 含义 👉 String
+  static const String meaning = 'rmk_' + 'meaning';
+  /// 含义数组 👉 List<String>
+  static const String meanings = 'rmk_' + 'meanings';
+  /// 单词数组 👉 List<Map>
+  static const String words = 'rmk_' + 'words';
+  /// 短语数组 👉 List<Map>
+  static const String phrases = 'rmk_' + 'phrases';
+  /// 例句数组 👉 List<Map>
+  static const String sentences = 'rmk_' + 'sentences';
 
   /// 国际化 - 取值函数Key 👉 func
   static const String i18nGetterFunc = 'rmk_' + 'i18nGetterFunc';

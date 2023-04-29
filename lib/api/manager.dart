@@ -146,7 +146,7 @@ abstract class APIManager extends Object implements APIAssembly {
       var errorMsg = '程序异常';
 
       switch (e.type) {
-        case DioErrorType.connectTimeout:
+        case DioErrorType.connectionTimeout:
           callbackStatus = APICallbackStatus.timeout;
           errorMsg = '网络连接超时';
           break;

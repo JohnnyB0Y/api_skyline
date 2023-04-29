@@ -20,7 +20,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/args-1.6.0/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/args-2.2.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/args-2.4.0/lib" />
             </list>
           </value>
         </entry>
@@ -28,7 +28,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/async-2.8.1/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/async-2.9.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/async-2.10.0/lib" />
             </list>
           </value>
         </entry>
@@ -36,6 +36,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/boolean_selector-2.1.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/boolean_selector-2.1.1/lib" />
             </list>
           </value>
         </entry>
@@ -57,7 +58,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/characters-1.1.0/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/characters-1.2.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/characters-1.2.1/lib" />
             </list>
           </value>
         </entry>
@@ -86,7 +87,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/clock-1.1.0/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/clock-1.1.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/clock-1.1.1/lib" />
             </list>
           </value>
         </entry>
@@ -94,7 +95,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/collection-1.15.0/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/collection-1.16.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/collection-1.17.0/lib" />
             </list>
           </value>
         </entry>
@@ -129,14 +130,14 @@
         <entry key="connectivity_plus">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/connectivity_plus-3.0.3/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/connectivity_plus-3.0.3/lib" />
             </list>
           </value>
         </entry>
         <entry key="connectivity_plus_platform_interface">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/connectivity_plus_platform_interface-1.2.4/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/connectivity_plus_platform_interface-1.2.4/lib" />
             </list>
           </value>
         </entry>
@@ -151,6 +152,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/crypto-3.0.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/crypto-3.0.2/lib" />
             </list>
           </value>
         </entry>
@@ -171,7 +173,7 @@
         <entry key="dbus">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/dbus-0.7.7/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/dbus-0.7.8/lib" />
             </list>
           </value>
         </entry>
@@ -179,14 +181,14 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/dio-4.0.0/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/dio-4.0.6/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/dio-5.1.1/lib" />
             </list>
           </value>
         </entry>
         <entry key="dio_cache_interceptor">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/dio_cache_interceptor-3.3.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/dio_cache_interceptor-3.4.1/lib" />
             </list>
           </value>
         </entry>
@@ -201,14 +203,14 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/fake_async-1.2.0/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/fake_async-1.3.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/fake_async-1.3.1/lib" />
             </list>
           </value>
         </entry>
         <entry key="ffi">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/ffi-2.0.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/ffi-2.0.1/lib" />
             </list>
           </value>
         </entry>
@@ -229,7 +231,7 @@
         <entry key="flutter_lints">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_lints-2.0.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/flutter_lints-2.0.1/lib" />
             </list>
           </value>
         </entry>
@@ -258,6 +260,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/http_parser-4.0.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/http_parser-4.0.2/lib" />
             </list>
           </value>
         </entry>
@@ -265,7 +268,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/js-0.6.3/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/js-0.6.4/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/js-0.6.5/lib" />
             </list>
           </value>
         </entry>
@@ -286,7 +289,7 @@
         <entry key="lints">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/lints-2.0.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/lints-2.0.1/lib" />
             </list>
           </value>
         </entry>
@@ -301,14 +304,14 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/matcher-0.12.10/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/matcher-0.12.12/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/matcher-0.12.13/lib" />
             </list>
           </value>
         </entry>
         <entry key="material_color_utilities">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/material_color_utilities-0.1.5/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/material_color_utilities-0.2.0/lib" />
             </list>
           </value>
         </entry>
@@ -316,14 +319,14 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/meta-1.7.0/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/meta-1.8.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/meta-1.8.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="nm">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/nm-0.5.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/nm-0.5.0/lib" />
             </list>
           </value>
         </entry>
@@ -338,7 +341,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/path-1.8.0/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/path-1.8.2/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/path-1.8.2/lib" />
             </list>
           </value>
         </entry>
@@ -352,7 +355,7 @@
         <entry key="petitparser">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/petitparser-5.0.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/petitparser-5.1.0/lib" />
             </list>
           </value>
         </entry>
@@ -360,7 +363,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/plugin_platform_interface-2.0.1/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/plugin_platform_interface-2.1.2/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/plugin_platform_interface-2.1.4/lib" />
             </list>
           </value>
         </entry>
@@ -403,7 +406,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/source_span-1.8.1/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/source_span-1.9.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/source_span-1.9.1/lib" />
             </list>
           </value>
         </entry>
@@ -425,6 +428,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/stack_trace-1.10.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/stack_trace-1.11.0/lib" />
             </list>
           </value>
         </entry>
@@ -432,6 +436,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/stream_channel-2.1.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/stream_channel-2.1.1/lib" />
             </list>
           </value>
         </entry>
@@ -439,7 +444,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/string_scanner-1.1.0/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/string_scanner-1.1.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/string_scanner-1.2.0/lib" />
             </list>
           </value>
         </entry>
@@ -454,7 +459,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/term_glyph-1.2.0/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/term_glyph-1.2.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/term_glyph-1.2.1/lib" />
             </list>
           </value>
         </entry>
@@ -462,7 +467,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/test_api-0.4.2/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/test_api-0.4.12/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/test_api-0.4.16/lib" />
             </list>
           </value>
         </entry>
@@ -470,13 +475,14 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/typed_data-1.3.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/typed_data-1.3.1/lib" />
             </list>
           </value>
         </entry>
         <entry key="uuid">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/uuid-3.0.6/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/uuid-3.0.7/lib" />
             </list>
           </value>
         </entry>
@@ -484,7 +490,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/vector_math-2.1.0/lib" />
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/vector_math-2.1.2/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/vector_math-2.1.4/lib" />
             </list>
           </value>
         </entry>
@@ -498,7 +504,7 @@
         <entry key="xml">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/xml-6.1.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/xml-6.2.2/lib" />
             </list>
           </value>
         </entry>
@@ -512,88 +518,94 @@
       </option>
     </properties>
     <CLASSES>
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/args-2.4.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/async-2.10.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/boolean_selector-2.1.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/characters-1.2.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/clock-1.1.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/collection-1.17.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/connectivity_plus-3.0.3/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/connectivity_plus_platform_interface-1.2.4/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/crypto-3.0.2/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/dbus-0.7.8/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/dio-5.1.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/dio_cache_interceptor-3.4.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/fake_async-1.3.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/ffi-2.0.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/flutter_lints-2.0.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/http_parser-4.0.2/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/js-0.6.5/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/lints-2.0.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/matcher-0.12.13/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/material_color_utilities-0.2.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/meta-1.8.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/nm-0.5.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/path-1.8.2/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/petitparser-5.1.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/plugin_platform_interface-2.1.4/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/source_span-1.9.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/stack_trace-1.11.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/stream_channel-2.1.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/string_scanner-1.2.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/term_glyph-1.2.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/test_api-0.4.16/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/typed_data-1.3.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/uuid-3.0.7/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/vector_math-2.1.4/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.flutter-io.cn/xml-6.2.2/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/_fe_analyzer_shared-22.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/analyzer-1.7.2/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/args-1.6.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/args-2.2.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/async-2.8.1/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/async-2.9.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/boolean_selector-2.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/build-2.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/build_config-1.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/characters-1.1.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/characters-1.2.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/charcode-1.3.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/checked_yaml-2.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/cli_util-0.3.3/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/clock-1.1.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/clock-1.1.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/collection-1.15.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/collection-1.16.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/connectivity-3.0.6/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/connectivity_for_web-0.4.0+1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/connectivity_macos-0.2.1+2/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/connectivity_platform_interface-2.0.1/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/connectivity_plus-3.0.3/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/connectivity_plus_platform_interface-1.2.4/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/convert-3.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/crypto-3.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/cupertino_icons-1.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/dart_style-2.0.3/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/dbus-0.7.7/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/dio-4.0.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/dio-4.0.6/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/dio_cache_interceptor-3.3.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/dio_http_cache-0.3.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/fake_async-1.2.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/fake_async-1.3.1/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/ffi-2.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/file-6.1.2/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_lints-2.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/glob-2.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/http_parser-4.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/js-0.6.3/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/js-0.6.4/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/json_annotation-4.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/json_serializable-4.1.4/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/lints-2.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/logging-1.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/matcher-0.12.10/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/matcher-0.12.12/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/material_color_utilities-0.1.5/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/meta-1.7.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/meta-1.8.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/nm-0.5.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/package_config-2.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/path-1.8.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/path-1.8.2/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/pedantic-1.11.1/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/petitparser-5.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/plugin_platform_interface-2.0.1/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/plugin_platform_interface-2.1.2/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/pub_semver-2.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/pubspec_parse-1.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/quiver-3.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/source_gen-1.0.3/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/source_span-1.8.1/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/source_span-1.9.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/sqflite-2.0.0+3/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/sqflite_common-2.0.0+2/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/stack_trace-1.10.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/stream_channel-2.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/string_scanner-1.1.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/string_scanner-1.1.1/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/synchronized-3.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/term_glyph-1.2.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/term_glyph-1.2.1/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/test_api-0.4.12/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/test_api-0.4.2/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/typed_data-1.3.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/uuid-3.0.6/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/vector_math-2.1.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/vector_math-2.1.2/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/watcher-1.0.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/xml-6.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/.pub-cache/hosted/pub.flutter-io.cn/yaml-3.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/bin/cache/pkg/sky_engine/lib" />
       <root url="file://$PROJECT_DIR$/../../development/flutter/packages/flutter/lib" />

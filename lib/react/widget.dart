@@ -192,14 +192,20 @@ class _ReactWidgetState extends State<ReactWidget> implements APICallDelegate, N
     widget.binding?.unbindingWidgetFunc(rebuildWidget);
 
     // 移除观察者
-    widget.observedDefaultNoticeCenter?.observations.forEach((element) {
-      NoticeCenter.defaultCenter().removeObserver(this, element.name);
-    });
+    var observations = widget.observedDefaultNoticeCenter?.observations;
+    if (observations != null) {
+      for (var element in observations) {
+        NoticeCenter.defaultCenter().removeObserver(this, element.name);
+      }
+    }
 
     // 制空API代理
-    widget.apiHubs?.forEach((element) {
-      element.callDelegate = null;
-    });
+    var apiHubs = widget.apiHubs;
+    if (apiHubs != null) {
+      for (var element in apiHubs) {
+        element.callDelegate = null;
+      }
+    }
 
     // 移除提供的参数
     if (widget.provideParams != null) {
@@ -225,7 +231,7 @@ class _ReactWidgetState extends State<ReactWidget> implements APICallDelegate, N
 
     // 向上找数据
     Map? params = findCollectParams(widget.collectParams);
-    return widget.builder!(context, params ?? {}, widget.child);
+    return widget.builder!(context, params, widget.child);
   }
 
   static Map? findCollectParams(List<CollectParam>? keys) {

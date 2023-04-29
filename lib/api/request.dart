@@ -35,8 +35,8 @@ class APIRequestOptions extends Options {
     ResponseDecoder? responseDecoder,
   }) : super(
     method: method,
-    sendTimeout: sendTimeout,
-    receiveTimeout: receiveTimeout,
+    sendTimeout: Duration(seconds: sendTimeout ?? 16),
+    receiveTimeout: Duration(seconds: receiveTimeout ?? 16),
     extra: extra,
     headers: headers,
     responseType: responseType,
