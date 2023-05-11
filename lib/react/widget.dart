@@ -127,6 +127,15 @@ class ReactWidget extends StatefulWidget {
 
   }): assert(binding != null), assert(builder != null), super(key: key);
 
+  /// 简单刷新UI使用
+  static ReactWidget refresh(ReactModel refresh, {
+    required Widget Function(BuildContext) builder,
+  }) {
+    return ReactWidget.binding(builder: (ctx,xx,xxx) {
+      return builder(ctx);
+    }, binding: refresh,);
+  }
+
   @override
   State<ReactWidget> createState() => _ReactWidgetState();
 }

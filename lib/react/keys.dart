@@ -35,6 +35,10 @@ class RMK {
   static const String phrases = 'rmk_' + 'phrases';
   /// 例句数组 👉 List<Map>
   static const String sentences = 'rmk_' + 'sentences';
+  /// 英音标 👉 String
+  static const String ukPhonetic = 'rmk_' + 'ukPhonetic';
+  /// 美音标 👉 String
+  static const String usPhonetic = 'rmk_' + 'usPhonetic';
 
   /// 国际化 - 取值函数Key 👉 func
   static const String i18nGetterFunc = 'rmk_' + 'i18nGetterFunc';
