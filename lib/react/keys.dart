@@ -23,6 +23,8 @@ class RMK {
   static const String text = 'rmk_' + 'text';
   /// url字符串 👉 String
   static const String url = 'rmk_' + 'url';
+  /// file path 字符串 👉 String
+  static const String filePath = 'rmk_' + 'filePath';
   /// 内容 👉 String
   static const String content = 'rmk_' + 'content';
   /// 含义 👉 String

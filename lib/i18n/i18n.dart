@@ -32,6 +32,9 @@ class LocalizationsManager {
     currentLocale = supportedLocales.first;
   }
 
+  /// zh-CN / zh / en-US etc...
+  String? localeCode;
+
   /// 当前的 locale
   late Locale currentLocale;
 
