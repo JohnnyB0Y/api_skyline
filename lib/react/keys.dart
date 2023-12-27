@@ -29,7 +29,12 @@ class RMK {
   static const String content = 'rmk_' + 'content';
   /// 含义 👉 String
   static const String meaning = 'rmk_' + 'meaning';
-  /// 含义数组 👉 List<String>
+
+  /// 内容数组的类型 👉 String
+  static const String contentsType = 'rmk_' + 'contentsType';
+  /// 内容數組 👉 List<Map>
+  static const String contents = 'rmk_' + 'contents';
+  /// 含义数组 👉 List<Map>
   static const String meanings = 'rmk_' + 'meanings';
   /// 单词数组 👉 List<Map>
   static const String words = 'rmk_' + 'words';
@@ -37,6 +42,7 @@ class RMK {
   static const String phrases = 'rmk_' + 'phrases';
   /// 例句数组 👉 List<Map>
   static const String sentences = 'rmk_' + 'sentences';
+
   /// 英音标 👉 String
   static const String ukPhonetic = 'rmk_' + 'ukPhonetic';
   /// 美音标 👉 String

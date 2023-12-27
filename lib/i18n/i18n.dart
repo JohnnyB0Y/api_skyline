@@ -35,6 +35,13 @@ class LocalizationsManager {
   /// zh-CN / zh / en-US etc...
   String? localeCode;
 
+  ///< 是否簡體中文
+  bool get isSimplified => localeCode == 'zh-CN';
+  ///< 是否繁體中文
+  bool get isTraditional => localeCode == 'zh';
+  ///< 是否英文
+  bool get isEnglish => localeCode == null;
+
   /// 当前的 locale
   late Locale currentLocale;
 
